@@ -1,125 +1,267 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router';
-import PetifyLogo from './PetifyLogo';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, NavLink, useNavigate } from "react-router";
+import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
+import useAuth from "../../hooks/useAuth";
+import ThemeToggle from "../../components/ThemeToggle";
+import PetifyLogo from "./PetifyLogo";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const location = useLocation();
+  const { user, logOut } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const navRef = useRef();
 
-    const navItems = [
-        { name: 'Home', path: '/' },
-        { name: 'Pet Listing', path: '/pets' },
-        { name: 'Donation Campaigns', path: '/campaigns' },
-        { name: 'Login', path: '/auth' }
-    ];
+  // Close user menu when clicking outside
+  useEffect(() => {
+    if (!userMenuOpen) return;
+    function handleClick(e) {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [userMenuOpen]);
 
-    const isActive = (path) => {
-        if (path === '/') {
-            return location.pathname === '/';
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#14B8A6", // primary
+      cancelButtonColor: "#F9A51A", // secondary
+      confirmButtonText: "Yes, log out!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            navigate("/");
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: error.message || "Logout failed!",
+            });
+          });
+      }
+    });
+  };
+
+  const links = (
+    <>
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          `flex items-center gap-2 font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-secondary"} hover:text-primary`
         }
-        return location.pathname.startsWith(path);
-    };
+      >
+        <FaHome /> Home
+      </NavLink>
+      <NavLink
+        to="/pets"
+        className={({ isActive }) =>
+          `flex items-center gap-2 font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-secondary"} hover:text-primary`
+        }
+      >
+        <FaPaw /> Pet Listing
+      </NavLink>
+      <NavLink
+        to="/campaigns"
+        className={({ isActive }) =>
+          `flex items-center gap-2 font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-secondary"} hover:text-primary`
+        }
+      >
+        <FaPlus /> Donation Campaigns
+      </NavLink>
+    </>
+  );
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
-
-    return (
-        <nav className="bg-base-100 shadow-lg border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo - Left Side */}
-                    <div className="flex-shrink-0">
-                        <Link to="/" className="flex items-center">
-                            <PetifyLogo size="md" variant="primary" />
-                        </Link>
-                    </div>
-
-                    {/* Desktop Navigation - Right Side */}
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-8">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    to={item.path}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                                        isActive(item.path)
-                                            ? 'text-emerald-600 bg-emerald-50 border-b-2 border-emerald-600'
-                                            : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50'
-                                    }`}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
+  return (
+    <nav
+      ref={navRef}
+      className="fixed top-0 left-0 bg-base-100 border-b border-secondary/20 w-full z-50"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center w-full">
+          {/* Logo */}
+          <div className="flex items-center flex-shrink-0">
+            <Link to="/">
+              <PetifyLogo />
+            </Link>
+          </div>
+          {/* Navigation and Actions - right side */}
+          <div className="flex items-center justify-end flex-1 space-x-4">
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8 items-center">
+              {links}
+              {!user && (
+                <Link
+                  to="/login"
+                  className="hidden md:inline-flex items-center justify-center btn btn-primary text-base-100 rounded-3xl transition h-10 px-6"
+                >
+                  Login
+                </Link>
+              )}
+              {user && (
+                <>
+                  <div className="relative">
+                    <button
+                      className="ml-2 bg-base-100 border-2 border-secondary/50 text-primary p-1 rounded-full hover:bg-base-100 focus:outline-none flex items-center justify-center"
+                      onClick={() => setUserMenuOpen((prev) => !prev)}
+                    >
+                      {user.photoURL ? (
+                        <img
+                          src={user.photoURL}
+                          className="w-8 h-8 p-1 rounded-full"
+                          alt="User"
+                        />
+                      ) : (
+                        <FaUser className="w-8 h-8 p-1 text-secondary" />
+                      )}
+                    </button>
+                    <div
+                      className={`absolute -right-12 mt-2 w-56 bg-base-100 border border-secondary/20 rounded-lg shadow-lg z-50 transition-all duration-500 ease-in-out transform ${
+                        userMenuOpen
+                          ? "opacity-100 scale-100 pointer-events-auto visible"
+                          : "opacity-0 scale-95 pointer-events-none invisible"
+                      }`}
+                      style={{ minWidth: "12rem" }}
+                      aria-hidden={!userMenuOpen}
+                    >
+                      <div className="flex flex-col items-center justify-between px-4 py-2 border-b border-dashed border-secondary/20">
+                        <img
+                          src={user?.photoURL}
+                          className="w-14 p-1 border-2 border-secondary/30 rounded-full"
+                          alt="User"
+                        />
+                        <div
+                          className="px-4 py-2 font-semibold text-secondary"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          {user.displayName}
                         </div>
+                      </div>
+                      <NavLink
+                        to="/profile"
+                        className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <FaRegUserCircle className="mr-2" /> My Profile
+                      </NavLink>
+                      <NavLink
+                        to="/add-pet"
+                        className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <FaPlus className="mr-2" /> Add Pet
+                      </NavLink>
+                      <button
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          handleLogout();
+                        }}
+                        className="flex border-t border-dashed border-secondary/20 items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
+                      >
+                        <IoLogOutOutline size={20} className="mr-2" /> Log Out
+                      </button>
                     </div>
-
-                    {/* Mobile menu button */}
-                    <div className="md:hidden">
-                        <button
-                            onClick={toggleMobileMenu}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500 transition-colors duration-200"
-                            aria-expanded="false"
-                        >
-                            <span className="sr-only">Open main menu</span>
-                            {/* Icon when menu is closed */}
-                            <svg
-                                className={`${isMobileMenuOpen ? 'hidden' : 'block'} h-6 w-6`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                            {/* Icon when menu is open */}
-                            <svg
-                                className={`${isMobileMenuOpen ? 'block' : 'hidden'} h-6 w-6`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="hidden md:inline-flex items-center justify-center btn btn-secondary text-base-100 rounded-3xl transition h-10 px-6 ml-2"
+                  >
+                    Log Out
+                  </button>
+                </>
+              )}
             </div>
-
-            {/* Mobile Navigation Menu */}
-            <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.name}
-                            to={item.path}
-                            className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                                isActive(item.path)
-                                    ? 'text-emerald-600 bg-emerald-50 border-l-4 border-emerald-600'
-                                    : 'text-gray-700 hover:text-emerald-600 hover:bg-emerald-50'
-                            }`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
-                </div>
+            {/* Hamburger */}
+            {!menuOpen && (
+              <button
+                className="md:hidden ml-2 p-2 rounded focus:outline-none"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                <FaBars className="text-secondary" size={22} />
+              </button>
+            )}
+            {/* Theme Toggle at the right end */}
+            <div className="ml-2 flex-shrink-0">
+              <ThemeToggle />
             </div>
-        </nav>
-    );
+          </div>
+        </div>
+      </div>
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${
+          menuOpen
+            ? "translate-x-0 opacity-100 visible"
+            : "-translate-x-full opacity-0 invisible"
+        }`}
+        style={{ pointerEvents: menuOpen ? "auto" : "none" }}
+      >
+        {/* Overlay */}
+        <div
+          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
+            menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+          onClick={() => setMenuOpen(false)}
+        />
+        {/* Sidebar */}
+        <div
+          className={`fixed bg-base-100 border-r border-secondary/20 w-64 h-full px-4 pb-4 pt-6 shadow-lg transition-transform duration-300 ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center">
+              <PetifyLogo />
+            </div>
+            <button
+              className="p-2 rounded focus:outline-none"
+              onClick={() => setMenuOpen(false)}
+            >
+              <FaTimes className="text-secondary" size={22} />
+            </button>
+          </div>
+          <ul className="flex flex-col gap-4">
+            {React.Children.map(links.props.children, (link, idx) => (
+              <li
+                className="hover:translate-x-2 duration-500 hover:text-primary text-secondary"
+                key={idx}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link}
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-col gap-2 mt-4 border-t border-dashed border-secondary/20 pt-4">
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="flex items-center justify-center btn btn-secondary text-white px-4 py-1 rounded-full gap-x-1 transition h-10"
+              >
+                Log Out
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center justify-center btn btn-secondary rounded-3xl text-white px-4 py-1 font-medium transition h-10"
+              >
+                Log In
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default NavBar;
