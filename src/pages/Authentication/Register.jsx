@@ -26,6 +26,7 @@ const Register = () => {
         const user = result.user;
         // update user info in the database
         const userInfo = {
+          name: data.name,
           email: user.email,
           role: 'user',
           created_at: new Date().toISOString(),
@@ -60,6 +61,7 @@ const Register = () => {
         const user = result.user;
         // update user info in the database
         const userInfo = {
+          name: user.name,
           email: user.email,
           role: 'user',
           created_at: new Date().toISOString(),

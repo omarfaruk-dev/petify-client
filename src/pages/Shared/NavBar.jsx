@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle, FaDashcube, FaUserAlt } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import ThemeToggle from "../../components/ThemeToggle";
 import PetifyLogo from "./PetifyLogo";
 import Swal from "sweetalert2";
+import { MdOutlineDashboard } from "react-icons/md";
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
@@ -102,7 +103,7 @@ const NavBar = () => {
               {!user && (
                 <Link
                   to="/login"
-                  className="hidden md:inline-flex items-center justify-center btn btn-primary text-base-100 rounded-3xl transition h-10 px-6"
+                  className="hidden md:inline-flex btn btn-primary text-base-100 rounded transition"
                 >
                   Login
                 </Link>
@@ -111,17 +112,17 @@ const NavBar = () => {
                 <>
                   <div className="relative">
                     <button
-                      className="ml-2 bg-base-100 border-2 border-secondary/50 text-primary p-1 rounded-full hover:bg-base-100 focus:outline-none flex items-center justify-center"
+                      className="ml-2 bg-base-100 border border-primary text-primary rounded-full hover:bg-base-100 focus:outline-none flex items-center justify-center"
                       onClick={() => setUserMenuOpen((prev) => !prev)}
                     >
                       {user.photoURL ? (
                         <img
                           src={user.photoURL}
-                          className="w-8 h-8 p-1 rounded-full"
+                          className="w-9 h-9 rounded-full"
                           alt="User"
                         />
                       ) : (
-                        <FaUser className="w-8 h-8 p-1 text-secondary" />
+                        <FaUser className="w-9 h-9 p-1 text-secondary" />
                       )}
                     </button>
                     <div
@@ -151,14 +152,14 @@ const NavBar = () => {
                         className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                         onClick={() => setUserMenuOpen(false)}
                       >
-                        <FaRegUserCircle className="mr-2" /> My Profile
+                        <MdOutlineDashboard  className="mr-2" /> Dashboard
                       </NavLink>
                       <NavLink
                         to="/add-pet"
-                        className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
+                        className="flex items-center w-full px-4 py-2 mb-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                         onClick={() => setUserMenuOpen(false)}
                       >
-                        <FaPlus className="mr-2" /> Add Pet
+                        <FaUserAlt className="mr-2" /> My Profile
                       </NavLink>
                       <button
                         onClick={() => {
@@ -171,14 +172,18 @@ const NavBar = () => {
                       </button>
                     </div>
                   </div>
-                  <button
+                  {/* <button
                     onClick={handleLogout}
                     className="hidden md:inline-flex items-center justify-center btn btn-secondary text-base-100 rounded-3xl transition h-10 px-6 ml-2"
                   >
                     Log Out
-                  </button>
+                  </button> */}
                 </>
               )}
+            </div>
+            {/* Theme Toggle at the right end */}
+            <div className="ml-2 flex-shrink-0">
+              <ThemeToggle />
             </div>
             {/* Hamburger */}
             {!menuOpen && (
@@ -189,10 +194,7 @@ const NavBar = () => {
                 <FaBars className="text-secondary" size={22} />
               </button>
             )}
-            {/* Theme Toggle at the right end */}
-            <div className="ml-2 flex-shrink-0">
-              <ThemeToggle />
-            </div>
+            
           </div>
         </div>
       </div>
@@ -218,6 +220,7 @@ const NavBar = () => {
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
           onClick={(e) => e.stopPropagation()}
+          style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
         >
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center">
@@ -241,18 +244,29 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
-          <div className="flex flex-col gap-2 mt-4 border-t border-dashed border-secondary/20 pt-4">
+          <div className="flex flex-col flex-1 justify-end pb-6">
             {user ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center justify-center btn btn-secondary text-white px-4 py-1 rounded-full gap-x-1 transition h-10"
-              >
-                Log Out
-              </button>
+              <>
+                <div className="flex flex-col items-center gap-3 mb-4 mt-6 px-2">
+                  <img
+                    src={user?.photoURL}
+                    className="w-14 h-14 p-1 border-2 border-secondary/30 rounded-full object-cover"
+                    alt="User"
+                  />
+                  <div className="font-semibold text-secondary text-center">{user.displayName}</div>
+                  <div className="w-full border-b border-dashed border-secondary/20 my-2"></div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center justify-center btn btn-secondary text-white px-4 py-1 rounded-full gap-x-1 transition h-10 w-full"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              </>
             ) : (
               <Link
                 to="/login"
-                className="flex items-center justify-center btn btn-secondary rounded-3xl text-white px-4 py-1 font-medium transition h-10"
+                className="flex items-center justify-center btn btn-secondary rounded text-white px-4 py-1 font-medium transition h-10"
               >
                 Log In
               </Link>

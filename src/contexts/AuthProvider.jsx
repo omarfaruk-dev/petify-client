@@ -22,8 +22,8 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider);
     }
 
-    const updateUser = (updatedData) => {
-        updateProfile(auth.currentUser, updatedData)
+    const updateUserProfile = (updatedData) => {
+        return updateProfile(auth.currentUser, updatedData)
     }
 
     const logOut = () => {
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
         logOut,
         loading,
         setLoading,
-        updateUser,
+        updateUserProfile,
     }
 
     return <AuthContext value={authData}>

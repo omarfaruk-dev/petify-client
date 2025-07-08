@@ -6,7 +6,7 @@ import Footer from '../pages/Shared/Footer';
 const MainLayout = () => {
     return (
         <div> 
-            <header>
+            <header className='mb-16'>
                <NavBar/>
             </header>
             <main>
