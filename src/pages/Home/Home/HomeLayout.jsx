@@ -1,7 +1,9 @@
+import HeroSlider from "../HeroSlider";
+
 const HomeLayout = () => {
     return (
         <div>
-            <h3>This is HomeLayout </h3>
+            <HeroSlider/>
         </div>
     );
 };
