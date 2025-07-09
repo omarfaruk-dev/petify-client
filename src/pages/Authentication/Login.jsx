@@ -6,6 +6,7 @@ import useAuth from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import LoginWithGoogle from './LoginWithGoogle';
+import LoginWithGithub from './LoginWithGithub';
 
 const Login = () => {
     const { loginUser } = useAuth();
@@ -36,7 +37,7 @@ const Login = () => {
             });
     };
 
-    
+
 
     return (
         <div className="w-full max-w-md bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10">
@@ -92,8 +93,11 @@ const Login = () => {
                     Don't have any account? <Link to="/register" className="link-primary font-semibold ml-1 hover:underline cursor-pointer">Register</Link>
                 </div>
                 <div className="divider my-3">Or</div>
-                <LoginWithGoogle/>
-                
+                <div className='flex flex-col gap-4'>
+                    <LoginWithGoogle />
+                    <LoginWithGithub />
+                </div>
+
             </form>
         </div>
     );

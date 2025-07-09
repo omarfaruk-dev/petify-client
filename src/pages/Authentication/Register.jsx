@@ -8,6 +8,7 @@ import useAxios from '../../hooks/useAxios';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import LoginWithGoogle from './LoginWithGoogle';
+import LoginWithGithub from './LoginWithGithub';
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
@@ -180,7 +181,10 @@ const Register = () => {
         {/* Divider */}
         <div className="divider my-3">Or</div>
         {/* Social login */}
-        <LoginWithGoogle/>
+       <div className='flex flex-col gap-4'>
+       <LoginWithGoogle/>
+       <LoginWithGithub/>
+       </div>
       </form>
     </div>
   );
