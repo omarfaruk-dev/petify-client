@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import axios from 'axios';
+import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const petCategories = [
   { value: 'Dog', label: 'Dog' },
@@ -24,6 +27,8 @@ const AddAPet = () => {
     formState: { errors },
     reset,
   } = useForm();
+const {user} = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   // Handle image upload to imgbb
   const handleImageUpload = async (e) => {
@@ -55,21 +60,30 @@ const AddAPet = () => {
       setSubmitError('Please upload a pet image.');
       return;
     }
-    // const petData = {
-    //   ..._data,
-    //   petImage: imageUrl,
-    //   adopted: false,
-    //   createdAt: new Date().toISOString(),
-    // };
-    try {
+    const petsData = {
+      ..._data,
+      petImage: imageUrl,
+      adopted: false,
+      createdAt: new Date().toISOString(),
+    };
       // TODO: Replace with your API endpoint
-      // await axios.post('/api/pets', petData);
-      reset();
-      setImageUrl('');
-      alert('Pet added successfully!');
-    } catch {
-      setSubmitError('Failed to add pet. Please try again.');
-    }
+      axiosSecure.post('/pets', petsData)
+      .then(res =>{
+        console.log(res.data);
+        if(res.data.insertedId){
+        Swal.fire({
+          icon: 'success',
+          title: 'Pet added successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        
+        reset();
+        setImageUrl('');
+
+        }
+      })
+
   };
 
   return (
