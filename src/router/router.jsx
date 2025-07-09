@@ -7,6 +7,7 @@ import Register from "../pages/Authentication/Register";
 import PrivateRoutes from "../Routes/PrivateRoutes";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyProfile from "../pages/Dashboard/MyProfile";
+import AddAPet from "../pages/Dashboard/AddAPet/AddAPet";
 
 
 const router = createBrowserRouter([
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'add-pet',
-                element: <div className="p-8"><h1 className="text-2xl font-bold">Add a Pet</h1><p>Add pet form will go here...</p></div>
+                Component: AddAPet,
             },
         ]
     },

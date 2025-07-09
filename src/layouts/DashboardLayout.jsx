@@ -52,26 +52,44 @@ const DashboardLayout = () => {
         className={`fixed top-0 left-0 h-full bg-base-100 border-r border-primary/20 z-40 shadow-lg transition-all duration-300 ${sidebarWidth} hidden md:flex flex-col`}
       >
         {/* Logo and Hamburger */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-base-200">
-          <Link to="/">
-            {sidebarOpen ? <PetifyLogo /> : <LogoSmall />}
-          </Link>
-          <button
-            className="ml-2 p-2 rounded focus:outline-none hover:bg-base-200"
-            onClick={() => setSidebarOpen((prev) => !prev)}
-            aria-label="Toggle sidebar"
-          >
-            <FaBars size={22} />
-          </button>
-        </div>
+        {sidebarOpen ? (
+          <div className="flex items-center justify-between px-4 py-4 border-b border-base-200">
+            <Link to="/">
+              <PetifyLogo />
+            </Link>
+            <button
+              className="ml-2 p-2 rounded focus:outline-none"
+              onClick={() => setSidebarOpen((prev) => !prev)}
+              aria-label="Toggle sidebar"
+            >
+              <FaBars size={22} className='text-primary hover:text-secondary'/>
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-row items-center justify-between px-2 py-4 border-b border-base-200">
+            <Link to="/">
+              <LogoSmall />
+            </Link>
+            <button
+              className="p-2 rounded focus:outline-none"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Toggle sidebar"
+            >
+              <FaBars size={22} className='text-primary hover:text-secondary'/>
+            </button>
+          </div>
+        )}
         {/* Menu */}
-        <nav className="flex-1 flex flex-col gap-2 mt-4">
+        <nav className={`flex-1 flex flex-col gap-2 mt-4 ${!sidebarOpen ? 'items-center' : ''}`}>
           {menuLinks.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-2 rounded-lg mx-2 my-1 font-semibold transition-colors duration-200
+                `transition-colors duration-200 font-semibold
+                ${sidebarOpen
+                  ? 'flex items-center gap-4 px-4 py-2 rounded mx-2 my-1'
+                  : 'flex flex-col items-center justify-center w-10 h-10 rounded my-1'}
                 ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
               }
               title={item.label}
@@ -96,9 +114,9 @@ const DashboardLayout = () => {
             </span>
           )}
         </div>
-        <div className="mb-6 flex flex-col items-center">
+        <div className="mb-6 flex flex-col items-center mx-2 my-1">
           <button
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-error hover:bg-error/80 transition-colors duration-200 ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}
+            className={`flex items-center gap-2 rounded btn btn-error ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}
             onClick={handleLogout}
           >
             <FaSignOutAlt />
@@ -127,11 +145,11 @@ const DashboardLayout = () => {
             {sidebarOpen ? <PetifyLogo /> : <LogoSmall />}
           </Link>
           <button
-            className="ml-2 p-2 rounded focus:outline-none hover:bg-base-200"
+            className="ml-2 p-2 rounded focus:outline-none hover:bg-primary"
             onClick={() => setMobileSidebar(false)}
             aria-label="Close sidebar"
           >
-            <FaBars size={22} />
+            <FaBars size={22} className='text-primary'/>
           </button>
         </div>
         <nav className="flex-1 flex flex-col gap-2 mt-4">
@@ -140,7 +158,7 @@ const DashboardLayout = () => {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-4 py-2 rounded-lg mx-2 my-1 font-semibold transition-colors duration-200
+                `flex items-center gap-4 px-4 py-2 rounded mx-2 my-1 font-semibold transition-colors duration-200
                 ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
               }
               title={item.label}
@@ -165,7 +183,7 @@ const DashboardLayout = () => {
         </div>
         <div className="mb-6 flex flex-col items-center">
           <button
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"
+            className="flex items-center gap-2 px-4 py-2 rounded text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"
             onClick={handleLogout}
           >
             <FaSignOutAlt />
