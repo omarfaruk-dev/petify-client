@@ -148,14 +148,14 @@ const NavBar = () => {
                         </div>
                       </div>
                       <NavLink
-                        to="/profile"
+                        to="/dashboard"
                         className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         <MdOutlineDashboard  className="mr-2" /> Dashboard
                       </NavLink>
                       <NavLink
-                        to="/add-pet"
+                        to="/dashboard/my-profile"
                         className="flex items-center w-full px-4 py-2 mb-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                         onClick={() => setUserMenuOpen(false)}
                       >

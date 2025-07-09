@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false)
         })
         return () => {
-            unsubscribe;
+            unsubscribe();
         }
     }, [])
 
@@ -53,9 +53,9 @@ const AuthProvider = ({ children }) => {
         updateUserProfile,
     }
 
-    return <AuthContext value={authData}>
+    return <AuthContext.Provider value={authData}>
         {children}
-    </AuthContext>
+    </AuthContext.Provider>
 };
 
 export default AuthProvider;
