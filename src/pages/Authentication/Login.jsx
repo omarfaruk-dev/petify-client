@@ -5,9 +5,10 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import LoginWithGoogle from './LoginWithGoogle';
 
 const Login = () => {
-    const { loginUser, googleSignIn } = useAuth();
+    const { loginUser } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -35,26 +36,7 @@ const Login = () => {
             });
     };
 
-    //signin with google
-    const handleGoogleSignIn = () => {
-        googleSignIn()
-            .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Logged In Successfully!',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(from);
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Failed',
-                    text: error.message || 'Google sign-in failed',
-                });
-            });
-    };
+    
 
     return (
         <div className="w-full max-w-md bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10">
@@ -100,23 +82,18 @@ const Login = () => {
                     {errors.password?.type === "required" && <p className="text-red-500 text-sm mt-1">Password is required</p>}
                     {errors.password?.type === "minLength" && <p className="text-red-500 text-sm mt-1">Password must be at least 6 characters or longer</p>}
                 </div>
-                <Link to="/forget-password" className="text-sm text-accent mb-4 cursor-pointer hover:underline">
+                <Link to="/forget-password" className="text-sm text-primary mb-4 cursor-pointer hover:underline">
                     Forget Password?
                 </Link>
-                <button className="btn btn-secondary w-full rounded-md text-primary font-semibold mb-4">
-                    Continue
+                <button className="btn btn-primary w-full rounded-md text-base-100 font-semibold mb-4">
+                    Log In
                 </button>
                 <div className="text-sm text-accent text-center">
-                    Don't have any account? <Link to="/register" className="text-secondary hover:underline cursor-pointer">Register</Link>
+                    Don't have any account? <Link to="/register" className="link-primary font-semibold ml-1 hover:underline cursor-pointer">Register</Link>
                 </div>
-                <div className="divider my-4">Or</div>
-                <button
-                    type="button"
-                    onClick={handleGoogleSignIn}
-                    className="btn w-full bg-base-200 hover:bg-base-300 flex items-center justify-center gap-2 rounded"
-                >
-                    <FcGoogle className="text-xl mr-2" /> Login with Google
-                </button>
+                <div className="divider my-3">Or</div>
+                <LoginWithGoogle/>
+                
             </form>
         </div>
     );

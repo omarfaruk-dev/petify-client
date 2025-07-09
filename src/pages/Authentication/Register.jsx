@@ -7,9 +7,10 @@ import useAuth from '../../hooks/useAuth';
 import useAxios from '../../hooks/useAxios';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import LoginWithGoogle from './LoginWithGoogle';
 
 const Register = () => {
-  const { createUser, googleSignIn, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
   const [profilePic, setProfilePic] = useState('');
   const axiosInstance = useAxios();
   const navigate = useNavigate();
@@ -55,32 +56,32 @@ const Register = () => {
   };
 
   // signin with google
-  const handleGoogleSignIn = () => {
-    googleSignIn()
-      .then(async (result) => {
-        const user = result.user;
-        // update user info in the database
-        const userInfo = {
-          name: user.name,
-          email: user.email,
-          role: 'user',
-          created_at: new Date().toISOString(),
-          last_log_in: new Date().toISOString(),
-        };
-        await axiosInstance.post('/users', userInfo);
-        Swal.fire({
-          icon: 'success',
-          title: 'Registration Successful!',
-          text: 'Your account has been created.',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        navigate(from);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+  // const handleGoogleSignIn = () => {
+  //   googleSignIn()
+  //     .then(async (result) => {
+  //       const user = result.user;
+  //       // update user info in the database
+  //       const userInfo = {
+  //         name: user.name,
+  //         email: user.email,
+  //         role: 'user',
+  //         created_at: new Date().toISOString(),
+  //         last_log_in: new Date().toISOString(),
+  //       };
+  //       await axiosInstance.post('/users', userInfo);
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: 'Registration Successful!',
+  //         text: 'Your account has been created.',
+  //         showConfirmButton: false,
+  //         timer: 1500
+  //       });
+  //       navigate(from);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
 
   // handle image upload
   const handleImageUpload = async (e) => {
@@ -174,20 +175,12 @@ const Register = () => {
         {/* Login link */}
         <div className="text-center text-secondary text-sm mt-2">
           Already have an account?
-          <Link to="/login" className="text-primary font-semibold ml-1 hover:underline">Login Here</Link>
+          <Link to="/login" className="link-primary font-semibold ml-1 hover:underline">Login Here</Link>
         </div>
         {/* Divider */}
-        <div className="flex items-center gap-2 my-2">
-          <div className="flex-1 h-px bg-secondary/20" />
-        </div>
+        <div className="divider my-3">Or</div>
         {/* Social login */}
-        <button
-          type="button"
-          onClick={handleGoogleSignIn}
-          className="btn w-full bg-base-200 hover:bg-base-300 flex items-center justify-center gap-2 rounded"
-        >
-          <FcGoogle className="text-xl" /> Continue with Google
-        </button>
+        <LoginWithGoogle/>
       </form>
     </div>
   );
