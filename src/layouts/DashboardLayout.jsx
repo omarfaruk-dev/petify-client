@@ -1,98 +1,214 @@
 
 
 // import useUserRole from '../hooks/useUserRole';
-import Swal from 'sweetalert2';
-import useAuth from '../hooks/useAuth';
-import { Link, NavLink, Outlet } from 'react-router';
+import React, { useState } from 'react';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router';
+import { FaHome, FaUserEdit, FaCat, FaBell, FaBars, FaSignOutAlt } from 'react-icons/fa';
 import PetifyLogo from '../pages/Shared/PetifyLogo';
-import { FaHome, FaUserEdit } from 'react-icons/fa';
+import LogoSmall from '../pages/Shared/LogoSmall';
+import useAuth from '../hooks/useAuth';
+import Swal from 'sweetalert2';
+import ThemeToggle from '../components/ThemeToggle';
+
+const menuLinks = [
+  { to: '/dashboard', icon: <FaHome />, label: 'Dashboard' },
+  { to: '/dashboard/my-profile', icon: <FaUserEdit />, label: 'My Profile' },
+  { to: '/dashboard/add-pet', icon: <FaCat />, label: 'Add a Pet' },
+];
 
 const DashboardLayout = () => {
+  const { user, logOut } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileSidebar, setMobileSidebar] = useState(false);
+  const navigate = useNavigate();
 
-    const {logOut} = useAuth();
-    // const { role, roleLoading } = useUserRole()
-    // console.log(role);
-    return (
-        <div className="drawer lg:drawer-open">
-            <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col">
+  // Sidebar width
+  const sidebarWidth = sidebarOpen ? 'w-64' : 'w-20';
 
-                {/* Navbar */}
-                <div className="navbar bg-base-300 w-full lg:hidden">
-                    <div className="flex-none ">
-                        <label htmlFor="my-drawer-2" aria-label="open sidebar" className="btn btn-square btn-ghost">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                className="inline-block h-6 w-6 stroke-current"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                ></path>
-                            </svg>
-                        </label>
-                    </div>
-                    <div className="mx-2 flex-1 px-2 lg:hidden">Dashboard</div>
+  // Logout logic
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of your account.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, logout',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await logOut();
+        navigate('/');
+      }
+    });
+  };
 
-                </div>
-                {/* Page content here */}
-                <Outlet></Outlet>
-                {/* Page content here */}
-
-            </div>
-            <div className="drawer-side">
-                <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 flex flex-col">
-                    {/* Sidebar content here */}
-                    <Link to='/'>
-                        <PetifyLogo />
-                    </Link>
-                    <li>
-                        <NavLink to="/dashboard">
-                            <FaHome className="inline-block mr-2" />
-                            Home
-                        </NavLink>
-                    </li>
-                    
-                    <li>
-                        <NavLink to="/dashboard/my-profile">
-                            <FaUserEdit className="inline-block mr-2" />
-                            My Profile
-                        </NavLink>
-                    </li>
-                    {/* Spacer to push logout to bottom */}
-                    <div className="flex-1"></div>
-                    <li>
-                        <button
-                            className="btn btn-error w-full text-white mt-4"
-                            onClick={async () => {
-                                const result = await Swal.fire({
-                                    title: 'Are you sure?',
-                                    text: 'You will be logged out of your account.',
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#d33',
-                                    cancelButtonColor: '#3085d6',
-                                    confirmButtonText: 'Yes, logout',
-                                    cancelButtonText: 'Cancel',
-                                });
-                                if (result.isConfirmed) {
-                                    await logOut();
-                                    window.location.href = "/";
-                                }
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </li>
-                </ul>
-            </div>
+  return (
+    <div className="flex h-screen bg-base-100">
+      {/* Sidebar */}
+      {/* Desktop Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-base-100 border-r border-primary/20 z-40 shadow-lg transition-all duration-300 ${sidebarWidth} hidden md:flex flex-col`}
+      >
+        {/* Logo and Hamburger */}
+        <div className="flex items-center justify-between px-4 py-4 border-b border-base-200">
+          <Link to="/">
+            {sidebarOpen ? <PetifyLogo /> : <LogoSmall />}
+          </Link>
+          <button
+            className="ml-2 p-2 rounded focus:outline-none hover:bg-base-200"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+            aria-label="Toggle sidebar"
+          >
+            <FaBars size={22} />
+          </button>
         </div>
-    );
+        {/* Menu */}
+        <nav className="flex-1 flex flex-col gap-2 mt-4">
+          {menuLinks.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex items-center gap-4 px-4 py-2 rounded-lg mx-2 my-1 font-semibold transition-colors duration-200
+                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+              }
+              title={item.label}
+            >
+              <span className="text-xl">{item.icon}</span>
+              {sidebarOpen && <span className="whitespace-nowrap">{item.label}</span>}
+            </NavLink>
+          ))}
+        </nav>
+        {/* User avatar and logout at the bottom */}
+        <div className="mt-auto mb-4 flex flex-col items-center gap-2">
+          {user && user.photoURL ? (
+            <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-secondary font-bold">
+              {user?.displayName?.[0] || 'U'}
+            </div>
+          )}
+          {sidebarOpen && (
+            <span className="mt-2 text-xs text-secondary font-semibold text-center max-w-[120px] truncate">
+              {user?.displayName || 'User'}
+            </span>
+          )}
+        </div>
+        <div className="mb-6 flex flex-col items-center">
+          <button
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-error hover:bg-error/80 transition-colors duration-200 ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt />
+            {sidebarOpen && <span>Logout</span>}
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile Sidebar Overlay */}
+      <div
+        className={`fixed inset-0 z-50 bg-secondary transition-opacity duration-300 md:hidden ${
+          mobileSidebar ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setMobileSidebar(false)}
+        style={{ pointerEvents: mobileSidebar ? 'auto' : 'none' }}
+      />
+      {/* Mobile Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-white border-r border-base-300 z-50 shadow-lg transition-transform duration-300 w-64 flex flex-col md:hidden ${
+          mobileSidebar ? 'translate-x-0' : '-translate-x-full'
+        }`}
+        style={{ height: '100vh' }}
+      >
+        <div className="flex items-center justify-between px-4 py-4 border-b border-base-200">
+          <Link to="/">
+            {sidebarOpen ? <PetifyLogo /> : <LogoSmall />}
+          </Link>
+          <button
+            className="ml-2 p-2 rounded focus:outline-none hover:bg-base-200"
+            onClick={() => setMobileSidebar(false)}
+            aria-label="Close sidebar"
+          >
+            <FaBars size={22} />
+          </button>
+        </div>
+        <nav className="flex-1 flex flex-col gap-2 mt-4">
+          {menuLinks.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex items-center gap-4 px-4 py-2 rounded-lg mx-2 my-1 font-semibold transition-colors duration-200
+                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+              }
+              title={item.label}
+              onClick={() => setMobileSidebar(false)}
+            >
+              <span className="text-xl">{item.icon}</span>
+              <span className="whitespace-nowrap">{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+        <div className="mt-auto mb-4 flex flex-col items-center gap-2">
+          {user && user.photoURL ? (
+            <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-secondary font-bold">
+              {user?.displayName?.[0] || 'U'}
+            </div>
+          )}
+          <span className="mt-2 text-xs text-secondary font-semibold text-center max-w-[120px] truncate">
+            {user?.displayName || 'User'}
+          </span>
+        </div>
+        <div className="mb-6 flex flex-col items-center">
+          <button
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main content area */}
+      <div className={`flex-1 flex flex-col transition-all duration-300 min-h-screen ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'} ml-0`}> 
+        {/* Top Navbar - full width, fixed */}
+        <header className="fixed left-0 right-0 top-0 h-16 bg-base-100 border-b border-primary/20 flex items-center px-4 md:px-8 z-30 shadow-sm w-full">
+          {/* Hamburger for mobile */}
+          <button
+            className="md:hidden mr-2 p-2 rounded focus:outline-none hover:bg-base-200"
+            onClick={() => setMobileSidebar(true)}
+            aria-label="Open sidebar"
+          >
+            <FaBars size={22} />
+          </button>
+          {/* Theme toggle */}
+          <button className=" mr-4 ml-auto" title="Theme Toggle">
+            <ThemeToggle/>
+          </button>
+          {/* User name */}
+          <div className="flex items-center gap-2">
+            {user && user.photoURL ? (
+              <img src={user.photoURL} alt="User" className="w-8 h-8 rounded-full border-2 border-primary" />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-secondary font-bold">
+                {user?.displayName?.[0] || 'U'}
+              </div>
+            )}
+            <span className="font-semibold text-secondary hidden sm:inline-block">{user?.displayName || 'User'}</span>
+          </div>
+        </header>
+        {/* Main content below navbar */}
+        <main className="flex-1 mt-16 p-4 md:p-8 bg-base-100 min-h-0 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
 };
 
 export default DashboardLayout;

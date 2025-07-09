@@ -36,12 +36,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <PrivateRoutes><DashboardLayout/> </PrivateRoutes>,
+        element: <PrivateRoutes><DashboardLayout/></PrivateRoutes>,
         children: [
             {
+                index: true,
+                element: <div className="p-8"><h1 className="text-2xl font-bold">Dashboard Home</h1></div>
+            },
+            {
                 path: 'my-profile',
-                Component:MyProfile,
-                
+                Component: MyProfile,
+            },
+            {
+                path: 'add-pet',
+                element: <div className="p-8"><h1 className="text-2xl font-bold">Add a Pet</h1><p>Add pet form will go here...</p></div>
             },
         ]
     },

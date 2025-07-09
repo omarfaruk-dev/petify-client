@@ -1,5 +1,6 @@
 
 
+import React from 'react';
 import { Navigate, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
 import Spinner from "../pages/Shared/Spinner";
@@ -7,16 +8,17 @@ import Spinner from "../pages/Shared/Spinner";
 const PrivateRoutes = ({children}) => {
 
     const { user, loading } = useAuth();
-     const location = useLocation();
+    const location = useLocation();
 
-    if (!user) {
-       return <Navigate state={location?.pathname} to='/login' />
-    }
-
+    // Show spinner while loading
     if (loading) {
         return <Spinner />
     }
 
+    // Redirect to login if no user
+    if (!user) {
+       return <Navigate state={{from: location?.pathname}} to='/login' />
+    }
 
     return children
 };

@@ -31,7 +31,7 @@ const useAxiosSecure = () => {
     axiosSecure.interceptors.response.use(res => {
         return res;
     }, error => {
-        const status = error.status;
+        const status = error.response?.status;
         if (status === 403) {
             navigate('/forbidden');
         }
