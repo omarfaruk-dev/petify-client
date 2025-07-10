@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
@@ -9,43 +9,71 @@ import {
   flexRender,
   createColumnHelper,
 } from '@tanstack/react-table';
+import Swal from 'sweetalert2';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import Spinner from '../../Shared/Spinner';
 
 const MyAddedPets = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  console.log('User:', user);
-  console.log('User email:', user?.email);
-
-  // Test without React Query first
-  const [pets, setPets] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (user?.email) {
-      setIsLoading(true);
-      setError(null);
-
-      axiosSecure.get(`/pets?email=${user.email}`)
-        .then(res => {
-          console.log('API response:', res.data);
-          setPets(res.data);
-        })
-        .catch(err => {
-          console.error('API error:', err);
-          setError(err.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+  // Fetch pets using React Query
+  const { data: pets = [], error } = useQuery({
+    queryKey: ['my-pets', user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/pets?email=${user.email}`);
+      return res.data;
     }
-  }, [user?.email, axiosSecure]);
+  });
 
-  console.log('Pets data:', pets);
-  console.log('Loading:', isLoading);
-  console.log('Error:', error);
+ //handle delete
+ const handleDelete = async (id) => {
+  const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "This pet will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#e11d48", 
+      cancelButtonColor: "#6b7280", 
+  });
+  
+  if (confirm.isConfirmed) {
+      try {
+          // Optimistically remove the pet from the cache
+          queryClient.setQueryData(['my-pets', user?.email], (oldData) => {
+              return oldData ? oldData.filter(pet => pet._id !== id) : [];
+          });
+
+          const res = await axiosSecure.delete(`/pets/${id}`);
+          
+          if (res.status === 200) {
+              Swal.fire({
+                  title: "Deleted!",
+                  text: "Pet has been deleted.",
+                  icon: "success",
+                  timer: 1500,
+                  showConfirmButton: false,
+              });
+              
+              // Invalidate and refetch to ensure data consistency
+              await queryClient.invalidateQueries(['my-pets', user?.email]);
+          } else {
+              // If deletion failed, refetch to restore the original data
+              await queryClient.invalidateQueries(['my-pets', user?.email]);
+              Swal.fire("Error", "Failed to delete pet", "error");
+          }
+      } catch (err) {
+          // If there's an error, refetch to restore the original data
+          await queryClient.invalidateQueries(['my-pets', user?.email]);
+          Swal.fire("Error", err.message || "Failed to delete pet", "error");
+      }
+  }
+};
 
   const [sorting, setSorting] = useState([]);
   const columnHelper = createColumnHelper();
@@ -89,10 +117,10 @@ const MyAddedPets = () => {
     columnHelper.display({
       id: 'actions',
       header: () => 'Actions',
-      cell: () => (
+      cell: ({ row }) => (
         <div className="flex gap-2">
-          <button className="btn btn-sm btn-primary">Update</button>
-          <button className="btn btn-sm btn-error">Delete</button>
+          <button className="btn btn-sm btn-primary text-base-100">Update</button>
+          <button onClick={() => handleDelete(row.original._id)} className="btn btn-sm btn-error">Delete</button>
           <button className="btn btn-sm btn-warning">Adopt</button>
         </div>
       ),
@@ -109,12 +137,8 @@ const MyAddedPets = () => {
     debugTable: false,
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
-    );
+  if (loading ) {
+    return <Spinner />;
   }
 
   if (error) {
@@ -139,12 +163,12 @@ const MyAddedPets = () => {
   return (
     <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
+        <h2 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
           My Added Pets
         </h2>
         <button
           onClick={() => navigate('/dashboard/add-pet')}
-          className="btn btn-primary"
+          className="btn btn-primary text-base-100"
         >
           Add New Pet
         </button>
