@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
+import {
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  flexRender,
+  createColumnHelper,
+} from '@tanstack/react-table';
 
 const MyAddedPets = () => {
   const { user } = useAuth();
@@ -39,6 +46,68 @@ const MyAddedPets = () => {
   console.log('Pets data:', pets);
   console.log('Loading:', isLoading);
   console.log('Error:', error);
+
+  const [sorting, setSorting] = useState([]);
+  const columnHelper = createColumnHelper();
+  const columns = [
+    columnHelper.display({
+      id: 'serial',
+      header: () => 'Serial No.',
+      cell: ({ row }) => row.index + 1,
+      enableSorting: false,
+    }),
+    columnHelper.accessor('petName', {
+      header: () => 'Pet Name',
+      cell: info => <span className="font-medium text-secondary">{info.getValue()}</span>,
+    }),
+    columnHelper.accessor(row => row.petCategory?.label || row.petCategory?.value || 'N/A', {
+      id: 'petCategory',
+      header: () => 'Category',
+      cell: info => <span>{info.getValue()}</span>,
+      sortingFn: 'alphanumeric',
+    }),
+    columnHelper.accessor('petImage', {
+      header: () => 'Pet Image',
+      cell: info => (
+        <img
+          src={info.getValue()}
+          alt="Pet"
+          className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+        />
+      ),
+      enableSorting: false,
+    }),
+    columnHelper.accessor('adopted', {
+      header: () => 'Adoption Status',
+      cell: info => (
+        <span className={`badge ${info.getValue() ? 'badge-success' : 'badge-warning'}`}>
+          {info.getValue() ? 'Adopted' : 'Not Adopted'}
+        </span>
+      ),
+      sortingFn: 'basic',
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: () => 'Actions',
+      cell: () => (
+        <div className="flex gap-2">
+          <button className="btn btn-sm btn-primary">Update</button>
+          <button className="btn btn-sm btn-error">Delete</button>
+          <button className="btn btn-sm btn-warning">Adopt</button>
+        </div>
+      ),
+      enableSorting: false,
+    }),
+  ];
+  const table = useReactTable({
+    data: pets,
+    columns,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: false,
+  });
 
   if (isLoading) {
     return (
@@ -99,49 +168,39 @@ const MyAddedPets = () => {
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
+          <table className="table table-zebra min-w-max w-full">
             <thead>
-              <tr>
-                <th>Serial No.</th>
-                <th>Pet Name</th>
-                <th>Category</th>
-                <th>Pet Image</th>
-                <th>Adoption Status</th>
-                <th>Actions</th>
-              </tr>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    const isSortable = header.column.getCanSort();
+                    const sortDir = header.column.getIsSorted();
+                    return (
+                      <th
+                        key={header.id}
+                        onClick={isSortable ? header.column.getToggleSortingHandler() : undefined}
+                        className={isSortable ? 'cursor-pointer select-none' : ''}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {isSortable && (
+                          <span className="ml-1">
+                            {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▼' : '↕'}
+                          </span>
+                        )}
+                      </th>
+                    );
+                  })}
+                </tr>
+              ))}
             </thead>
             <tbody>
-              {pets.map((pet, index) => (
-                <tr key={pet._id}>
-                  <td>{index + 1}</td>
-                  <td className="font-medium text-secondary">{pet.petName}</td>
-                  <td>
-                    <span className="">
-                      {pet.petCategory?.label || pet.petCategory?.value || "N/A"}
-                    </span>
-                  </td>
-                  <td>
-                    <img
-                      src={pet.petImage}
-                      alt="Pet"
-                      className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
-                    />
-                  </td>
-                  <td>
-                    <span
-                      className={`badge ${pet.adopted ? 'badge-success' : 'badge-warning'
-                        }`}
-                    >
-                      {pet.adopted ? 'Adopted' : 'Not Adopted'}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex gap-2">
-                      <button className="btn btn-sm btn-primary">Update</button>
-                      <button className="btn btn-sm btn-error">Delete</button>
-                      <button className="btn btn-sm btn-warning">Adopt</button>
-                    </div>
-                  </td>
+              {table.getRowModel().rows.map(row => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map(cell => (
+                    <td key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
