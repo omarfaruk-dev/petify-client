@@ -23,14 +23,14 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button
+    <div
       onClick={toggleTheme}
       className="btn btn-primary btn-outline btn-circle btn-sm shadow flex items-center justify-center px-2 py-2"
       aria-label="Toggle dark mode"
       title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
     >
       {theme === 'light' ? <FaMoon className="text-lg" /> : <FaSun className="text-lg" />}
-    </button>
+    </div>
   );
 };
 

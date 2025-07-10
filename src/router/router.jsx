@@ -8,6 +8,7 @@ import PrivateRoutes from "../Routes/PrivateRoutes";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import AddAPet from "../pages/Dashboard/AddAPet/AddAPet";
+import MyAddedPets from "../pages/Dashboard/MyAddedPets/MyAddedPets";
 
 
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: 'add-pet',
                 Component: AddAPet,
+            },
+            {
+                path: 'my-added-pets',
+                Component: MyAddedPets,
             },
         ]
     },
