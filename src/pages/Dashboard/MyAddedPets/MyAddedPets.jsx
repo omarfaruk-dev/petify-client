@@ -119,7 +119,12 @@ const MyAddedPets = () => {
       header: () => 'Actions',
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <button className="btn btn-sm btn-primary text-base-100">Update</button>
+          <button 
+            onClick={() => navigate(`/dashboard/update-pet/${row.original._id}`)} 
+            className="btn btn-sm btn-primary text-base-100"
+          >
+            Update
+          </button>
           <button onClick={() => handleDelete(row.original._id)} className="btn btn-sm btn-error">Delete</button>
           <button className="btn btn-sm btn-warning">Adopt</button>
         </div>

@@ -64,7 +64,7 @@ const NavBar = () => {
         <FaHome /> Home
       </NavLink>
       <NavLink
-        to="/pets"
+        to="/pet-listing"
         className={({ isActive }) =>
           `flex items-center gap-2 font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-secondary"} hover:text-primary`
         }

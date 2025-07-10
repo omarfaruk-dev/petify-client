@@ -9,6 +9,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import MyProfile from "../pages/Dashboard/MyProfile";
 import AddAPet from "../pages/Dashboard/AddAPet/AddAPet";
 import MyAddedPets from "../pages/Dashboard/MyAddedPets/MyAddedPets";
+import UpdatePet from "../pages/Dashboard/UpdatePet/UpdatePet";
+import PetListing from "../pages/PetListing/PetListing";
 
 
 const router = createBrowserRouter([
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 Component: HomeLayout,
+            },
+            {
+                path: 'pet-listing',
+                Component: PetListing,
             },
         ]
     },
@@ -55,6 +61,10 @@ const router = createBrowserRouter([
             {
                 path: 'my-added-pets',
                 Component: MyAddedPets,
+            },
+            {
+                path: 'update-pet/:id',
+                Component: UpdatePet,
             },
         ]
     },
