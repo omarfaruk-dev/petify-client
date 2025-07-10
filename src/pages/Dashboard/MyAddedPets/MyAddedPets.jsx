@@ -29,51 +29,85 @@ const MyAddedPets = () => {
     }
   });
 
- //handle delete
- const handleDelete = async (id) => {
-  const confirm = await Swal.fire({
+  //handle delete
+  const handleDelete = async (id) => {
+    const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "This pet will be permanently deleted!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it",
       cancelButtonText: "Cancel",
-      confirmButtonColor: "#e11d48", 
-      cancelButtonColor: "#6b7280", 
-  });
-  
-  if (confirm.isConfirmed) {
+      confirmButtonColor: '#14B8A6',
+      cancelButtonColor: '#d33',
+    });
+
+    if (confirm.isConfirmed) {
       try {
-          // Optimistically remove the pet from the cache
-          queryClient.setQueryData(['my-pets', user?.email], (oldData) => {
-              return oldData ? oldData.filter(pet => pet._id !== id) : [];
+        // Optimistically remove the pet from the cache
+        queryClient.setQueryData(['my-pets', user?.email], (oldData) => {
+          return oldData ? oldData.filter(pet => pet._id !== id) : [];
+        });
+
+        const res = await axiosSecure.delete(`/pets/${id}`);
+
+        if (res.status === 200) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Pet has been deleted.",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
           });
 
-          const res = await axiosSecure.delete(`/pets/${id}`);
-          
-          if (res.status === 200) {
-              Swal.fire({
-                  title: "Deleted!",
-                  text: "Pet has been deleted.",
-                  icon: "success",
-                  timer: 1500,
-                  showConfirmButton: false,
-              });
-              
-              // Invalidate and refetch to ensure data consistency
-              await queryClient.invalidateQueries(['my-pets', user?.email]);
-          } else {
-              // If deletion failed, refetch to restore the original data
-              await queryClient.invalidateQueries(['my-pets', user?.email]);
-              Swal.fire("Error", "Failed to delete pet", "error");
-          }
-      } catch (err) {
-          // If there's an error, refetch to restore the original data
+          // Invalidate and refetch to ensure data consistency
           await queryClient.invalidateQueries(['my-pets', user?.email]);
-          Swal.fire("Error", err.message || "Failed to delete pet", "error");
+        } else {
+          // If deletion failed, refetch to restore the original data
+          await queryClient.invalidateQueries(['my-pets', user?.email]);
+          Swal.fire("Error", "Failed to delete pet", "error");
+        }
+      } catch (err) {
+        // If there's an error, refetch to restore the original data
+        await queryClient.invalidateQueries(['my-pets', user?.email]);
+        Swal.fire("Error", err.message || "Failed to delete pet", "error");
       }
-  }
-};
+    }
+  };
+
+  //handle adopt
+  const handleAdopt = async (id) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "This pet will be marked as adopted!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, adopt it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: '#14B8A6',
+      cancelButtonColor: '#d33',
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        const res = await axiosSecure.put(`/pets/${id}/adopt`);
+        if (res.status === 200 || res.data?.message) {
+          Swal.fire({
+            title: "Adopted!",
+            text: "Pet has been marked as adopted.",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+          await queryClient.invalidateQueries(['my-pets', user?.email]);
+        } else {
+          Swal.fire("Error", "Failed to mark as adopted", "error");
+        }
+      } catch (err) {
+        Swal.fire("Error", err.message || "Failed to mark as adopted", "error");
+      }
+    }
+  };
 
   const [sorting, setSorting] = useState([]);
   const columnHelper = createColumnHelper();
@@ -100,7 +134,7 @@ const MyAddedPets = () => {
         <img
           src={info.getValue()}
           alt="Pet"
-          className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+          className="w-12 h-12 rounded object-cover border-2 border-primary/30"
         />
       ),
       enableSorting: false,
@@ -119,14 +153,24 @@ const MyAddedPets = () => {
       header: () => 'Actions',
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <button 
-            onClick={() => navigate(`/dashboard/update-pet/${row.original._id}`)} 
+          <button
+            onClick={() => navigate(`/dashboard/update-pet/${row.original._id}`)}
             className="btn btn-sm btn-primary text-base-100"
           >
             Update
           </button>
           <button onClick={() => handleDelete(row.original._id)} className="btn btn-sm btn-error">Delete</button>
-          <button className="btn btn-sm btn-warning">Adopt</button>
+          {/* <button onClick={() => handleAdopt(row.original._id)} className="btn btn-sm btn-warning">Adopt</button> */}
+          <button
+            onClick={() => handleAdopt(row.original._id)}
+            title={row.original.adopted ? 'Already adopted' : 'Mark as adopted'}
+            className="btn btn-sm btn-warning"
+            disabled={row.original.adopted}
+          >
+            {row.original.adopted ? 'Adopted' : 'Adopt'}
+            
+          </button>
+
         </div>
       ),
       enableSorting: false,
@@ -142,7 +186,7 @@ const MyAddedPets = () => {
     debugTable: false,
   });
 
-  if (loading ) {
+  if (loading) {
     return <Spinner />;
   }
 

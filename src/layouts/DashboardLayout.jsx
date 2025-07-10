@@ -34,8 +34,8 @@ const DashboardLayout = () => {
       text: 'You will be logged out of your account.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#14B8A6',
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, logout',
       cancelButtonText: 'Cancel',
     }).then(async (result) => {
