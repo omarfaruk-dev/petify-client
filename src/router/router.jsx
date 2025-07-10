@@ -11,6 +11,7 @@ import AddAPet from "../pages/Dashboard/AddAPet/AddAPet";
 import MyAddedPets from "../pages/Dashboard/MyAddedPets/MyAddedPets";
 import UpdatePet from "../pages/Dashboard/UpdatePet/UpdatePet";
 import PetListing from "../pages/PetListing/PetListing";
+import PetDetails from "../pages/PetDetails/PetDetails";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: 'pet-listing',
                 Component: PetListing,
+            },
+            {
+                path: 'pet-details/:id',
+                Component: PetDetails,
             },
         ]
     },
