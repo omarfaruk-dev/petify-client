@@ -12,6 +12,7 @@ import MyAddedPets from "../pages/Dashboard/MyAddedPets/MyAddedPets";
 import UpdatePet from "../pages/Dashboard/UpdatePet/UpdatePet";
 import PetListing from "../pages/PetListing/PetListing";
 import PetDetails from "../pages/PetDetails/PetDetails";
+import AdoptionRequest from "../pages/Dashboard/AdoptionRequest/AdoptionRequest";
 
 
 const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
             {
                 path: 'update-pet/:id',
                 Component: UpdatePet,
+            },
+            {
+                path: 'adoption-requests',
+                Component: AdoptionRequest,
             },
         ]
     },

@@ -3,9 +3,10 @@ import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
-import Spinner from '../Shared/Spinner';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { useNavigate, useLocation } from 'react-router';
+import Swal from 'sweetalert2';
 
 const PetDetails = () => {
     const { id } = useParams();
@@ -17,6 +18,8 @@ const PetDetails = () => {
         address: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     // Fetch pet details
     const { data: pet, isLoading, error } = useQuery({
@@ -56,13 +59,37 @@ const PetDetails = () => {
             
             if (res.status === 201) {
                 // Show success message
-                alert('Adoption request submitted successfully!');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Adoption Request Submitted!',
+                    text: 'Your adoption request has been submitted successfully.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 setIsModalOpen(false);
                 setFormData({ phoneNumber: '', address: '' });
             }
         } catch (error) {
             console.error('Error submitting adoption request:', error);
-            alert('Failed to submit adoption request. Please try again.');
+            const duplicateMsg = 'You have already submitted an adoption request for this pet';
+            if (
+                error?.response?.data?.message === duplicateMsg ||
+                error?.message === duplicateMsg
+            ) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Already Requested',
+                    text: duplicateMsg,
+                    showConfirmButton: true
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Failed',
+                    text: 'Failed to submit adoption request. Please try again.',
+                    showConfirmButton: true
+                });
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -71,10 +98,10 @@ const PetDetails = () => {
     if (isLoading) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="bg-base-100 rounded-lg shadow-lg p-6">
+                <div className="bg-base-100 rounded shadow-lg p-6">
                     <Skeleton height={48} width={300} className="mb-6" />
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <Skeleton height={400} className="rounded-lg" />
+                        <Skeleton height={400} className="rounded" />
                         <div className="space-y-4">
                             <Skeleton height={24} width={200} />
                             <Skeleton height={20} width={150} />
@@ -93,7 +120,7 @@ const PetDetails = () => {
     if (error) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="bg-base-100 rounded-lg shadow-lg p-6 text-center">
+                <div className="bg-base-100 rounded shadow-lg p-6 text-center">
                     <div className="text-6xl mb-4">⚠️</div>
                     <h3 className="text-xl font-semibold text-secondary mb-2">
                         Error loading pet details
@@ -109,7 +136,7 @@ const PetDetails = () => {
     if (!pet) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="bg-base-100 rounded-lg shadow-lg p-6 text-center">
+                <div className="bg-base-100 rounded shadow-lg p-6 text-center">
                     <div className="text-6xl mb-4">🐾</div>
                     <h3 className="text-xl font-semibold text-secondary mb-2">
                         Pet not found
@@ -124,7 +151,7 @@ const PetDetails = () => {
 
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="bg-base-100 rounded-lg shadow-lg p-6">
+            <div className="bg-base-100 rounded shadow-lg p-6">
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
@@ -134,70 +161,75 @@ const PetDetails = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Pet Image */}
-                    <div>
+                    <div className="flex flex-col items-center justify-center">
                         <img
                             src={pet.petImage}
                             alt={pet.petName}
-                            className="w-full h-96 object-cover rounded-lg shadow-md"
+                            className="w-full h-96 object-cover rounded shadow-lg border-4 border-primary/20"
                         />
                     </div>
 
                     {/* Pet Details */}
-                    <div className="space-y-4">
-                        <div>
-                            <h2 className="text-2xl font-bold text-secondary mb-4">Pet Information</h2>
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-primary font-medium min-w-[100px]">Name:</span>
-                                    <span className="text-secondary">{pet.petName}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-primary font-medium min-w-[100px]">Category:</span>
-                                    <span className="text-secondary">
-                                        {pet.petCategory?.label || pet.petCategory?.value || pet.petCategory || 'N/A'}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-primary font-medium min-w-[100px]">Age:</span>
-                                    <span className="text-secondary">{pet.petAge} years</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-primary font-medium min-w-[100px]">Location:</span>
-                                    <span className="text-secondary">{pet.petLocation}</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-primary font-medium min-w-[100px]">Status:</span>
-                                    <span className={`badge ${pet.adopted ? 'badge-success' : 'badge-warning'}`}>
-                                        {pet.adopted ? 'Adopted' : 'Available for Adoption'}
-                                    </span>
-                                </div>
-                                {pet.petDescription && (
-                                    <div className="mt-4">
-                                        <span className="text-primary font-medium block mb-2">Description:</span>
-                                        <p className="text-secondary leading-relaxed">{pet.petDescription}</p>
-                                    </div>
-                                )}
+                    <div className="bg-base-200 rounded p-6 shadow space-y-6">
+                        <h2 className="text-2xl font-bold text-primary mb-2">Pet Information</h2>
+                        <div className="grid grid-cols-1 gap-4">
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Name</span>
+                                <span className="block text-lg font-medium text-secondary">{pet.petName}</span>
+                            </div>
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Age</span>
+                                <span className="block text-lg font-medium text-secondary">{pet.petAge} <small>Months</small></span>
+                            </div>
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Location</span>
+                                <span className="block text-lg font-medium text-secondary">{pet.petLocation}</span>
+                            </div>
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Category</span>
+                                <span className="block text-lg font-medium text-secondary">{pet.petCategory?.label || pet.petCategory?.value}</span>
+                            </div>
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Short Description</span>
+                                <span className="block text-base text-secondary">{pet.shortDescription}</span>
+                            </div>
+                            <div>
+                                <span className="block text-secondary/70 text-sm font-semibold">Long Description</span>
+                                <span className="block text-base text-secondary">{pet.longDescription}</span>
                             </div>
                         </div>
-
-                        {/* Adopt Button */}
-                        {!pet.adopted && (
-                            <button
-                                onClick={() => setIsModalOpen(true)}
-                                className="btn btn-primary text-base-100 w-full lg:w-auto"
-                                disabled={!user}
-                            >
-                                {user ? 'Adopt This Pet' : 'Login to Adopt'}
-                            </button>
-                        )}
                     </div>
                 </div>
+                {/* Adopt Button */}
+                {!pet.adopted && (
+                    <div className="mt-8 flex justify-center">
+                        <button
+                            onClick={() => {
+                                if (user && user.email === pet.userEmail) {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Not Allowed',
+                                        text: 'You cannot adopt your own pet.',
+                                        showConfirmButton: true
+                                    });
+                                } else if (user) {
+                                    setIsModalOpen(true);
+                                } else {
+                                    navigate('/login', { state: { from: location } });
+                                }
+                            }}
+                            className="btn btn-primary text-base-100 w-full lg:w-auto"
+                        >
+                            Adopt This Pet
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Adoption Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-base-100 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-secondary/50 bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-base-100 rounded shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="text-xl font-bold text-secondary">
@@ -213,7 +245,7 @@ const PetDetails = () => {
 
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 {/* Pet Information (Read-only) */}
-                                <div className="bg-base-200 p-4 rounded-lg">
+                                <div className="bg-base-200 p-4 rounded">
                                     <h4 className="font-medium text-secondary mb-3">Pet Information</h4>
                                     <div className="space-y-2 text-sm">
                                         <div className="flex justify-between">
@@ -232,7 +264,7 @@ const PetDetails = () => {
                                 </div>
 
                                 {/* User Information (Read-only) */}
-                                <div className="bg-base-200 p-4 rounded-lg">
+                                <div className="bg-base-200 p-4 rounded">
                                     <h4 className="font-medium text-secondary mb-3">Your Information</h4>
                                     <div className="space-y-2 text-sm">
                                         <div className="flex justify-between">

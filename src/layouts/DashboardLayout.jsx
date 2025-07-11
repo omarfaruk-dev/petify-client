@@ -3,7 +3,9 @@
 // import useUserRole from '../hooks/useUserRole';
 import React, { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
-import { FaHome, FaUserEdit, FaCat, FaBell, FaBars, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaUserEdit, FaCat, FaBars, FaSignOutAlt } from 'react-icons/fa';
+import { GrPowerCycle } from "react-icons/gr";
+
 import PetifyLogo from '../pages/Shared/PetifyLogo';
 import LogoSmall from '../pages/Shared/LogoSmall';
 import useAuth from '../hooks/useAuth';
@@ -13,9 +15,10 @@ import { MdOutlinePets } from 'react-icons/md';
 
 const menuLinks = [
   { to: '/dashboard', icon: <FaHome />, label: 'Dashboard' },
-  { to: '/dashboard/my-profile', icon: <FaUserEdit />, label: 'My Profile' },
   { to: '/dashboard/add-pet', icon: <FaCat />, label: 'Add a Pet' },
   { to: '/dashboard/my-added-pets', icon: <MdOutlinePets />, label: 'My Added Pets' },
+  { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
+  { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
 ];
 
 const DashboardLayout = () => {
