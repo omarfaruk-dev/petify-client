@@ -13,6 +13,7 @@ import UpdatePet from "../pages/Dashboard/UpdatePet/UpdatePet";
 import PetListing from "../pages/PetListing/PetListing";
 import PetDetails from "../pages/PetDetails/PetDetails";
 import AdoptionRequest from "../pages/Dashboard/AdoptionRequest/AdoptionRequest";
+import CreateCampaign from "../pages/Dashboard/CreateCampaign/CreateCampaign";
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
             {
                 path: 'pet-details/:id',
                 Component: PetDetails,
+            },
+            {
+                path: 'donation-campaigns',
+                
             },
         ]
     },
@@ -75,6 +80,10 @@ const router = createBrowserRouter([
             {
                 path: 'adoption-requests',
                 Component: AdoptionRequest,
+            },
+            {
+                path: 'create-campaign',
+                Component: CreateCampaign,
             },
         ]
     },

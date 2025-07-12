@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle, FaDashcube, FaUserAlt } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle, FaDashcube, FaUserAlt, FaDonate } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import ThemeToggle from "../../components/ThemeToggle";
@@ -72,12 +72,12 @@ const NavBar = () => {
         <FaPaw /> Pet Listing
       </NavLink>
       <NavLink
-        to="/campaigns"
+        to="/donation-campaigns"
         className={({ isActive }) =>
           `flex items-center gap-2 font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-secondary"} hover:text-primary`
         }
       >
-        <FaPlus /> Donation Campaigns
+        <FaDonate /> Donation Campaigns
       </NavLink>
     </>
   );

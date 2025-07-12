@@ -3,7 +3,7 @@
 // import useUserRole from '../hooks/useUserRole';
 import React, { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
-import { FaHome, FaUserEdit, FaCat, FaBars, FaSignOutAlt, FaPlus } from 'react-icons/fa';
+import { FaHome, FaUserEdit, FaCat, FaBars, FaSignOutAlt, FaPlus, FaDonate } from 'react-icons/fa';
 import { GrPowerCycle } from "react-icons/gr";
 
 import PetifyLogo from '../pages/Shared/PetifyLogo';
@@ -18,6 +18,7 @@ const menuLinks = [
   { to: '/dashboard/add-pet', icon: <FaPlus />, label: 'Add a Pet' },
   { to: '/dashboard/my-added-pets', icon: <MdOutlinePets />, label: 'My Added Pets' },
   { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
+  { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Donation Campaign' },
   { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
 ];
 
@@ -28,7 +29,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   // Sidebar width
-  const sidebarWidth = sidebarOpen ? 'w-64' : 'w-20';
+  const sidebarWidth = sidebarOpen ? 'w-74' : 'w-20';
 
   // Logout logic
   const handleLogout = () => {
