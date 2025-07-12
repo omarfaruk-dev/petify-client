@@ -75,7 +75,7 @@ const AdoptionRequest = () => {
     if (loading || isLoading) {
         return (
             <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
-                <div className="mb-6">
+                <div className="mb-3">
                     <Skeleton height={48} width={400} className="mb-6" />
                 </div>
                 <div className="overflow-x-auto">
