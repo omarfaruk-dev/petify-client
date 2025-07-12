@@ -10,9 +10,14 @@ const useAxiosSecure = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
 
-    axiosSecure.interceptors.request.use(config => {
-        if (user?.accessToken) {
-            config.headers.Authorization = `Bearer ${user.accessToken}`
+    axiosSecure.interceptors.request.use(async config => {
+        if (user) {
+            try {
+                const token = await user.getIdToken();
+                config.headers.Authorization = `Bearer ${token}`
+            } catch (error) {
+                console.error('Error getting ID token:', error);
+            }
         }
         return config;
     }, error => {

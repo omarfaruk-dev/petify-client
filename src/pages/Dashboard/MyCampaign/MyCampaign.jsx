@@ -28,10 +28,17 @@ const MyCampaign = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       console.log('Fetching campaigns for user:', user.email);
-      const res = await axiosSecure.get(`/donations/user/${user.email}`);
-      console.log('Campaigns response:', res.data);
-      return res.data;
-    }
+      try {
+        const res = await axiosSecure.get(`/donations/user/${user.email}`);
+        console.log('Campaigns response:', res.data);
+        return res.data;
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+        throw error;
+      }
+    },
+    retry: 1,
+    retryDelay: 1000
   });
 
   // Handle pause/unpause campaign
@@ -93,6 +100,7 @@ const MyCampaign = () => {
 
   // Calculate progress percentage
   const calculateProgress = (currentAmount, maxAmount) => {
+    if (!maxAmount || maxAmount <= 0) return 0;
     return Math.min((currentAmount / maxAmount) * 100, 100);
   };
 
@@ -119,11 +127,12 @@ const MyCampaign = () => {
       header: () => 'Donation Progress',
       cell: ({ row }) => {
         const campaign = row.original;
-        const progress = calculateProgress(campaign.currentAmount || 0, campaign.maxAmount);
+        const currentAmount = campaign.totalDonations || 0;
+        const progress = calculateProgress(currentAmount, campaign.maxAmount);
         return (
           <div className="w-full">
             <div className="flex justify-between text-xs mb-1">
-              <span>${campaign.currentAmount || 0}</span>
+              <span>${currentAmount}</span>
               <span>${campaign.maxAmount}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
@@ -341,7 +350,16 @@ const MyCampaign = () => {
             
             <div className="mb-4">
               <p className="text-sm text-secondary/60">
-                Total Raised: ${selectedCampaign.currentAmount || 0} / ${selectedCampaign.maxAmount}
+                Total Raised: ${selectedCampaign.totalDonations || 0} / ${selectedCampaign.maxAmount}
+              </p>
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                <div 
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${calculateProgress(selectedCampaign.totalDonations || 0, selectedCampaign.maxAmount)}%` }}
+                ></div>
+              </div>
+              <p className="text-xs text-secondary/60">
+                Progress: {calculateProgress(selectedCampaign.totalDonations || 0, selectedCampaign.maxAmount).toFixed(1)}%
               </p>
             </div>
 

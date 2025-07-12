@@ -126,14 +126,14 @@ const AddAPet = () => {
           {/* Pet Age */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Age</span>
+              <span className="label-text text-primary font-medium">Pet Age <small> (Months) </small></span>
             </label>
             <input
               type="number"
               min="0"
               {...register('petAge', { required: 'Pet age is required', min: { value: 0, message: 'Age must be positive' } })}
               className="w-full border-b border-secondary/30 focus:border-primary outline-none py-2 pr-10 pl-3 bg-transparent text-secondary placeholder:text-secondary/60 rounded"
-              placeholder="Pet Age (years)"
+              placeholder="Pet Age (Months)"
             />
             {errors.petAge && <p className="text-red-500 text-sm mt-1">{errors.petAge.message}</p>}
           </div>
