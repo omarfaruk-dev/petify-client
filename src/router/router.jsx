@@ -21,6 +21,7 @@ import CampaignDetails from "../pages/DonationCampaign/CampaignDetails";
 import MyDonations from "../pages/Dashboard/MyDonations/MyDonations";
 import AdminRoute from "../Routes/AdminRoute";
 import Forbidden from "../pages/ErrorPage/Forbidden";
+import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 
 
 const router = createBrowserRouter([
@@ -113,8 +114,8 @@ const router = createBrowserRouter([
                 Component: MyDonations,
             },
             {
-                path: 'users',
-                element: <AdminRoute><div>this is users admin route</div></AdminRoute>,
+                path: 'all-users',
+                element: <AdminRoute><AllUsers/></AdminRoute>,
             },
         ]
     },
