@@ -19,6 +19,8 @@ import EditCampaign from "../pages/Dashboard/EditCampaign/EditCampaign";
 import DonationCampaigns from "../pages/DonationCampaign/DonationCampaigns";
 import CampaignDetails from "../pages/DonationCampaign/CampaignDetails";
 import MyDonations from "../pages/Dashboard/MyDonations/MyDonations";
+import AdminRoute from "../Routes/AdminRoute";
+import Forbidden from "../pages/ErrorPage/Forbidden";
 
 
 const router = createBrowserRouter([
@@ -45,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: 'campaign-details/:id',
                 Component: CampaignDetails,
+            },
+            {
+                path: '/forbidden',
+                Component: Forbidden,
             },
         ]
     },
@@ -105,6 +111,10 @@ const router = createBrowserRouter([
             {
                 path: 'my-donations',
                 Component: MyDonations,
+            },
+            {
+                path: 'users',
+                element: <AdminRoute><div>this is users admin route</div></AdminRoute>,
             },
         ]
     },

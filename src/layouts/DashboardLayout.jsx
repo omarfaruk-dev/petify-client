@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
-import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate } from 'react-icons/fa';
+import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate, FaUsers, FaPaw, FaHandHoldingHeart } from 'react-icons/fa';
 import { GrPowerCycle } from "react-icons/gr";
 
 import PetifyLogo from '../pages/Shared/PetifyLogo';
@@ -17,8 +17,13 @@ const menuLinks = [
   { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
   { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Donation Campaign' },
   { to: '/dashboard/my-campaigns', icon: <MdCampaign />, label: 'My Donation Campaigns' },
-  { to: '/dashboard/my-donations', icon: <FaDonate />, label: 'My Donations' },
   { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
+];
+
+const adminLinks = [
+  { to: '/dashboard/all-users', icon: <FaUsers />, label: 'All Users' },
+  { to: '/dashboard/all-pets', icon: <FaPaw />, label: 'All Pets' },
+  { to: '/dashboard/all-donations', icon: <FaHandHoldingHeart />, label: 'All Donations' },
 ];
 
 const DashboardLayout = () => {
@@ -26,9 +31,27 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileSidebar, setMobileSidebar] = useState(false);
   const navigate = useNavigate();
+  const [role, setRole] = useState(null);
+  const [roleLoading, setRoleLoading] = useState(true);
 
   // Sidebar width
   const sidebarWidth = sidebarOpen ? 'w-74' : 'w-20';
+
+  // Fetch user role
+  React.useEffect(() => {
+    if (user?.email) {
+      fetch(`http://localhost:3000/users/${user.email}/role`)
+        .then(res => res.json())
+        .then(data => {
+          setRole(data.role);
+          setRoleLoading(false);
+        })
+        .catch(() => {
+          setRole('user');
+          setRoleLoading(false);
+        });
+    }
+  }, [user?.email]);
 
   // Logout logic
   const handleLogout = () => {
@@ -47,6 +70,27 @@ const DashboardLayout = () => {
         navigate('/');
       }
     });
+  };
+
+  // Render navigation links
+  const renderNavLinks = (links) => {
+    return links.map((item) => (
+      <NavLink
+        key={item.to}
+        to={item.to}
+        className={({ isActive }) =>
+          `transition-colors duration-200 font-semibold
+        ${sidebarOpen
+            ? 'flex items-center gap-4 px-4 py-2 rounded mx-2 my-1'
+            : 'flex flex-col items-center justify-center w-10 h-10 rounded my-1'}
+        ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+        }
+        title={item.label}
+      >
+        <span className="text-xl">{item.icon}</span>
+        {sidebarOpen && <span className="whitespace-nowrap">{item.label}</span>}
+      </NavLink>
+    ));
   };
 
   return (
@@ -85,26 +129,28 @@ const DashboardLayout = () => {
               </button>
             </div>
           )}
+          
           {/* Menu */}
           <nav className={`flex-1 flex flex-col gap-2 mt-4 ${!sidebarOpen ? 'items-center' : ''}`}>
-            {menuLinks.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `transition-colors duration-200 font-semibold
-                ${sidebarOpen
-                    ? 'flex items-center gap-4 px-4 py-2 rounded mx-2 my-1'
-                    : 'flex flex-col items-center justify-center w-10 h-10 rounded my-1'}
-                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
-                }
-                title={item.label}
-              >
-                <span className="text-xl">{item.icon}</span>
-                {sidebarOpen && <span className="whitespace-nowrap">{item.label}</span>}
-              </NavLink>
-            ))}
+            {/* Regular Menu Links */}
+            {renderNavLinks(menuLinks)}
+            
+            {/* Admin Section Divider */}
+            {!roleLoading && role === 'admin' && (
+              <div className={`${sidebarOpen ? 'mx-4 my-2' : 'my-2'}`}>
+                <div className={`border-t border-primary/20 ${sidebarOpen ? 'mb-4' : 'mb-2'}`}></div>
+                {sidebarOpen && (
+                  <div className="text-xs font-semibold text-primary/60 uppercase tracking-wider mb-2">
+                    Admin Panel
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {/* Admin Menu Links */}
+            {!roleLoading && role === 'admin' && renderNavLinks(adminLinks)}
           </nav>
+          
           {/* User avatar and logout at the bottom */}
           <div className="mt-auto mb-4 flex flex-col items-center gap-2">
             {user && user.photoURL ? (
@@ -157,7 +203,35 @@ const DashboardLayout = () => {
             </button>
           </div>
           <nav className="flex-1 flex flex-col gap-2 mt-4">
+            {/* Regular Menu Links */}
             {menuLinks.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex items-center gap-4 px-4 py-2 rounded mx-2 my-1 font-semibold transition-colors duration-200
+                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+                }
+                title={item.label}
+                onClick={() => setMobileSidebar(false)}
+              >
+                <span className="text-xl">{item.icon}</span>
+                <span className="whitespace-nowrap">{item.label}</span>
+              </NavLink>
+            ))}
+            
+            {/* Admin Section Divider */}
+            {!roleLoading && role === 'admin' && (
+              <div className="mx-4 my-2">
+                <div className="border-t border-primary/20 mb-4"></div>
+                <div className="text-xs font-semibold text-primary/60 uppercase tracking-wider mb-2">
+                  Admin Panel
+                </div>
+              </div>
+            )}
+            
+            {/* Admin Menu Links */}
+            {!roleLoading && role === 'admin' && adminLinks.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
