@@ -169,6 +169,23 @@ const MyCampaign = () => {
     setShowDonatorsModal(true);
   };
 
+  // Donators Query (fetch when modal is open and campaign is selected)
+  const {
+    data: donators = [],
+    isLoading: donatorsLoading,
+    error: donatorsError,
+  } = useQuery({
+    queryKey: ['donators', selectedCampaign?._id],
+    queryFn: async () => {
+      if (!selectedCampaign?._id) return [];
+      const res = await axiosSecure.get(`/payments?campaignId=${selectedCampaign._id}`);
+      return res.data;
+    },
+    enabled: !!selectedCampaign?._id && showDonatorsModal,
+    retry: 1,
+    retryDelay: 1000,
+  });
+
   // Calculate progress percentage
   const calculateProgress = (currentAmount, maxAmount) => {
     if (!maxAmount || maxAmount <= 0) return 0;
@@ -502,16 +519,49 @@ const MyCampaign = () => {
               </p>
             </div>
 
-            {/* Placeholder for donators list - you can implement this later */}
-            <div className="text-center py-8">
-              <div className="text-4xl mb-4">🎁</div>
-              <h4 className="text-lg font-semibold text-secondary mb-2">
-                No donators yet
-              </h4>
-              <p className="text-secondary/60">
-                This feature will show the list of donators and their contribution amounts.
-              </p>
-            </div>
+            {/* Donators List */}
+            {donatorsLoading ? (
+              <div className="text-center py-8 text-secondary/60">Loading donators...</div>
+            ) : donatorsError ? (
+              <div className="text-center py-8 text-error">Failed to load donators.</div>
+            ) : donators.length === 0 ? (
+              <div className="text-center py-8 text-secondary/60">
+                <div className="text-4xl mb-4">🎁</div>
+                <h4 className="text-lg font-semibold text-secondary mb-2">
+                  No donators yet
+                </h4>
+                <p className="text-secondary/60">
+                  This feature will show the list of donators and their contribution amounts.
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="table table-zebra min-w-max w-full">
+                  <thead>
+                    <tr className="bg-primary/10">
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Transaction ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {donators.map((donor, idx) => (
+                      <tr key={donor._id || idx}>
+                        <td>{idx + 1}</td>
+                        <td>{donor.donorName || 'Anonymous'}</td>
+                        <td>{donor.email}</td>
+                        <td>${donor.amount}</td>
+                        <td>{new Date(donor.paid_at).toLocaleString()}</td>
+                        <td className="text-xs break-all">{donor.transactionId}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             <div className="flex justify-end mt-4">
               <button
