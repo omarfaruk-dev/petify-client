@@ -11,7 +11,8 @@ import {
 } from '@tanstack/react-table';
 import Swal from 'sweetalert2';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import Spinner from '../../Shared/Spinner';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const MyAddedPets = () => {
   const { user, loading } = useAuth();
@@ -20,7 +21,7 @@ const MyAddedPets = () => {
   const queryClient = useQueryClient();
 
   // Fetch pets using React Query
-  const { data: pets = [], error } = useQuery({
+  const { data: pets = [], error, isLoading } = useQuery({
     queryKey: ['my-pets', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -186,8 +187,53 @@ const MyAddedPets = () => {
     debugTable: false,
   });
 
-  if (loading) {
-    return <Spinner />;
+  // if (loading) {
+  //   return <Spinner />;
+  // }
+
+  // Loading skeleton
+  if (isLoading || loading) {
+    return (
+      <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <Skeleton height={40} width={200} />
+          <Skeleton height={40} width={120} />
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="table table-zebra min-w-max w-full">
+            <thead>
+              <tr className='bg-primary/10'>
+                <th><Skeleton height={20} width={80} /></th>
+                <th><Skeleton height={20} width={100} /></th>
+                <th><Skeleton height={20} width={80} /></th>
+                <th><Skeleton height={20} width={80} /></th>
+                <th><Skeleton height={20} width={120} /></th>
+                <th><Skeleton height={20} width={100} /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(5)].map((_, index) => (
+                <tr key={index}>
+                  <td><Skeleton height={20} width={40} /></td>
+                  <td><Skeleton height={20} width={100} /></td>
+                  <td><Skeleton height={20} width={80} /></td>
+                  <td><Skeleton height={48} width={48} /></td>
+                  <td><Skeleton height={20} width={80} /></td>
+                  <td>
+                    <div className="flex gap-2">
+                      <Skeleton height={32} width={60} />
+                      <Skeleton height={32} width={60} />
+                      <Skeleton height={32} width={60} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -244,7 +290,7 @@ const MyAddedPets = () => {
           <table className="table table-zebra min-w-max w-full">
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id}>
+                <tr key={headerGroup.id} className='bg-primary/10'>
                   {headerGroup.headers.map(header => {
                     const isSortable = header.column.getCanSort();
                     const sortDir = header.column.getIsSorted();

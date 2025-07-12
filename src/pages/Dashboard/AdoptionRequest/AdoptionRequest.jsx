@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const AdoptionRequest = () => {
     const { user, loading } = useAuth();
@@ -69,8 +71,39 @@ const AdoptionRequest = () => {
         });
     };
 
+    // Skeleton loading
     if (loading || isLoading) {
-        return <div className="p-8 text-center">Loading...</div>;
+        return (
+            <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
+                <div className="mb-6">
+                    <Skeleton height={48} width={400} className="mb-6" />
+                </div>
+                <div className="overflow-x-auto">
+                    <table className="table table-zebra min-w-max w-full">
+                        <thead>
+                            <tr className="bg-primary/10">
+                                {[...Array(7)].map((_, idx) => (
+                                    <th key={idx}>
+                                        <Skeleton height={24} width={100} />
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[...Array(3)].map((_, rowIdx) => (
+                                <tr key={rowIdx}>
+                                    {[...Array(7)].map((_, colIdx) => (
+                                        <td key={colIdx}>
+                                            <Skeleton height={32} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -86,7 +119,7 @@ const AdoptionRequest = () => {
                 <div className="overflow-x-auto">
                     <table className="table table-zebra min-w-max w-full">
                         <thead>
-                            <tr>
+                            <tr className="bg-primary/10">
                                 <th>Pet Name</th>
                                 <th>Adopter Name</th>
                                 <th>Email</th>
