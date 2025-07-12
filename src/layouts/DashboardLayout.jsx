@@ -49,7 +49,7 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-base-100">
+    <div className="flex min-h-screen bg-base-100">
       <div className='max-w-[1540px] mx-auto w-full'>
         {/* Sidebar */}
         {/* Desktop Sidebar */}

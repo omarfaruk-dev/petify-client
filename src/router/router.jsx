@@ -17,6 +17,7 @@ import CreateCampaign from "../pages/Dashboard/CreateCampaign/CreateCampaign";
 import MyCampaign from "../pages/Dashboard/MyCampaign/MyCampaign";
 import EditCampaign from "../pages/Dashboard/EditCampaign/EditCampaign";
 import DonationCampaigns from "../pages/DonationCampaign/DonationCampaigns";
+import CampaignDetails from "../pages/DonationCampaign/CampaignDetails";
 
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: 'donation-campaigns',
                 Component: DonationCampaigns,
+            },
+            {
+                path: 'campaign-details/:id',
+                Component: CampaignDetails,
             },
         ]
     },
