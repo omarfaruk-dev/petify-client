@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
@@ -7,8 +7,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const DonationCampaigns = () => {
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [campaigns, setCampaigns] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCampaigns, setTotalCampaigns] = useState(0);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const limit = 9; // 3x3 grid per page
@@ -23,40 +23,55 @@ const DonationCampaigns = () => {
     keepPreviousData: true,
   });
 
-  // Update campaigns when new data is fetched
+  // Update campaigns and pagination info when new data is fetched
   useEffect(() => {
     if (campaignsData) {
-      if (page === 1) {
-        setCampaigns(campaignsData.campaigns || []);
-      } else {
-        setCampaigns(prev => [...prev, ...(campaignsData.campaigns || [])]);
-      }
-      setHasMore(campaignsData.hasMore || false);
+      setTotalPages(campaignsData.totalPages || 1);
+      setTotalCampaigns(campaignsData.totalCampaigns || 0);
     }
-  }, [campaignsData, page]);
+  }, [campaignsData]);
 
   // Calculate progress percentage
   const calculateProgress = (totalDonations, maxAmount) => {
     return Math.min((totalDonations / maxAmount) * 100, 100);
   };
 
-  // Infinite scroll handler
-  const handleScroll = useCallback(() => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 1000 &&
-      !isFetching &&
-      hasMore
-    ) {
-      setPage(prev => prev + 1);
+  // Pagination handlers
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      // Scroll to top when page changes
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [isFetching, hasMore]);
+  };
 
-  // Add scroll event listener
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total is less than max visible
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Show pages around current page
+      let start = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+      let end = Math.min(totalPages, start + maxVisiblePages - 1);
+      
+      // Adjust start if we're near the end
+      if (end - start + 1 < maxVisiblePages) {
+        start = Math.max(1, end - maxVisiblePages + 1);
+      }
+      
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+    }
+    
+    return pages;
+  };
 
   // Campaign Card Component
   const CampaignCard = ({ campaign }) => {
@@ -146,6 +161,70 @@ const DonationCampaigns = () => {
     </div>
   );
 
+  // Pagination Component
+  const Pagination = () => {
+    const pageNumbers = getPageNumbers();
+    
+    return (
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8">
+        {/* Page Info */}
+        <div className="text-sm text-secondary/60">
+          Showing page {page} of {totalPages} 
+          {totalCampaigns > 0 && (
+            <span className="ml-2">
+              ({totalCampaigns} total campaigns)
+            </span>
+          )}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex items-center gap-2">
+          {/* Previous Button */}
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page <= 1 || isLoading}
+            className="btn btn-sm btn-outline btn-primary disabled:btn-disabled"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Previous
+          </button>
+
+          {/* Page Numbers */}
+          <div className="flex items-center gap-1">
+            {pageNumbers.map((pageNum) => (
+              <button
+                key={pageNum}
+                onClick={() => handlePageChange(pageNum)}
+                disabled={isLoading}
+                className={`btn btn-sm ${
+                  pageNum === page 
+                    ? 'btn-primary' 
+                    : 'btn-outline btn-primary'
+                } disabled:btn-disabled min-w-[40px]`}
+              >
+                {pageNum}
+              </button>
+            ))}
+          </div>
+
+          {/* Next Button */}
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages || isLoading}
+            className="btn btn-sm btn-outline btn-primary disabled:btn-disabled"
+          >
+            Next
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-base-100 to-secondary/5 py-8">
@@ -185,7 +264,7 @@ const DonationCampaigns = () => {
         </div>
 
         {/* Campaigns Grid */}
-        {campaigns.length === 0 && !isLoading ? (
+        {campaignsData?.campaigns?.length === 0 && !isLoading ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">💝</div>
             <h3 className="text-xl font-semibold text-secondary mb-2">
@@ -198,46 +277,31 @@ const DonationCampaigns = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {/* Existing Campaigns */}
-            {campaigns.map((campaign) => (
+            {campaignsData?.campaigns?.map((campaign) => (
               <CampaignCard key={campaign._id} campaign={campaign} />
             ))}
 
             {/* Loading Skeletons */}
-            {isLoading && page === 1 && (
+            {isLoading && (
               <>
                 {[...Array(6)].map((_, index) => (
                   <CampaignCardSkeleton key={index} />
                 ))}
               </>
             )}
-
-            {/* Additional Loading Skeletons for Infinite Scroll */}
-            {isFetching && page > 1 && (
-              <>
-                {[...Array(3)].map((_, index) => (
-                  <CampaignCardSkeleton key={`loading-${index}`} />
-                ))}
-              </>
-            )}
           </div>
         )}
 
-        {/* Loading More Indicator */}
-        {isFetching && page > 1 && (
-          <div className="text-center py-8">
+        {/* Pagination */}
+        {totalPages > 1 && <Pagination />}
+
+        {/* Loading Indicator */}
+        {isFetching && (
+          <div className="text-center py-4">
             <div className="inline-flex items-center gap-2 text-secondary/60">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-              <span>Loading more campaigns...</span>
+              <span>Loading campaigns...</span>
             </div>
-          </div>
-        )}
-
-        {/* End of Results */}
-        {!hasMore && campaigns.length > 0 && (
-          <div className="text-center py-8">
-            <p className="text-secondary/60">
-              You've reached the end of all campaigns
-            </p>
           </div>
         )}
       </div>
