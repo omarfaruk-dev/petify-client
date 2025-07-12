@@ -18,6 +18,7 @@ import MyCampaign from "../pages/Dashboard/MyCampaign/MyCampaign";
 import EditCampaign from "../pages/Dashboard/EditCampaign/EditCampaign";
 import DonationCampaigns from "../pages/DonationCampaign/DonationCampaigns";
 import CampaignDetails from "../pages/DonationCampaign/CampaignDetails";
+import MyDonations from "../pages/Dashboard/MyDonations/MyDonations";
 
 
 const router = createBrowserRouter([
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
             {
                 path: 'edit-campaign/:id',
                 Component: EditCampaign,
+            },
+            {
+                path: 'my-donations',
+                Component: MyDonations,
             },
         ]
     },

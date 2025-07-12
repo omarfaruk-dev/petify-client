@@ -17,6 +17,7 @@ const menuLinks = [
   { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
   { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Donation Campaign' },
   { to: '/dashboard/my-campaigns', icon: <MdCampaign />, label: 'My Donation Campaigns' },
+  { to: '/dashboard/my-donations', icon: <FaDonate />, label: 'My Donations' },
   { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
 ];
 

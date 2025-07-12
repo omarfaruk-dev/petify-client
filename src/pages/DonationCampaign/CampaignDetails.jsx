@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const stripePromise = loadStripe(import.meta.env.VITE_payment_Key);
 
@@ -18,6 +19,8 @@ const DonationForm = ({ campaign, amount, setAmount, onSuccess, onClose }) => {
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +64,20 @@ const DonationForm = ({ campaign, amount, setAmount, onSuccess, onClose }) => {
           transactionId: paymentResult.paymentIntent.id,
         });
         setProcessing(false);
+        // Show Swal confirmation
+        Swal.fire({
+          title: 'Thank you for your donation!',
+          html: `<div style='margin-bottom:8px;'>Your transaction ID:</div><div class='swal2-code' style='font-size:1rem;word-break:break-all;background:#f3f4f6;padding:8px 12px;border-radius:4px;margin-bottom:12px;'>${paymentResult.paymentIntent.id}</div>`,
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonText: 'My Donations',
+          confirmButtonColor: '#14B8A6',
+          allowOutsideClick: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/dashboard/my-donations');
+          }
+        });
         onSuccess();
       } else {
         setError('Payment was not successful.');
