@@ -14,6 +14,7 @@ import PetListing from "../pages/PetListing/PetListing";
 import PetDetails from "../pages/PetDetails/PetDetails";
 import AdoptionRequest from "../pages/Dashboard/AdoptionRequest/AdoptionRequest";
 import CreateCampaign from "../pages/Dashboard/CreateCampaign/CreateCampaign";
+import MyCampaign from "../pages/Dashboard/MyCampaign/MyCampaign";
 
 
 const router = createBrowserRouter([
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
             {
                 path: 'create-campaign',
                 Component: CreateCampaign,
+            },
+            {
+                path: 'my-campaigns',
+                Component: MyCampaign,
             },
         ]
     },

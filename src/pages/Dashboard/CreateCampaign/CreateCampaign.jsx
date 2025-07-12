@@ -69,8 +69,9 @@ const CreateCampaign = () => {
     };
       
     try {
+      console.log('Creating campaign with data:', campaignData);
       const res = await axiosSecure.post('/donations', campaignData);
-      console.log(res.data);
+      console.log('Campaign creation response:', res.data);
       if (res.data.insertedId) {
         Swal.fire({
           icon: 'success',

@@ -1,9 +1,6 @@
-
-
-// import useUserRole from '../hooks/useUserRole';
 import React, { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
-import { FaHome, FaUserEdit, FaCat, FaBars, FaSignOutAlt, FaPlus, FaDonate } from 'react-icons/fa';
+import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate } from 'react-icons/fa';
 import { GrPowerCycle } from "react-icons/gr";
 
 import PetifyLogo from '../pages/Shared/PetifyLogo';
@@ -11,7 +8,7 @@ import LogoSmall from '../pages/Shared/LogoSmall';
 import useAuth from '../hooks/useAuth';
 import Swal from 'sweetalert2';
 import ThemeToggle from '../components/ThemeToggle';
-import { MdOutlinePets } from 'react-icons/md';
+import { MdCampaign, MdOutlinePets } from 'react-icons/md';
 
 const menuLinks = [
   { to: '/dashboard', icon: <FaHome />, label: 'Dashboard' },
@@ -19,6 +16,7 @@ const menuLinks = [
   { to: '/dashboard/my-added-pets', icon: <MdOutlinePets />, label: 'My Added Pets' },
   { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
   { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Donation Campaign' },
+  { to: '/dashboard/my-campaigns', icon: <MdCampaign />, label: 'My Donation Campaigns' },
   { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
 ];
 
