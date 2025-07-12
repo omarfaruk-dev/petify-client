@@ -4,6 +4,102 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useQuery } from '@tanstack/react-query';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import useAuth from '../../hooks/useAuth';
+
+const stripePromise = loadStripe(import.meta.env.VITE_payment_Key);
+
+// Stripe donation form component
+const DonationForm = ({ campaign, amount, setAmount, onSuccess, onClose }) => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const stripe = useStripe();
+  const elements = useElements();
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (!stripe || !elements) return;
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      setError('Please enter a valid donation amount.');
+      return;
+    }
+    setProcessing(true);
+    try {
+      // 1. Create payment intent
+      const { data } = await axiosSecure.post('/create-payment-intent', {
+        amountInCents: Math.round(Number(amount) * 100),
+      });
+      const clientSecret = data.clientSecret;
+      // 2. Confirm card payment
+      const cardElement = elements.getElement(CardElement);
+      const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: user?.displayName || user?.email || 'Anonymous',
+            email: user?.email,
+          },
+        },
+      });
+      if (paymentResult.error) {
+        setError(paymentResult.error.message);
+        setProcessing(false);
+        return;
+      }
+      if (paymentResult.paymentIntent.status === 'succeeded') {
+        // 3. Record payment in DB
+        await axiosSecure.post('/payments', {
+          campaignId: campaign._id,
+          email: user?.email,
+          donorName: user?.displayName || '',
+          amount: Number(amount),
+          paymentMethod: ['card'],
+          transactionId: paymentResult.paymentIntent.id,
+        });
+        setProcessing(false);
+        onSuccess();
+      } else {
+        setError('Payment was not successful.');
+        setProcessing(false);
+      }
+    } catch (err) {
+      setError(err?.response?.data?.message || err.message || 'Payment failed.');
+      setProcessing(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label className="block mb-2 text-secondary font-semibold">Donation Amount ($)</label>
+      <input
+        type="number"
+        min="1"
+        step="1"
+        className="input input-bordered w-full mb-4"
+        placeholder="Enter amount"
+        value={amount}
+        onChange={e => setAmount(e.target.value)}
+        required
+        disabled={processing}
+      />
+      <label className="block mb-2 text-secondary font-semibold">Card Details</label>
+      <div className="border border-primary/30 rounded p-3 mb-4 bg-base-200">
+        <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+      </div>
+      {error && <div className="text-error mb-2">{error}</div>}
+      <button type="submit" className="btn btn-primary w-full" disabled={processing}>
+        {processing ? 'Processing...' : 'Donate'}
+      </button>
+      <button type="button" className="btn btn-ghost w-full mt-2" onClick={onClose} disabled={processing}>
+        Cancel
+      </button>
+    </form>
+  );
+};
 
 const CampaignDetails = () => {
   const { id } = useParams();
@@ -12,6 +108,7 @@ const CampaignDetails = () => {
   const [donationAmount, setDonationAmount] = useState('');
   const [recommended, setRecommended] = useState([]);
   const [recLoading, setRecLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
 
   // Fetch campaign details using TanStack Query
   const { data: campaign, isLoading: loading, error } = useQuery({
@@ -45,7 +142,7 @@ const CampaignDetails = () => {
       {/* Campaign Details */}
       <div className="bg-base-100 rounded-lg shadow-lg p-6 mb-10">
         {loading ? (
-          <Skeleton height={300} />
+          <Skeleton height={400} />
         ) : error ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">⚠️</div>
@@ -79,7 +176,7 @@ const CampaignDetails = () => {
                 <span className="text-xs text-secondary/60 font-medium">{getProgress(campaign.totalDonations || 0, campaign.maxAmount).toFixed(1)}% complete</span>
               </div>
               {/* Donate Now Button */}
-              <button className="btn btn-primary w-full md:w-auto mt-4" onClick={() => setShowModal(true)} disabled={campaign.status !== 'active'}>
+              <button className="btn btn-primary w-full md:w-auto mt-4" onClick={() => { setShowModal(true); setSuccess(false); }} disabled={campaign.status !== 'active'}>
                 Donate Now
               </button>
             </div>
@@ -99,27 +196,23 @@ const CampaignDetails = () => {
           <div className="bg-base-100 rounded-lg p-6 w-full max-w-md mx-4 relative">
             <button className="absolute top-2 right-2 btn btn-sm btn-circle btn-ghost" onClick={() => setShowModal(false)}>✕</button>
             <h3 className="text-xl font-bold mb-4 text-secondary">Donate to "{campaign?.shortDescription}"</h3>
-            <form onSubmit={e => { e.preventDefault(); /* Payment logic will go here */ }}>
-              <label className="block mb-2 text-secondary font-semibold">Donation Amount ($)</label>
-              <input
-                type="number"
-                min="1"
-                step="1"
-                className="input input-bordered w-full mb-4"
-                placeholder="Enter amount"
-                value={donationAmount}
-                onChange={e => setDonationAmount(e.target.value)}
-                required
-              />
-              <label className="block mb-2 text-secondary font-semibold">Card Details</label>
-              <div className="border border-primary/30 rounded p-3 mb-4 bg-base-200 text-center">
-                {/* Stripe CardElement will go here */}
-                <span className="text-secondary/60">[Stripe Card Element Placeholder]</span>
+            {success ? (
+              <div className="text-success text-center py-8">
+                <div className="text-4xl mb-2">🎉</div>
+                <div className="text-lg font-semibold mb-2">Thank you for your donation!</div>
+                <button className="btn btn-primary mt-4 w-full" onClick={() => setShowModal(false)}>Close</button>
               </div>
-              <button type="submit" className="btn btn-primary w-full" disabled={!donationAmount}>
-                Donate
-              </button>
-            </form>
+            ) : (
+              <Elements stripe={stripePromise}>
+                <DonationForm
+                  campaign={campaign}
+                  amount={donationAmount}
+                  setAmount={setDonationAmount}
+                  onSuccess={() => { setSuccess(true); setDonationAmount(''); }}
+                  onClose={() => setShowModal(false)}
+                />
+              </Elements>
+            )}
           </div>
         </div>
       )}
