@@ -155,7 +155,16 @@ const Register = () => {
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
-              {...register('password', { required: true, minLength: 6 })}
+              {...register('password', { 
+                required: true, 
+                minLength: 6,
+                validate: {
+                  hasUppercase: (value) => /[A-Z]/.test(value) || 'Password must contain at least one uppercase letter',
+                  hasLowercase: (value) => /[a-z]/.test(value) || 'Password must contain at least one lowercase letter',
+                  hasNumber: (value) => /\d/.test(value) || 'Password must contain at least one number',
+                  hasSpecialChar: (value) => /[@$!%*?&]/.test(value) || 'Password must contain at least one special character'
+                }
+              })}
               className="w-full border-b border-secondary/30 focus:border-primary outline-none py-2 pr-10 pl-3 bg-transparent text-secondary placeholder:text-secondary/60 rounded"
               placeholder="Type your password"
             />
@@ -169,7 +178,11 @@ const Register = () => {
             </button>
           </div>
           {errors.password?.type === 'required' && <p className="text-red-500 text-sm mt-1">Password is required</p>}
-          {errors.password?.type === 'minLength' && <p className="text-red-500 text-sm mt-1">Password must be at least 6 characters or longer</p>}
+          {errors.password?.type === 'minLength' && <p className="text-red-500 text-sm mt-1">Password must be at least 6 characters</p>}
+          {errors.password?.type === 'hasUppercase' && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          {errors.password?.type === 'hasLowercase' && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          {errors.password?.type === 'hasNumber' && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          {errors.password?.type === 'hasSpecialChar' && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
         </div>
         {/* Register button */}
         <button className="btn btn-primary w-full rounded text-secondary font-semibold mb-2 mt-2">Register</button>
