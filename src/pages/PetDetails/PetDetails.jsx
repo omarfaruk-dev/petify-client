@@ -7,17 +7,27 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useNavigate, useLocation } from 'react-router';
 import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
 
 const PetDetails = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        phoneNumber: '',
-        address: ''
-    });
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // React Hook Form setup
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm({
+        defaultValues: {
+            phoneNumber: '',
+            address: ''
+        }
+    });
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -31,16 +41,7 @@ const PetDetails = () => {
         enabled: !!id
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         setIsSubmitting(true);
 
         try {
@@ -50,8 +51,8 @@ const PetDetails = () => {
                 petImage: pet.petImage,
                 userName: user?.displayName || user?.name || 'Unknown',
                 userEmail: user?.email,
-                phoneNumber: formData.phoneNumber,
-                address: formData.address,
+                phoneNumber: data.phoneNumber,
+                address: data.address,
                 adoptionDate: new Date().toISOString()
             };
 
@@ -67,7 +68,7 @@ const PetDetails = () => {
                     showConfirmButton: false
                 });
                 setIsModalOpen(false);
-                setFormData({ phoneNumber: '', address: '' });
+                reset(); // Reset form using React Hook Form
             }
         } catch (error) {
             console.error('Error submitting adoption request:', error);
@@ -98,7 +99,7 @@ const PetDetails = () => {
     if (isLoading) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div className="bg-base-100 rounded shadow-lg p-6">
+                <div className="bg-base-100 rounded shadow-md p-6">
                     <Skeleton height={48} width={300} className="mb-6" />
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <Skeleton height={400} className="rounded" />
@@ -237,13 +238,13 @@ const PetDetails = () => {
                                 </h3>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="btn btn-sm btn-circle btn-ghost"
+                                    className="btn btn-sm btn-circle btn-primary"
                                 >
                                     ✕
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-4">
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                 {/* Pet Information (Read-only) */}
                                 <div className="bg-base-200 p-4 rounded">
                                     <h4 className="font-medium text-secondary mb-3">Pet Information</h4>
@@ -288,13 +289,19 @@ const PetDetails = () => {
                                         </label>
                                         <input
                                             type="tel"
-                                            name="phoneNumber"
-                                            value={formData.phoneNumber}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="input input-bordered w-full"
+                                            {...register('phoneNumber', { 
+                                                required: 'Phone number is required',
+                                                pattern: {
+                                                    value: /^[+]?[1-9][\d]{0,15}$/,
+                                                    message: 'Please enter a valid phone number'
+                                                }
+                                            })}
+                                            className={`input input-bordered w-full border-primary/30 focus:outline-none ${errors.phoneNumber ? 'input-error' : ''}`}
                                             placeholder="Enter your phone number"
                                         />
+                                        {errors.phoneNumber && (
+                                            <span className="text-error text-sm mt-1">{errors.phoneNumber.message}</span>
+                                        )}
                                     </div>
 
                                     <div>
@@ -302,14 +309,20 @@ const PetDetails = () => {
                                             <span className="label-text text-primary">Address *</span>
                                         </label>
                                         <textarea
-                                            name="address"
-                                            value={formData.address}
-                                            onChange={handleInputChange}
-                                            required
-                                            className="textarea textarea-bordered w-full"
+                                            {...register('address', { 
+                                                required: 'Address is required',
+                                                minLength: {
+                                                    value: 10,
+                                                    message: 'Address must be at least 10 characters long'
+                                                }
+                                            })}
+                                            className={`textarea textarea-bordered w-full border-primary/30 focus:outline-none ${errors.address ? 'textarea-error' : ''}`}
                                             placeholder="Enter your address"
                                             rows="3"
                                         />
+                                        {errors.address && (
+                                            <span className="text-error text-sm mt-1">{errors.address.message}</span>
+                                        )}
                                     </div>
                                 </div>
 
@@ -318,7 +331,7 @@ const PetDetails = () => {
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="btn btn-outline flex-1"
+                                        className="btn btn-outline btn-primary text-primary hover:text-base-100 flex-1"
                                         disabled={isSubmitting}
                                     >
                                         Cancel
