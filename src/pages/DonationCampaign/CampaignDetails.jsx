@@ -170,41 +170,81 @@ const CampaignDetails = () => {
             <p className="text-secondary/60 mb-4">{error.message || 'Failed to load campaign details.'}</p>
           </div>
         ) : campaign ? (
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Image */}
-            <div className="md:w-1/2 w-full flex-shrink-0">
-              <img src={campaign.petImage} alt={campaign.shortDescription} className="hover:scale-102 transition-transform duration-500 rounded w-full h-64 object-cover" />
+          <div className="space-y-6">
+            
+            {/* Image - Full width on top */}
+            <div className="w-full">
+              <img 
+                src={campaign.petImage} 
+                alt={campaign.shortDescription} 
+                className="w-full h-80 md:h-96 object-cover rounded shadow-md hover:scale-102 transition-transform duration-500" 
+              />
             </div>
-            {/* Info */}
-            <div className="flex-1 flex flex-col gap-4">
-              <h2 className="text-3xl font-bold text-secondary mb-2">{campaign.shortDescription}</h2>
-              <p className="text-secondary/70 mb-2">{campaign.longDescription}</p>
-              <div className="flex flex-wrap gap-4 text-sm text-secondary/60">
-                <span>Created by: <b>{campaign.userName}</b></span>
-                <span>Deadline: {new Date(campaign.lastDate).toLocaleDateString()}</span>
-                <span>Status: <span className={`badge ${campaign.status === 'active' ? 'badge-success' : 'badge-warning'}`}>{campaign.status}</span></span>
+            {/* Progress Section */}
+            <div className="bg-base-200 px-6 py-4 rounded-lg">
+                <div className="flex justify-between text-sm font-semibold mb-3">
+                  <span className="text-secondary">${campaign.totalDonations || 0} raised</span>
+                  <span className="text-secondary">${campaign.maxAmount} goal</span>
+                </div>
+                <div className="w-full bg-gray-300 rounded-full h-4 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-primary to-primary/80 h-4 rounded-full transition-all duration-500" 
+                    style={{ width: `${getProgress(campaign.totalDonations || 0, campaign.maxAmount)}%` }}
+                  ></div>
+                </div>
+                <span className="text-sm text-secondary/60 font-medium">
+                  {getProgress(campaign.totalDonations || 0, campaign.maxAmount).toFixed(1)}% complete
+                </span>
               </div>
-              {/* Progress */}
-              <div className="my-2">
-                <div className="flex justify-between text-xs mb-1">
-                  <span>${campaign.totalDonations || 0} raised</span>
-                  <span>${campaign.maxAmount} goal</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500" style={{ width: `${getProgress(campaign.totalDonations || 0, campaign.maxAmount)}%` }}></div>
-                </div>
-                <span className="text-xs text-secondary/60 font-medium">{getProgress(campaign.totalDonations || 0, campaign.maxAmount).toFixed(1)}% complete</span>
+            
+            {/* Content - Below image */}
+            <div className="space-y-6">
+              {/* Title and Description */}
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">{campaign.shortDescription}</h2>
+                <p className="text-secondary/70 text-lg leading-relaxed">{campaign.longDescription}</p>
               </div>
-              {/* Donate Now Button */}
-              <button className="btn btn-primary text-base-100 w-full md:w-auto mt-4" onClick={() => { setShowModal(true); setSuccess(false); }} disabled={campaign.status !== 'active'}>
-                Donate Now
-              </button>
-              {campaign.status === 'paused' && (
-                <div className="alert alert-warning mt-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
-                  <span>This campaign is currently paused. Donations are temporarily disabled.</span>
-                </div>
-              )}
+               
+              
+              {/* Campaign Info */}
+              <div className="flex flex-wrap justify-between gap-4 text-sm text-secondary/60 bg-base-200 p-4 rounded-lg">
+                <span className="flex items-center gap-2">
+                  <span className="font-semibold">Created by:</span>
+                  <span className="text-secondary font-medium">{campaign.userName}</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="font-semibold">Deadline:</span>
+                  <span>{new Date(campaign.lastDate).toLocaleDateString()}</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="font-semibold">Status:</span>
+                  <span className={`badge ${campaign.status === 'active' ? 'badge-success' : 'badge-warning'}`}>
+                    {campaign.status}
+                  </span>
+                </span>
+              </div>
+              
+             
+              
+              {/* Donate Button */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button 
+                  className="btn btn-primary text-base-100 text-lg px-8 py-3 mx-auto" 
+                  onClick={() => { setShowModal(true); setSuccess(false); }} 
+                  disabled={campaign.status !== 'active'}
+                >
+                  Donate Now
+                </button>
+                
+                {campaign.status === 'paused' && (
+                  <div className="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                    <span>This campaign is currently paused. Donations are temporarily disabled.</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ) : (

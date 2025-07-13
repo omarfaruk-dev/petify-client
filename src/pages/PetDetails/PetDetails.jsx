@@ -238,7 +238,7 @@ const PetDetails = () => {
                                 </h3>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="btn btn-sm btn-circle btn-primary"
+                                    className="btn btn-sm btn-circle btn-primary text-base-100"
                                 >
                                     ✕
                                 </button>
@@ -291,9 +291,13 @@ const PetDetails = () => {
                                             type="tel"
                                             {...register('phoneNumber', { 
                                                 required: 'Phone number is required',
-                                                pattern: {
-                                                    value: /^[+]?[1-9][\d]{0,15}$/,
-                                                    message: 'Please enter a valid phone number'
+                                                minLength: {
+                                                    value: 10,
+                                                    message: 'Phone number must be at least 10 digits long'
+                                                },
+                                                maxLength: {
+                                                    value: 15,
+                                                    message: 'Phone number must not exceed 15 digits'
                                                 }
                                             })}
                                             className={`input input-bordered w-full border-primary/30 focus:outline-none ${errors.phoneNumber ? 'input-error' : ''}`}
