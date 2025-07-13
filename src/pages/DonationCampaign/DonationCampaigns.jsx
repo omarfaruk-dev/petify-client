@@ -84,7 +84,7 @@ const DonationCampaigns = () => {
           <img
             src={campaign.petImage}
             alt={campaign.shortDescription}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 right-3">
             <span className={`badge badge-sm ${campaign.status === 'active' ? 'badge-success' : 'badge-warning'} shadow-lg`}>

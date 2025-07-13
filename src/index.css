@@ -29,3 +29,16 @@
   /* a.active {
     @apply bg-base-300;
   } */
+
+  /* input type number default arrow reset */
+/* For Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
