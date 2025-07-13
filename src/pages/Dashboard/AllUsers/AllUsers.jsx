@@ -162,9 +162,9 @@ const AllUsers = () => {
                 <tr key={user._id || idx}>
                   <td>{idx + 1}</td>
                   <td>
-                    {user.photoURL ? (
+                    {user.photo ? (
                       <img 
-                        src={user.photoURL} 
+                        src={user.photo} 
                         alt={user.name} 
                         className="w-10 h-10 rounded-full object-cover"
                       />

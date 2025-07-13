@@ -12,6 +12,7 @@ const DonationCampaigns = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const limit = 9; // 3x3 grid per page
+  
 
   // Fetch campaigns with pagination
   const { data: campaignsData, error, isLoading, isFetching } = useQuery({
@@ -128,7 +129,16 @@ const DonationCampaigns = () => {
                 Created by: {campaign.userName}
               </span>
               <span className="text-secondary/60">
-                {new Date(campaign.createdAt).toLocaleDateString()}
+                {(() => {
+                  const lastDate = new Date(campaign.lastDate);
+                  const today = new Date();
+                  // Zero out the time for accurate day difference
+                  lastDate.setHours(0,0,0,0);
+                  today.setHours(0,0,0,0);
+                  const timeDiff = lastDate - today;
+                  const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                  return daysLeft > 0 ? `${daysLeft} Days left` : "Ended";
+                })()}
               </span>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaUser, FaEnvelope, FaEye, FaEyeSlash, FaImage } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate, useLocation } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import useAxios from '../../hooks/useAxios';
@@ -33,6 +32,7 @@ const Register = () => {
           role: 'user',
           created_at: new Date().toISOString(),
           last_log_in: new Date().toISOString(),
+          photo: profilePic, // add profile photo URL
         };
         // update user profile info in the database
         await axiosInstance.post('/users', userInfo);
@@ -52,37 +52,21 @@ const Register = () => {
           });
       })
       .catch(error => {
+        let errorMessage = 'Registration failed. Please try again.';
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'This email is already in use. Please use a different email or login.';
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Error',
+          text: errorMessage,
+        });
         console.error(error);
       });
   };
 
-  // signin with google
-  // const handleGoogleSignIn = () => {
-  //   googleSignIn()
-  //     .then(async (result) => {
-  //       const user = result.user;
-  //       // update user info in the database
-  //       const userInfo = {
-  //         name: user.name,
-  //         email: user.email,
-  //         role: 'user',
-  //         created_at: new Date().toISOString(),
-  //         last_log_in: new Date().toISOString(),
-  //       };
-  //       await axiosInstance.post('/users', userInfo);
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: 'Registration Successful!',
-  //         text: 'Your account has been created.',
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       });
-  //       navigate(from);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
 
   // handle image upload
   const handleImageUpload = async (e) => {
@@ -92,7 +76,6 @@ const Register = () => {
     const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
     const response = await axios.post(imageUploadUrl, formData);
     setProfilePic(response.data.data.url);
-    console.log('Image uploaded:', response.data.data.url);
   };
 
   return (
@@ -155,8 +138,8 @@ const Register = () => {
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
-              {...register('password', { 
-                required: true, 
+              {...register('password', {
+                required: true,
                 minLength: 6,
                 validate: {
                   hasUppercase: (value) => /[A-Z]/.test(value) || 'Password must contain at least one uppercase letter',
@@ -194,10 +177,10 @@ const Register = () => {
         {/* Divider */}
         <div className="divider my-3">Or</div>
         {/* Social login */}
-       <div className='flex flex-col gap-4'>
-       <LoginWithGoogle/>
-       <LoginWithGithub/>
-       </div>
+        <div className='flex flex-col gap-4'>
+          <LoginWithGoogle />
+          <LoginWithGithub />
+        </div>
       </form>
     </div>
   );
