@@ -6,7 +6,6 @@ import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
 import PrivateRoutes from "../Routes/PrivateRoutes";
 import DashboardLayout from "../layouts/DashboardLayout";
-import MyProfile from "../pages/Dashboard/MyProfile";
 import AddAPet from "../pages/Dashboard/AddAPet/AddAPet";
 import MyAddedPets from "../pages/Dashboard/MyAddedPets/MyAddedPets";
 import UpdatePet from "../pages/Dashboard/UpdatePet/UpdatePet";
@@ -24,6 +23,7 @@ import Forbidden from "../pages/ErrorPage/Forbidden";
 import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AllPets from "../pages/Dashboard/AllPets/AllPets";
 import AllDonations from "../pages/Dashboard/AllDonations/AllDonations";
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 
 
 const router = createBrowserRouter([
