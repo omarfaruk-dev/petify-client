@@ -6,6 +6,7 @@ import { AuthContext } from './AuthContext';
 const AuthProvider = ({ children }) => {
 
     const googleProvider = new GoogleAuthProvider();
+    googleProvider.addScope('email');
     const githubProvider = new GithubAuthProvider();
 
 

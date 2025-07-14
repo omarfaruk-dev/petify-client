@@ -17,38 +17,18 @@ const LoginWithGoogle = () => {
     setLoading(true);
     googleSignIn()
       .then(async (result) => {
-        console.log('Full Google sign-in result:', result);
         const user = result.user;
         console.log('Google user object:', user);
-        // Log all keys in user object for debugging
-        if (user) {
-          Object.keys(user).forEach(key => {
-            console.log(`user.${key}:`, user[key]);
-          });
-        }
-        // Try to get email from providerData if not present in user.email
-        let email = user.email;
-        if (!email && user.providerData && user.providerData.length > 0) {
-          email = user.providerData[0].email;
-        }
-        if (!email) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Google sign-in failed',
-            text: 'No email found in Google account. Please use an account with a public email.',
-          });
-          setLoading(false);
-          return;
-        }
         // update user info in the database
         const userInfo = {
           name: user.displayName || user.name || '',
-          email: email,
+          email: user.email,
           role: 'user',
           created_at: new Date().toISOString(),
           last_log_in: new Date().toISOString(),
           photo: user.photoURL || '', // Added photo field
         };
+        
         console.log('Sending userInfo to server:', userInfo);
         try {
           const res = await axiosInstance.post('/users', userInfo);
