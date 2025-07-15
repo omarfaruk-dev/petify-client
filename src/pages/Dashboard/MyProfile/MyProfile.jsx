@@ -9,9 +9,9 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const ProfileSkeleton = () => (
   <div className="flex justify-center items-center min-h-[70vh] bg-base-100 py-8">
-    <div className="relative bg-white dark:bg-base-200 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border border-primary/10">
+    <div className="relative bg-base-100 dark:bg-base-200  rounded-3xl p-8 max-w-md w-full flex flex-col items-center border border-primary/10">
       {/* Paw icon accent */}
-      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary rounded-full p-3 shadow-lg border-4 border-white dark:border-base-200">
+      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary rounded-full p-3 shadow border-4 border-white dark:border-base-200">
         <FaPaw className="text-white text-3xl" />
       </div>
       {/* Avatar skeleton */}
@@ -82,9 +82,9 @@ const MyProfile = () => {
 
   return (
     <div className="flex justify-center items-center min-h-[70vh] bg-base-100 py-8">
-      <div className="relative bg-white dark:bg-base-200 shadow-2xl rounded-3xl p-8 max-w-md w-full flex flex-col items-center border border-primary/10 transition-all duration-300">
+      <div className="relative bg-white dark:bg-base-200 shadow rounded p-8 max-w-md w-full flex flex-col items-center border border-primary/10 transition-all duration-300">
         {/* Paw icon accent */}
-        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary rounded-full p-3 shadow-lg border-4 border-white dark:border-base-200">
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary rounded-full p-3 shadow border-4 border-white dark:border-base-200">
           <FaPaw className="text-white text-3xl" />
         </div>
         {/* Avatar */}
@@ -92,7 +92,7 @@ const MyProfile = () => {
           <img
             src={userInfo?.photo || user.photoURL || '/default-avatar.png'}
             alt="User Avatar"
-            className="w-28 h-28 rounded-full border-4 border-primary object-cover shadow-md bg-base-200"
+            className="w-28 h-28 rounded-full border-4 border-primary object-cover shadow bg-base-200"
           />
         </div>
         {/* Name and Role */}
@@ -103,7 +103,7 @@ const MyProfile = () => {
           {role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User'}
         </span>
         {/* Email */}
-        <p className="text-base text-gray-500 dark:text-gray-300 mb-4 text-center">
+        <p className="text-base text-accent mb-4 text-center">
           {userInfo?.email || user.email}
         </p>
         <div className="w-full border-t border-dashed border-primary/20 my-4"></div>
