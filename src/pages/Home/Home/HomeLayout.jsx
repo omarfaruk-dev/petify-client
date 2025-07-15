@@ -1,9 +1,11 @@
-import HeroSlider from "../HeroSlider";
+import Banner from "../Banner";
+// import HeroSlider from "../HeroSlider";
 
 const HomeLayout = () => {
     return (
         <div className="min-h-screen">
-            <HeroSlider/>
+            {/* <HeroSlider/> */}
+            <Banner/>
         </div>
     );
 };
