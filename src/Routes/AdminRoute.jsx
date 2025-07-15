@@ -8,7 +8,7 @@ const AdminRoute = ({children}) => {
     const { role, roleLoading } = useUserRole();
 
     if (loading || roleLoading) {
-        return <span className="loading loading-spinner loading-xl"></span>
+        return <span className=""></span>
     }
 
     if (!user || role !== 'admin') {

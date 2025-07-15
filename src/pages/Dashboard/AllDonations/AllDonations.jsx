@@ -8,6 +8,60 @@ import { FaTrash, FaEdit, FaPlay, FaPause, FaEye } from 'react-icons/fa';
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router';
 
+// Skeleton loader for AllDonations table
+const AllDonationsSkeleton = () => (
+  <div className="overflow-x-auto">
+    <table className="table table-zebra min-w-max w-full">
+      <thead>
+        <tr className="bg-primary/10">
+          <th>#</th>
+          <th>Campaign Image</th>
+          <th>Campaign Name</th>
+          <th>Creator</th>
+          <th>Goal</th>
+          <th>Raised</th>
+          <th>Progress</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[...Array(5)].map((_, i) => (
+          <tr key={i}>
+            <td><Skeleton width={20} /></td>
+            <td><Skeleton circle width={48} height={48} /></td>
+            <td>
+              <Skeleton width={120} height={18} className="mb-1" />
+              <Skeleton width={100} height={14} />
+            </td>
+            <td>
+              <Skeleton width={80} height={14} className="mb-1" />
+              <Skeleton width={100} height={12} />
+            </td>
+            <td><Skeleton width={60} height={18} /></td>
+            <td><Skeleton width={60} height={18} /></td>
+            <td>
+              <div className="w-full bg-base-300 rounded-full h-2 mb-1">
+                <div className="bg-primary h-2 rounded-full" style={{ width: '60%' }}></div>
+              </div>
+              <Skeleton width={40} height={12} />
+            </td>
+            <td><Skeleton width={60} height={24} className="rounded-full" /></td>
+            <td>
+              <div className="flex gap-2">
+                <Skeleton width={32} height={32} circle />
+                <Skeleton width={32} height={32} circle />
+                <Skeleton width={32} height={32} circle />
+                <Skeleton width={32} height={32} circle />
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
 const AllDonations = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
@@ -188,20 +242,8 @@ const AllDonations = () => {
         </div>
       </div>
 
-      {isLoading || loading ? (
-        <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4 p-4 border rounded-lg">
-              <Skeleton circle width={50} height={50} />
-              <div className="flex-1">
-                <Skeleton height={20} width={150} className="mb-2" />
-                <Skeleton height={16} width={200} />
-              </div>
-              <Skeleton height={32} width={100} />
-              <Skeleton height={32} width={80} />
-            </div>
-          ))}
-        </div>
+      {(isLoading || loading) ? (
+        <AllDonationsSkeleton />
       ) : error ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">⚠️</div>
@@ -235,7 +277,7 @@ const AllDonations = () => {
                 <th>Raised</th>
                 <th>Progress</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th className='text-center'>Actions</th>
               </tr>
             </thead>
             <tbody>
