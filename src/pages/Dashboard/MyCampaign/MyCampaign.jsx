@@ -33,10 +33,8 @@ const MyCampaign = () => {
     queryKey: ['my-campaigns', user?.email, page],
     enabled: !!user?.email,
     queryFn: async () => {
-      console.log('Fetching campaigns for user:', user.email, 'page:', page);
       try {
         const res = await axiosSecure.get(`/donations/user/${user.email}?page=${page}&limit=${limit}`);
-        console.log('Campaigns response:', res.data);
         
         // Handle both old format (array) and new format (object with campaigns property)
         if (Array.isArray(res.data)) {

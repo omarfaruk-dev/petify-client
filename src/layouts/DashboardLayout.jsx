@@ -17,6 +17,7 @@ const menuLinks = [
   { to: '/dashboard/adoption-requests', icon: <GrPowerCycle   />, label: 'Adoption Requests' },
   { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Campaign' },
   { to: '/dashboard/my-campaigns', icon: <MdCampaign />, label: 'My Campaigns' },
+  { to: '/dashboard/my-donations', icon: <FaHandHoldingHeart />, label: 'My Donations' },
   { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
 ];
 
@@ -35,7 +36,7 @@ const DashboardLayout = () => {
   const [roleLoading, setRoleLoading] = useState(true);
 
   // Sidebar width
-  const sidebarWidth = sidebarOpen ? 'w-74' : 'w-20';
+  const sidebarWidth = sidebarOpen ? 'w-65' : 'w-20';
 
   // Fetch user role
   React.useEffect(() => {
@@ -74,10 +75,11 @@ const DashboardLayout = () => {
 
   // Render navigation links
   const renderNavLinks = (links) => {
-    return links.map((item) => (
+    return links.map((item,idx) => (
       <NavLink
         key={item.to}
         to={item.to}
+        end={idx===0}
         className={({ isActive }) =>
           `transition-colors duration-200 font-semibold
         ${sidebarOpen
@@ -247,7 +249,7 @@ const DashboardLayout = () => {
               </NavLink>
             ))}
           </nav>
-          <div className="mt-auto mb-4 flex flex-col items-center gap-2">
+          {/* <div className="mt-auto mb-4 flex flex-col items-center gap-2">
             {user && user.photoURL ? (
               <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
             ) : (
@@ -258,7 +260,7 @@ const DashboardLayout = () => {
             <span className="mt-2 text-xs text-secondary font-semibold text-center max-w-[120px] truncate">
               {user?.displayName || 'User'}
             </span>
-          </div>
+          </div> */}
           <div className="mb-6 flex flex-col items-center">
             <button
               className="flex items-center gap-2 px-4 py-2 rounded text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"

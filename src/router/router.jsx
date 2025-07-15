@@ -24,6 +24,7 @@ import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AllPets from "../pages/Dashboard/AllPets/AllPets";
 import AllDonations from "../pages/Dashboard/AllDonations/AllDonations";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+import DashBoardStats from "../pages/Dashboard/DashBoardStats";
 
 
 const router = createBrowserRouter([
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <div className="p-8"><h1 className="text-2xl font-bold">Dashboard Home</h1></div>
+                Component: DashBoardStats,
             },
             {
                 path: 'my-profile',
