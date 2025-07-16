@@ -1,5 +1,7 @@
 
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import CountUp from 'react-countup';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -64,7 +66,56 @@ const DashBoardStats = () => {
   // Calculate total donated amount
   const totalDonatedAmount = donations.reduce((sum, donation) => sum + (donation.amount || 0), 0);
 
-  if (isLoading || isCampaignsLoading || isDonationsLoading || isAdoptionsLoading) return <div>Loading...</div>;
+  if (isLoading || isCampaignsLoading || isDonationsLoading || isAdoptionsLoading) {
+    // Skeleton loader for dashboard stats (with card color match)
+    return (
+      <div className="flex flex-col gap-6 w-full">
+        {/* Welcome Message Skeleton */}
+        <div className="mb-2">
+          <Skeleton width={220} height={36} className="mb-2" />
+          <Skeleton width={320} height={20} />
+        </div>
+        {/* First row: 3 cards skeleton (match card colors) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="bg-cyan-50 shadow rounded p-7 flex flex-col items-center border border-cyan-100">
+            <Skeleton circle width={56} height={56} className="mb-3" />
+            <Skeleton width={120} height={24} className="mb-2" />
+            <Skeleton width={80} height={36} />
+          </div>
+          <div className="bg-yellow-50 shadow rounded p-7 flex flex-col items-center border border-yellow-100">
+            <Skeleton circle width={56} height={56} className="mb-3" />
+            <Skeleton width={120} height={24} className="mb-2" />
+            <Skeleton width={80} height={36} />
+          </div>
+          <div className="bg-pink-50 shadow rounded p-7 flex flex-col items-center border border-pink-100">
+            <Skeleton circle width={56} height={56} className="mb-3" />
+            <Skeleton width={120} height={24} className="mb-2" />
+            <Skeleton width={80} height={36} />
+          </div>
+        </div>
+        {/* Second row: 2 cards skeleton (match card colors) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div className="bg-blue-50 shadow rounded p-7 flex flex-col items-center border border-blue-100">
+            <Skeleton circle width={56} height={56} className="mb-3" />
+            <Skeleton width={160} height={24} className="mb-2" />
+            <Skeleton width={100} height={36} />
+          </div>
+          <div className="bg-green-50 shadow rounded p-7 flex flex-col items-center border border-green-100">
+            <Skeleton circle width={56} height={56} className="mb-3" />
+            <Skeleton width={160} height={24} className="mb-2" />
+            <Skeleton width={100} height={36} />
+          </div>
+        </div>
+        {/* Chart skeleton */}
+        <div className="w-full bg-primary/5 rounded shadow p-6 mt-2">
+          <Skeleton width={220} height={28} className="mb-4" />
+          <div className="flex justify-center items-center w-full" style={{ minHeight: 340 }}>
+            <Skeleton circle width={220} height={220} />
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (error || campaignsError || donationsError || adoptionsError) return <div>Error loading stats.</div>;
 
   // Chart data (without donation amount)
