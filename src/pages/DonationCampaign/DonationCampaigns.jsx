@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SectionTitle from '../../pages/Shared/Component/SectionTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
@@ -261,12 +262,16 @@ const DonationCampaigns = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-base-100 to-secondary/5 py-8">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="py-8 md:py-12 lg:py-16 max-w-7xl mx-auto px-4">
+        {/* Section Title */}
+        <SectionTitle
+          label="Support a Cause"
+          labelPosition="center"
+          title="Donation Campaigns"
+          titlePosition="center"
+        />
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-secondary mb-4">
-            Donation Campaigns
-          </h1>
           <p className="text-lg text-secondary/60 max-w-2xl mx-auto">
             Support pets in need by contributing to these donation campaigns. 
             Every contribution makes a difference in their lives.

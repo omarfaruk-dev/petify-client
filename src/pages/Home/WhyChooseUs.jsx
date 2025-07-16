@@ -92,7 +92,7 @@ const WhyChooseUs = () => {
                         
                         <div className={`hidden lg:block absolute top-[18px] sm:top-[22px] 
                                          left-[-2rem] xl:left-[-3.5rem]
-                                         w-6 xl:w-12 h-px bg-gray-300 z-0`}></div>
+                                         w-6 xl:w-12 h-px bg-primary z-0`}></div>
                         
                        
                         <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-base-100 shadow-md z-10 ${feature.bgColor}`}>
