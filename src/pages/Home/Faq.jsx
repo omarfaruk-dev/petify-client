@@ -32,10 +32,10 @@ const Faq = () => {
   const panelRefs = useRef([]);
 
   return (
-    <section className="py-5 mb-8 md:mb-16 lg:mb-20 w-full max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10 md:gap-16 bg-base-100 rounded-2xl">
+    <section className="py-5 mb-8 md:mb-16 lg:mb-20 w-full max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-10 md:gap-16 bg-base-100 rounded-2xl">
       {/* Left: Lottie Animation */}
       <div className="flex-1 flex justify-center items-center">
-        <div className="w-[420px] h-[420px] flex items-center justify-center">
+        <div className="w-[360px] md:w-[420px] px-4 h-[360px] flex items-center justify-center">
           <Lottie animationData={faqLottie} loop autoplay style={{ width: 400, height: 400 }} />
         </div>
       </div>
@@ -85,10 +85,6 @@ const Faq = () => {
               </div>
             );
           })}
-        </div>
-        {/* Optional: Lottie animation for mobile view */}
-        <div className="block md:hidden mt-8 w-full justify-center">
-          <Lottie animationData={faqLottie} loop autoplay style={{ width: 200, height: 200 }} />
         </div>
       </div>
     </section>

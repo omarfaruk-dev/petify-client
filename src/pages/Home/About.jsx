@@ -6,8 +6,8 @@ import Lottie from 'lottie-react';
 
 const About = () => {
     return (
-        <section className="w-full py-16 px-4 max-w-7xl mx-auto my-16">
-            <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+        <section className="w-full py-8 md:py-12 lg:py-16 px-4 max-w-7xl mx-auto my-16">
+            <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
                 {/* Left: About Details */}
                 <div className="flex-1 flex flex-col justify-center items-start text-left">
                     <SectionTitle label="Who We Are" labelPosition="left" title="About Petify" titlePosition="left" />
@@ -38,12 +38,12 @@ const About = () => {
                 </div>
                 {/* Right: Lottie Animation */}
                 <div className="flex-1 flex justify-center items-center">
-                    <div className="relative w-[440px] h-[440px] flex items-center justify-center overflow-visible">
+                    <div className="relative w-[360px] md:w-[420px] px-4 h-[360px] flex items-center justify-center overflow-visible">
                         <Lottie
                             animationData={aboutLottie}
                             loop
                             autoplay
-                            style={{ width: 420, height: 420 }}
+                            style={{ width: 380, height: 400 }}
                         />
                     </div>
                 </div>

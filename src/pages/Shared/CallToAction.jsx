@@ -5,10 +5,10 @@ import dogImg from '../../assets/images/dog-cta.PNG'; // Replace with a more ins
 
 const CallToAction = () => {
     return (
-        <section className="relative w-full mx-auto my-20 px-4 py-20 overflow-hidden shadow bg-gradient-to-br from-primary/20  to-accent/10 border border-base-200">
+        <section className="relative w-full mx-auto my-20 px-4 py-20 overflow-hidden bg-gradient-to-br from-primary/20  to-accent/10">
             {/* Soft, relevant background pattern overlay */}
-            <div className="absolute inset-0 z-0 bg-[url('/assets/images/paws-bg.png')] bg-repeat opacity-10 pointer-events-none select-none" style={{backgroundSize: '120px 120px'}} />
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+            <div className="absolute inset-0 z-0 bg-repeat opacity-10 pointer-events-none select-none" style={{backgroundSize: '120px 120px'}} />
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 md:gap-16">
                 {/* Decorative Paw Print SVGs */}
                 <svg className="absolute left-8 top-8 opacity-10 z-0" width="70" height="70" viewBox="0 0 70 70" fill="none">
                     <ellipse cx="15" cy="15" rx="8" ry="12" fill="#fbbf24"/>
@@ -26,7 +26,7 @@ const CallToAction = () => {
                 </svg>
                 {/* Inspirational Image */}
                 <div className="flex-1 flex justify-center items-center relative z-10">
-                <div className="relative rounded p-0 shadow border border-primary/20 overflow-hidden w-[480px] h-[320px] flex items-center justify-center">
+                <div className="relative rounded p-0 shadow border border-primary/20 overflow-hidden md:w-[480px] md:h-[320px] flex items-center justify-center">
                     {/* Help Me Badge */}
                     <span className="absolute top-4 left-4 z-20 bg-error text-white text-xs md:text-sm font-bold px-4 py-1 rounded-full shadow-lg tracking-wide animate-pulse select-none">
                         Help Me
@@ -34,7 +34,7 @@ const CallToAction = () => {
                     <img
                         src={dogImg}
                         alt="Adopt a Pet Inspiration"
-                        className="w-full h-full object-cover border-0 hover:scale-105 transition-transform duration-300"
+                        className="lg:w-full h-full object-cover border-0 hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                     />
                 </div>
