@@ -18,10 +18,15 @@ const Register = () => {
   const from = location.state?.from || "/";
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [photoError, setPhotoError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {
-    console.log('Form Data:', data);
+    setPhotoError('');
+    if (!profilePic) {
+      setPhotoError('Profile photo is required');
+      return;
+    }
     createUser(data.email, data.password)
       .then(async (result) => {
         const user = result.user;
@@ -70,6 +75,7 @@ const Register = () => {
 
   // handle image upload
   const handleImageUpload = async (e) => {
+    setPhotoError('');
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
@@ -112,6 +118,7 @@ const Register = () => {
             />
             <FaImage className="absolute right-2 top-1/2 -translate-y-1/2 text-secondary/60" />
           </div>
+          {photoError && <p className="text-red-500 text-sm mt-1">{photoError}</p>}
         </div>
         {/* Email Input */}
         <div className="mb-1">
