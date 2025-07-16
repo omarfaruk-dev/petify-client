@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaEye, FaEyeSlash, FaFacebookF, FaApple } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router';
@@ -7,9 +7,10 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import LoginWithGoogle from './LoginWithGoogle';
 import LoginWithGithub from './LoginWithGithub';
+import Spinner from '../Shared/Spinner';
 
 const Login = () => {
-    const { loginUser } = useAuth();
+    const { loginUser, user  } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -37,6 +38,18 @@ const Login = () => {
             });
     };
 
+      //if user is already logged in, redirect to home page
+    useEffect(() => {
+      if (user) {
+        const to = location.state?.from || "/";
+        const timeout = setTimeout(() => {
+          navigate(to);
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        // removed setLoading(false) since loading state is unused
+      }
+    }, [user, navigate, location.state]);
 
 
     return (

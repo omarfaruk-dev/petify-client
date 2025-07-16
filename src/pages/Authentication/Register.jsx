@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaUser, FaEnvelope, FaEye, FaEyeSlash, FaImage } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router';
@@ -10,7 +10,7 @@ import LoginWithGoogle from './LoginWithGoogle';
 import LoginWithGithub from './LoginWithGithub';
 
 const Register = () => {
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile, user } = useAuth();
   const [profilePic, setProfilePic] = useState('');
   const axiosInstance = useAxios();
   const navigate = useNavigate();
@@ -83,6 +83,19 @@ const Register = () => {
     const response = await axios.post(imageUploadUrl, formData);
     setProfilePic(response.data.data.url);
   };
+
+  //if user is already logged in, redirect to home page
+   useEffect(() => {
+        if (user) {
+          const to = location.state?.from || "/";
+          const timeout = setTimeout(() => {
+            navigate(to);
+          }, 100);
+          return () => clearTimeout(timeout);
+        } else {
+          // removed setLoading(false) since loading state is unused
+        }
+      }, [user, navigate, location.state]);
 
   return (
     <div className="w-full max-w-md bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10">
