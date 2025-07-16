@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import Skeleton from 'react-loading-skeleton';
@@ -12,19 +12,37 @@ const AllUsers = () => {
   const queryClient = useQueryClient();
   const {loading} = useAuth();
 
-  // Pagination state
+
+  // Pagination and search state
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const limit = 10; // Show 10 users per page
 
-  // Fetch all users with pagination
+
+  // Fetch all users with pagination (when not searching)
   const { data: usersData = {}, isLoading, error } = useQuery({
     queryKey: ['all-users', page],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users?page=${page}&limit=${limit}`);
       return res.data;
     },
+    enabled: !search,
+    retry: 1,
+    retryDelay: 1000,
+  });
+
+  // Fetch users by search (search by email)
+  const { data: searchResults = [], isLoading: searchLoading } = useQuery({
+    queryKey: ['search-users', search],
+    queryFn: async () => {
+      if (!search) return [];
+      const res = await axiosSecure.get(`/users/search?email=${encodeURIComponent(search)}`);
+      return res.data;
+    },
+    enabled: !!search,
     retry: 1,
     retryDelay: 1000,
   });
@@ -37,8 +55,9 @@ const AllUsers = () => {
     }
   }, [usersData]);
 
+
   // Get users array safely
-  const users = usersData.users || [];
+  const users = search ? searchResults : (usersData.users || []);
 
   // Pagination handlers
   const handlePageChange = (newPage) => {
@@ -145,17 +164,52 @@ const AllUsers = () => {
   };
 
   return (
+
     <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
-          All Users
-        </h2>
-        <div className="text-sm text-secondary/60">
+      <div className="flex flex-col gap-2 mb-6">
+        <div className="flex justify-between flex-wrap items-center gap-4">
+          <h2 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
+            All Users
+          </h2>
+          <div className="text-sm text-secondary/60 mt-1">
           Total Users: {totalUsers}
         </div>
+        </div>
+        {/* Search input repositioned below the title */}
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            setSearch(searchInput.trim());
+            setPage(1);
+          }}
+          className="flex gap-2 mt-2"
+        >
+          <input
+            type="text"
+            placeholder="Search by email or name"
+            className="input input-sm input-primary w-48"
+            value={searchInput}
+            onChange={e => setSearchInput(e.target.value)}
+          />
+          <button type="submit" className="btn btn-sm text-base-100 btn-primary">Search</button>
+          {search && (
+            <button
+              type="button"
+              className="btn btn-sm btn-outline btn-error"
+              onClick={() => {
+                setSearch('');
+                setSearchInput('');
+                setPage(1);
+              }}
+            >
+              Clear
+            </button>
+          )}
+        </form>
+        
       </div>
 
-      {isLoading ||loading ? (
+      {(search ? searchLoading : isLoading) || loading ? (
         <div className="overflow-x-auto">
           <table className="table table-zebra min-w-max w-full">
             <thead>

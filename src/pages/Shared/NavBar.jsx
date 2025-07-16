@@ -137,7 +137,7 @@ const NavBar = () => {
                       <div className="flex flex-col items-center justify-between px-4 py-2 border-b border-dashed border-secondary/20">
                         <img
                           src={user?.photoURL}
-                          className="w-14 p-1 border-2 border-secondary/30 rounded-full"
+                          className="w-14 h-14 p-1 border-2 border-secondary/30 rounded-full"
                           alt="User"
                         />
                         <div

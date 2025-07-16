@@ -152,7 +152,7 @@ const DashBoardStats = () => {
               paddingAngle={2}
             >
               {chartData.map((entry, idx) => (
-                <Cell key={`cell-${idx}`} fill={['#14B8A6', '#facc15', '#ec4899', '#3b82f6', '#22c55e'][idx % 5]} />
+                <Cell key={`cell-${idx}`} fill={['#14B8A6', '#facc99', '#ec4899', '#3b82f6', '#22c55e'][idx % 5]} />
               ))}
             </Pie>
             <Tooltip formatter={(value, name) => [value, name]} />
