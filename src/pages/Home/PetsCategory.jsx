@@ -17,7 +17,7 @@ const categories = [
 const PetsCategory = () => {
   const navigate = useNavigate();
   return (
-    <section className="mb-8 md:mb-16 lg:mb-20 relative w-full max-w-7xl mx-auto px-4 rounded-2xl overflow-hidden">
+    <section className="py-5 mb-8 md:mb-16 lg:mb-20 relative w-full max-w-7xl mx-auto px-4 rounded-2xl overflow-hidden">
       {/* Decorative paw prints */}
       <svg className="absolute left-8 top-8 opacity-10 z-0" width="60" height="60" viewBox="0 0 60 60" fill="none">
         <ellipse cx="15" cy="15" rx="7" ry="10" fill="#fbbf24"/>
