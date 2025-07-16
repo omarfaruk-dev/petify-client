@@ -34,8 +34,7 @@ const PetsCategory = () => {
         <ellipse cx="30" cy="48" rx="10" ry="6" fill="#34d399"/>
       </svg>
       {/* Section Heading */}
-      <SectionTitle title='Browse by Pet Category'/>
-      <SectionSubtitle>Find your favorite type of pet! Click a category to explore adorable companions.</SectionSubtitle>
+      <SectionTitle title='Browse by Pet Category' labelPosition='center' label='Pets Category' titlePosition='center'/>
       {/* Category Cards Marquee */}
       <div className="relative z-10 w-full py-4">
         <Marquee gradient={false} speed={40} direction="left" pauseOnHover={true} className="flex">
