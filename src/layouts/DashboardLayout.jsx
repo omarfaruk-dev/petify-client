@@ -140,7 +140,7 @@ const DashboardLayout = () => {
             {/* Admin Section Divider */}
             {!roleLoading && role === 'admin' && (
               <div className={`${sidebarOpen ? 'mx-4 my-2' : 'my-2'}`}>
-                <div className={`border-t border-primary/20 ${sidebarOpen ? 'mb-4' : 'mb-2'}`}></div>
+                <div className={`border-t border-primary/30 ${sidebarOpen ? 'mb-4' : 'mb-2'}`}></div>
                 {sidebarOpen && (
                   <div className="text-xs font-semibold text-primary/60 uppercase tracking-wider mb-2">
                     Admin Panel
@@ -168,7 +168,6 @@ const DashboardLayout = () => {
               </span>
             )}
           </div> */}
-          <div className='divider'></div>
           <div className="mb-6 flex flex-col items-center mx-2 my-1">
             <button
               className={`flex items-center gap-2 rounded btn btn-error ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}
@@ -262,6 +261,7 @@ const DashboardLayout = () => {
               {user?.displayName || 'User'}
             </span>
           </div> */}
+          
           <div className="mb-6 flex flex-col items-center">
             <button
               className="flex items-center gap-2 px-4 py-2 rounded text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"
