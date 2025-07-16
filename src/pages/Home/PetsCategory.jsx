@@ -1,9 +1,10 @@
-import React from 'react';
 import { useNavigate } from 'react-router';
 import Marquee from 'react-fast-marquee';
 import { FaCat, FaDog, FaFish } from 'react-icons/fa';
 import { LuBird } from "react-icons/lu";
 import { GiRabbit } from 'react-icons/gi';
+import SectionTitle from '../Shared/Component/SectionTitle';
+import SectionSubtitle from '../Shared/Component/SectionSubtitle';
 
 const categories = [
   { name: 'Cats', icon: <FaCat className="text-4xl text-primary" /> },
@@ -11,13 +12,12 @@ const categories = [
   { name: 'Birds', icon: <LuBird  className="text-4xl text-warning" /> },
   { name: 'Rabbits', icon: <GiRabbit className="text-4xl text-accent" /> },
   { name: 'Fish', icon: <FaFish className="text-4xl text-info" /> },
-  // Add more categories as needed
 ];
 
 const PetsCategory = () => {
   const navigate = useNavigate();
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-4 rounded-2xl overflow-hidden mt-8 mb-12">
+    <section className="mb-8 md:mb-16 lg:mb-20 relative w-full max-w-7xl mx-auto px-4 rounded-2xl overflow-hidden">
       {/* Decorative paw prints */}
       <svg className="absolute left-8 top-8 opacity-10 z-0" width="60" height="60" viewBox="0 0 60 60" fill="none">
         <ellipse cx="15" cy="15" rx="7" ry="10" fill="#fbbf24"/>
@@ -34,12 +34,8 @@ const PetsCategory = () => {
         <ellipse cx="30" cy="48" rx="10" ry="6" fill="#34d399"/>
       </svg>
       {/* Section Heading */}
-      <h2 className="relative z-10 text-3xl md:text-4xl font-extrabold text-center text-primary drop-shadow mb-3 tracking-tight">
-        <span className="inline-block px-4 py-1 rounded-xl shadow-sm">🐾 Browse by Pet Category 🐾</span>
-      </h2>
-      <p className="relative z-10 text-center text-base md:text-lg text-base-content/70 mb-10 max-w-2xl mx-auto">
-        Find your favorite type of pet! Click a category to explore adorable companions.
-      </p>
+      <SectionTitle title='Browse by Pet Category'/>
+      <SectionSubtitle>Find your favorite type of pet! Click a category to explore adorable companions.</SectionSubtitle>
       {/* Category Cards Marquee */}
       <div className="relative z-10 w-full py-4">
         <Marquee gradient={false} speed={40} direction="left" pauseOnHover={true} className="flex">

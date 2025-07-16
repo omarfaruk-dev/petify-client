@@ -7,7 +7,7 @@ import { Typewriter } from 'react-simple-typewriter';
 const Banner = () => {
     return (
         <section
-            className="mb-20 md:mb-30 py-50 relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden rounded-b-md  border border-base-content/10 my-6"
+            className="mb-8 md:mb-16 lg:mb-20 py-50 relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden rounded-b-md  border border-base-content/10 my-6"
         >
             {/* Petify themed single banner image */}
             <img
