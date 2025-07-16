@@ -187,7 +187,7 @@ const AllUsers = () => {
           <input
             type="text"
             placeholder="Search by email or name"
-            className="input input-sm input-primary w-48"
+            className="input input-sm input-primary focus:outline-none focus:ring-1 focus:ring-primary"
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
           />
