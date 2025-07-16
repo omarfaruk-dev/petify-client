@@ -199,7 +199,7 @@ const DashBoardStats = () => {
               outerRadius={110}
               innerRadius={60}
               fill="#14B8A6"
-              label={({ name, value }) => `${name}: ${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
+              label={({ name, value }) => `${name}: ${(Number(value) || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
               paddingAngle={2}
             >
               {chartData.map((entry, idx) => (

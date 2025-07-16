@@ -20,15 +20,71 @@ const MyAddedPets = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // Fetch pets using React Query
-  const { data: pets = [], error, isLoading } = useQuery({
-    queryKey: ['my-pets', user?.email],
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalPets, setTotalPets] = useState(0);
+  const limit = 10;
+
+  // Fetch pets using React Query with pagination (robust, MyCampaigns style)
+  const { data: petsData = {}, error, isLoading } = useQuery({
+    queryKey: ['my-pets', user?.email, page],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/pets?email=${user.email}`);
-      return res.data;
-    }
+      try {
+        const res = await axiosSecure.get(`/pets?email=${user.email}&page=${page}&limit=${limit}`);
+        // Handle both old format (array) and new format (object with pets property)
+        if (Array.isArray(res.data)) {
+          return {
+            pets: res.data,
+            totalPages: 1,
+            totalPets: res.data.length,
+            currentPage: 1,
+            hasMore: false
+          };
+        }
+        return res.data;
+      } catch (error) {
+        console.error('Error fetching pets:', error);
+        throw error;
+      }
+    },
+    retry: 1,
+    retryDelay: 1000
   });
+
+  React.useEffect(() => {
+    if (petsData) {
+      setTotalPages(petsData.totalPages || 1);
+      setTotalPets(petsData.totalPets || 0);
+    }
+  }, [petsData]);
+
+  const pets = petsData.pets || [];
+
+  // Pagination handlers
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      let start = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+      let end = Math.min(totalPages, start + maxVisiblePages - 1);
+      if (end - start + 1 < maxVisiblePages) start = Math.max(1, end - maxVisiblePages + 1);
+      for (let i = start; i <= end; i++) pages.push(i);
+    }
+    return pages;
+  };
 
   //handle delete
   const handleDelete = async (id) => {
@@ -116,7 +172,7 @@ const MyAddedPets = () => {
     columnHelper.display({
       id: 'serial',
       header: () => 'Serial No.',
-      cell: ({ row }) => row.index + 1,
+      cell: ({ row }) => (page - 1) * limit + row.index + 1,
       enableSorting: false,
     }),
     columnHelper.accessor('petName', {
@@ -186,10 +242,6 @@ const MyAddedPets = () => {
     getSortedRowModel: getSortedRowModel(),
     debugTable: false,
   });
-
-  // if (loading) {
-  //   return <Spinner />;
-  // }
 
   // Loading skeleton
   if (isLoading || loading) {
@@ -286,45 +338,104 @@ const MyAddedPets = () => {
           </button>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra min-w-max w-full">
-            <thead>
-              {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id} className='bg-primary/10'>
-                  {headerGroup.headers.map(header => {
-                    const isSortable = header.column.getCanSort();
-                    const sortDir = header.column.getIsSorted();
-                    return (
-                      <th
-                        key={header.id}
-                        onClick={isSortable ? header.column.getToggleSortingHandler() : undefined}
-                        className={isSortable ? 'cursor-pointer select-none' : ''}
-                      >
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {isSortable && (
-                          <span className="ml-1">
-                            {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▼' : '↕'}
-                          </span>
-                        )}
-                      </th>
-                    );
-                  })}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map(row => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map(cell => (
-                    <td key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
+        <>
+          <div className="overflow-x-auto">
+            <table className="table table-zebra min-w-max w-full">
+              <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <tr key={headerGroup.id} className='bg-primary/10'>
+                    {headerGroup.headers.map(header => {
+                      const isSortable = header.column.getCanSort();
+                      const sortDir = header.column.getIsSorted();
+                      return (
+                        <th
+                          key={header.id}
+                          onClick={isSortable ? header.column.getToggleSortingHandler() : undefined}
+                          className={isSortable ? 'cursor-pointer select-none' : ''}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {isSortable && (
+                            <span className="ml-1">
+                              {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▼' : '↕'}
+                            </span>
+                          )}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map(row => (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map(cell => (
+                      <td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPets > limit && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-t border-gray-200 mt-6">
+              {/* Page Info */}
+              <div className="text-sm text-secondary/60">
+                Showing page {page} of {totalPages}
+                {totalPets > 0 && (
+                  <span className="ml-2">
+                    ({totalPets} total pets)
+                  </span>
+                )}
+              </div>
+              {/* Pagination Buttons */}
+              <div className="flex items-center gap-2">
+                {/* Previous Button */}
+                <button
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page <= 1 || isLoading}
+                  className="btn btn-sm btn-outline btn-primary disabled:btn-disabled"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </button>
+                {/* Page Numbers */}
+                <div className="flex items-center gap-1">
+                  {getPageNumbers().map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      disabled={isLoading}
+                      className={`btn btn-sm ${
+                        pageNum === page
+                          ? 'btn-primary'
+                          : 'btn-outline btn-primary'
+                      } disabled:btn-disabled min-w-[40px]`}
+                    >
+                      {pageNum}
+                    </button>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </div>
+                {/* Next Button */}
+                <button
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page >= totalPages || isLoading}
+                  className="btn btn-sm btn-outline btn-primary disabled:btn-disabled"
+                >
+                  Next
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
