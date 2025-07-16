@@ -43,7 +43,7 @@ const AddAPet = () => {
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`,
         formData
       );
-      console.log(formData);
+      // console.log(formData);
       setImageUrl(res.data.data.url);
       setValue('petImage', res.data.data.url, { shouldValidate: true });
     } catch {
@@ -70,7 +70,7 @@ const AddAPet = () => {
       
       axiosSecure.post('/pets', petsData)
       .then(res =>{
-        console.log(res.data);
+        // console.log(res.data);
         if(res.data.insertedId){
         Swal.fire({
           icon: 'success',

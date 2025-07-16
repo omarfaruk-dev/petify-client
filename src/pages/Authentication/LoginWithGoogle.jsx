@@ -17,13 +17,13 @@ const LoginWithGoogle = () => {
     setLoading(true);
     googleSignIn()
       .then(async (result) => {
-        console.log('Full Google sign-in result:', result);
+        // console.log('Full Google sign-in result:', result);
         const user = result.user;
-        console.log('Google user object:', user);
+        // console.log('Google user object:', user);
         // Log all keys in user object for debugging
         if (user) {
           Object.keys(user).forEach(key => {
-            console.log(`user.${key}:`, user[key]);
+            // console.log(`user.${key}:`, user[key]);
           });
         }
         // Try to get email from providerData if not present in user.email
@@ -49,10 +49,10 @@ const LoginWithGoogle = () => {
           last_log_in: new Date().toISOString(),
           photo: user.photoURL || '', // Added photo field
         };
-        console.log('Sending userInfo to server:', userInfo);
+        // console.log('Sending userInfo to server:', userInfo);
         try {
           const res = await axiosInstance.post('/users', userInfo);
-          console.log('User created:', res.data);
+          // console.log('User created:', res.data);
         } catch (err) {
           // If user already exists, treat as success
           if (
@@ -60,7 +60,7 @@ const LoginWithGoogle = () => {
             err.response.status === 400 &&
             err.response.data?.message === 'User already exists'
           ) {
-            console.log('User already exists:', err.response.data);
+            // console.log('User already exists:', err.response.data);
             // Optionally show a different message or just proceed
           } else {
             console.error('User creation error:', err.response?.data || err.message);

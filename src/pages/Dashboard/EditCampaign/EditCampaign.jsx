@@ -55,7 +55,7 @@ const EditCampaign = () => {
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`,
         formData
       );
-      console.log(formData);
+      // console.log(formData);
       setImageUrl(res.data.data.url);
       setValue('petImage', res.data.data.url, { shouldValidate: true });
     } catch {
@@ -87,9 +87,9 @@ const EditCampaign = () => {
     };
       
     try {
-      console.log('Updating campaign with data:', campaignData);
+      // console.log('Updating campaign with data:', campaignData);
       const res = await axiosSecure.put(`/donations/${id}`, campaignData);
-      console.log('Campaign update response:', res.data);
+      // console.log('Campaign update response:', res.data);
       if (res.status === 200) {
         Swal.fire({
           icon: 'success',

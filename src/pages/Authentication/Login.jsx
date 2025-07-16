@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FaEnvelope, FaEye, FaEyeSlash, FaFacebookF, FaApple } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
+import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import LoginWithGoogle from './LoginWithGoogle';
 import LoginWithGithub from './LoginWithGithub';
-import Spinner from '../Shared/Spinner';
 
 const Login = () => {
     const { loginUser, user  } = useAuth();
