@@ -90,25 +90,25 @@ const DashBoardStats = () => {
       {/* First row: 3 cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {/* My Added Pets */}
-        <div className="bg-base-100 shadow rounded p-7 flex flex-col items-center border border-primary/10 hover:shadow-md transition group">
+        <div className="bg-cyan-50 hover:bg-cyan-100 shadow rounded p-7 flex flex-col items-center border border-cyan-100 hover:shadow-md transition group">
           <span className="text-5xl mb-3 text-primary group-hover:scale-110 transition-transform"><FaPaw /></span>
-          <h2 className="text-lg font-bold text-secondary mb-1 tracking-wide">My Added Pets</h2>
+          <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">My Added Pets</h2>
           <p className="text-3xl font-extrabold text-primary drop-shadow">
             <CountUp end={pets.length} duration={3} separator="," />
           </p>
         </div>
         {/* My Campaigns */}
-        <div className="bg-yellow-50 shadow rounded p-7 flex flex-col items-center border border-yellow-200 hover:shadow-md transition group">
+        <div className="bg-yellow-50 hover:bg-yellow-100 shadow rounded p-7 flex flex-col items-center border border-yellow-100 hover:shadow-md transition group">
           <span className="text-5xl mb-3 text-yellow-500 group-hover:scale-110 transition-transform"><FaRibbon /></span>
-          <h2 className="text-lg font-bold text-yellow-700 mb-1 tracking-wide">My Campaigns</h2>
+          <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">My Campaigns</h2>
           <p className="text-3xl font-extrabold text-yellow-600 drop-shadow">
             <CountUp end={campaigns.length} duration={3} separator="," />
           </p>
         </div>
         {/* My Donations */}
-        <div className="bg-pink-50 shadow rounded p-7 flex flex-col items-center border border-pink-200 hover:shadow-md transition group">
+        <div className="bg-pink-50 hover:bg-pink-100 shadow rounded p-7 flex flex-col items-center border border-pink-100 hover:shadow-md transition group">
           <span className="text-5xl mb-3 text-pink-500 group-hover:scale-110 transition-transform"><FaHeart /></span>
-          <h2 className="text-lg font-bold text-pink-700 mb-1 tracking-wide">My Donations</h2>
+          <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">My Donations</h2>
           <p className="text-3xl font-extrabold text-pink-600 drop-shadow">
             <CountUp end={donations.length} duration={3} separator="," />
           </p>
@@ -117,17 +117,17 @@ const DashBoardStats = () => {
       {/* Second row: 2 cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {/* My Pet Adoption Requests */}
-        <div className="bg-blue-50 shadow rounded p-7 flex flex-col items-center border border-blue-200 hover:shadow-md transition group">
+        <div className="bg-blue-50 hover:bg-blue-100 shadow rounded p-7 flex flex-col items-center border border-blue-100 hover:shadow-md transition group">
           <span className="text-5xl mb-3 text-blue-500 group-hover:scale-110 transition-transform"><FaClipboardList /></span>
-          <h2 className="text-lg font-bold text-blue-700 mb-1 tracking-wide">My Pet Adoption Requests</h2>
+          <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">My Pet Adoption Requests</h2>
           <p className="text-3xl font-extrabold text-blue-600 drop-shadow">
             <CountUp end={myAdoptions.length} duration={3} separator="," />
           </p>
         </div>
         {/* Total Donated Amount */}
-        <div className="bg-green-50 shadow rounded p-7 flex flex-col items-center border border-green-200 hover:shadow-md transition group">
+        <div className="bg-green-50 hover:bg-green-100 shadow rounded p-7 flex flex-col items-center border border-green-100 hover:shadow-md transition group">
           <span className="text-5xl mb-3 text-green-500 group-hover:scale-110 transition-transform"><FaMoneyBillWave /></span>
-          <h2 className="text-lg font-bold text-green-700 mb-1 tracking-wide">Total Donated Amount</h2>
+          <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">Total Donated Amount</h2>
           <p className="text-3xl font-extrabold text-green-600 drop-shadow">
             $<CountUp end={totalDonatedAmount} duration={3} separator="," decimals={2} decimal="." />
           </p>

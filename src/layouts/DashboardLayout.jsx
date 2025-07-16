@@ -133,7 +133,7 @@ const DashboardLayout = () => {
           )}
           
           {/* Menu */}
-          <nav className={`flex-1 flex flex-col gap-2 mt-4 ${!sidebarOpen ? 'items-center' : ''}`}>
+          <nav className={`overflow-y-scroll flex-1 flex flex-col gap-2 ${!sidebarOpen ? 'items-center' : ''}`}>
             {/* Regular Menu Links */}
             {renderNavLinks(menuLinks)}
             
@@ -154,7 +154,7 @@ const DashboardLayout = () => {
           </nav>
           
           {/* User avatar and logout at the bottom */}
-          <div className="mt-auto mb-4 flex flex-col items-center gap-2">
+          {/* <div className="mt-auto mb-4 flex flex-col items-center gap-2">
             {user && user.photoURL ? (
               <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
             ) : (
@@ -167,7 +167,8 @@ const DashboardLayout = () => {
                 {user?.displayName || 'User'}
               </span>
             )}
-          </div>
+          </div> */}
+          <div className='divider'></div>
           <div className="mb-6 flex flex-col items-center mx-2 my-1">
             <button
               className={`flex items-center gap-2 rounded btn btn-error ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}
@@ -188,7 +189,7 @@ const DashboardLayout = () => {
         />
         {/* Mobile Sidebar */}
         <aside
-          className={`fixed top-0 left-0 h-full bg-white border-r border-base-300 z-50 shadow-lg transition-transform duration-300 w-64 flex flex-col md:hidden ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'
+          className={`overflow-y-scroll fixed top-0 left-0 h-full bg-white border-r border-base-300 z-50 shadow-lg transition-transform duration-300 w-64 flex flex-col md:hidden ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'
             }`}
           style={{ height: '100vh' }}
         >
