@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaPaw, FaUserAlt, FaBirthdayCake, FaMapMarkerAlt, FaTags } from 'react-icons/fa';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -138,7 +139,7 @@ const PetDetails = () => {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div className="bg-base-100 rounded shadow-lg p-6 text-center">
-                    <div className="text-6xl mb-4">🐾</div>
+                    <FaPaw className="text-5xl text-primary mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-secondary mb-2">
                         Pet not found
                     </h3>
@@ -151,59 +152,64 @@ const PetDetails = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="bg-base-100 rounded shadow-lg p-6">
-                {/* Header */}
-                <div className="mb-6">
-                    <h1 className="text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
-                        {pet.petName}
-                    </h1>
+        <div className="max-w-2xl mx-auto px-4 py-8 md:py-12 lg:py-16">
+            {/* Title at the top */}
+            <div className="mb-6 text-center flex flex-col items-center gap-2">
+                <FaPaw className="text-4xl text-primary mb-1" />
+                <h1 className="text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
+                    {pet.petName}
+                </h1>
+            </div>
+            <div className="bg-base-100 rounded shadow-lg p-6 flex flex-col gap-6">
+                {/* Pet Image */}
+                <div className="flex flex-col items-center justify-center">
+                    <img
+                        src={pet.petImage}
+                        alt={pet.petName}
+                        className="w-full h-80 md:h-96 object-cover rounded shadow-lg border-4 border-primary/20"
+                    />
                 </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Pet Image */}
-                    <div className="flex flex-col items-center justify-center">
-                        <img
-                            src={pet.petImage}
-                            alt={pet.petName}
-                            className="w-full h-96 object-cover rounded shadow-lg border-4 border-primary/20"
-                        />
-                    </div>
-
-                    {/* Pet Details */}
-                    <div className="bg-base-200 rounded p-6 shadow space-y-6">
-                        <h2 className="text-2xl font-bold text-primary mb-2">Pet Information</h2>
-                        <div className="grid grid-cols-1 gap-4">
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Name</span>
-                                <span className="block text-lg font-medium text-secondary">{pet.petName}</span>
-                            </div>
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Age</span>
-                                <span className="block text-lg font-medium text-secondary">{pet.petAge} <small>Months</small></span>
-                            </div>
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Location</span>
-                                <span className="block text-lg font-medium text-secondary">{pet.petLocation}</span>
-                            </div>
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Category</span>
-                                <span className="block text-lg font-medium text-secondary">{pet.petCategory?.label || pet.petCategory?.value}</span>
-                            </div>
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Short Description</span>
-                                <span className="block text-base text-secondary">{pet.shortDescription}</span>
-                            </div>
-                            <div>
-                                <span className="block text-secondary/70 text-sm font-semibold">Long Description</span>
-                                <span className="block text-base text-secondary">{pet.longDescription}</span>
-                            </div>
+                {/* Pet Details */}
+                <div className="bg-base-200 rounded p-6 shadow space-y-6">
+                    <h2 className="text-2xl font-bold text-primary mb-8 text-center">Pet Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <span className="text-secondary/70 text-sm font-semibold flex items-center gap-1">
+                                <FaUserAlt className="text-primary" /> Pet Name:
+                            </span>
+                            <span className="block text-lg font-medium text-secondary">{pet.petName}</span>
                         </div>
+                        <div>
+                            <span className="text-secondary/70 text-sm font-semibold flex items-center gap-1">
+                                <FaBirthdayCake className="text-primary" /> Age:
+                            </span>
+                            <span className="block text-lg font-medium text-secondary">{pet.petAge} <small>Months</small></span>
+                        </div>
+                        <div>
+                            <span className="text-secondary/70 text-sm font-semibold flex items-center gap-1">
+                                <FaMapMarkerAlt className="text-primary" /> Location:
+                            </span>
+                            <span className="block text-lg font-medium text-secondary">{pet.petLocation}</span>
+                        </div>
+                        <div>
+                            <span className="text-secondary/70 text-sm font-semibold flex items-center gap-1">
+                                <FaTags className="text-primary" /> Category
+                            </span>
+                            <span className="block text-lg font-medium text-secondary">{pet.petCategory?.label || pet.petCategory?.value}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span className="block text-secondary/70 text-sm font-semibold mb-1">Short Description</span>
+                        <span className="block text-base text-secondary">{pet.shortDescription}</span>
+                    </div>
+                    <div>
+                        <span className="block text-secondary/70 text-sm font-semibold mb-1">Long Description</span>
+                        <span className="block text-base text-secondary">{pet.longDescription}</span>
                     </div>
                 </div>
                 {/* Adopt Button */}
                 {!pet.adopted && (
-                    <div className="mt-8 flex justify-center">
+                    <div className="flex justify-center">
                         <button
                             onClick={() => {
                                 if (user && user.email === pet.userEmail) {
@@ -219,7 +225,7 @@ const PetDetails = () => {
                                     navigate('/login', { state: { from: location } });
                                 }
                             }}
-                            className="btn btn-primary text-base-100 w-full lg:w-auto"
+                            className="btn btn-primary text-base-100 w-full md:w-auto"
                         >
                             Adopt This Pet
                         </button>

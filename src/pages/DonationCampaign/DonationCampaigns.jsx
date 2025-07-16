@@ -261,7 +261,7 @@ const DonationCampaigns = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-base-100 to-secondary/5 py-8">
+    <div className="min-h-screen">
       <div className="py-8 md:py-12 lg:py-16 max-w-7xl mx-auto px-4">
         {/* Section Title */}
         <SectionTitle

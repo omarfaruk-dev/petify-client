@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FaBirthdayCake, FaMapMarkerAlt } from 'react-icons/fa';
+import SectionTitle from '../Shared/Component/SectionTitle';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
@@ -60,7 +62,7 @@ const PetListing = () => {
 
     if (isLoading) {
         return (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="py-8 md:py-12 lg:py-16 max-w-7xl mx-auto px-4">
                 <div className="w-full text-center">
                     <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 inline-block border-primary mx-auto">
                         Available Pets
@@ -106,13 +108,23 @@ const PetListing = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 inline-block border-primary mx-auto">
-                Available Pets
-            </h2>
+        <div className="py-8 md:py-12 lg:py-16 max-w-7xl mx-auto px-4">
+            {/* Section Title */}
+            <SectionTitle
+                label="Browse Pets"
+                labelPosition="center"
+                title="Available Pets"
+                titlePosition="center"
+            />
+            {/* Subtitle */}
+            <div className="text-center mb-8">
+                <p className="text-lg text-secondary/60 max-w-2xl mx-auto">
+                    Discover your new best friend! Browse all available pets and find the perfect companion to welcome into your home.
+                </p>
+            </div>
             <div className="mb-8">
                 {/* Search and Filter Section */}
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="w-full max-w-1/2 mx-auto flex flex-col md:flex-row gap-4 mb-6">
                     {/* Search Input */}
                     <div className="flex-1">
                         <label className="label">
@@ -182,49 +194,46 @@ const PetListing = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredPets.map((pet) => (
-                        <div key={pet._id} className="rounded bg-base-200 shadow hover:shadow-md transition-shadow duration-300">
-                            {/* Pet Image */}
-                            <figure className="">
+                        <div
+                            key={pet._id}
+                            className="group relative rounded bg-base-100 shadow hover:shadow-md hover:-translate-y-2 transition-all duration-300 overflow-hidden border border-primary/10 hover:border-primary/30"
+                        >
+                            {/* Pet Image with overlay and badge */}
+                            <div className="relative h-48 w-full overflow-hidden">
                                 <img
                                     src={pet.petImage}
                                     alt={pet.petName}
-                                    className="rounded w-full h-48 object-cover"
+                                    className="w-full h-full object-cover rounded group-hover:scale-105 transition-transform duration-300"
                                 />
-                            </figure>
+                                {/* Category Badge */}
+                                <span className="absolute top-3 left-3 bg-primary/90 text-base-100 text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                                    {pet.petCategory?.label || pet.petCategory?.value || pet.petCategory || 'N/A'}
+                                </span>
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-base-100/80 via-base-100/10 to-transparent opacity-80 pointer-events-none"></div>
+                            </div>
 
                             {/* Card Content */}
-                            <div className="card-body">
-                                <h3 className="card-title text-secondary font-bold text-lg">
+                            <div className="p-4 flex flex-col gap-2">
+                                <h3 className="text-lg font-bold text-secondary group-hover:text-primary transition-colors duration-200 truncate">
                                     {pet.petName}
                                 </h3>
-
-                                <div className="space-y-2">
-                                    {/* Age */}
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-primary font-medium">Age:</span>
-                                        <span className="text-secondary">{pet.petAge} years</span>
-                                    </div>
-
-                                    {/* Category */}
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-primary font-medium">Category:</span>
-                                        <span className="text-secondary">
-                                            {pet.petCategory?.label || pet.petCategory?.value || pet.petCategory || 'N/A'}
-                                        </span>
-                                    </div>
-
-                                    {/* Location */}
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-primary font-medium">Location:</span>
-                                        <span className="text-secondary">{pet.petLocation}</span>
-                                    </div>
+                                <div className="flex items-center gap-2 text-sm text-secondary/80">
+                                    <span className="inline-flex items-center gap-1">
+                                        <FaBirthdayCake className="w-4 h-4 text-primary" />
+                                        {pet.petAge} Months
+                                    </span>
+                                    <span className="inline-flex items-center gap-1">
+                                        <FaMapMarkerAlt className="w-4 h-4 text-primary" />
+                                        {pet.petLocation}
+                                    </span>
                                 </div>
-
+                                <div className="flex-1"></div>
                                 {/* View Details Button */}
-                                <div className="card-actions justify-end mt-4">
+                                <div className="pt-2 flex justify-end">
                                     <button
                                         onClick={() => handleViewDetails(pet._id)}
-                                        className="btn btn-primary text-base-100"
+                                        className="btn btn-primary btn-sm text-base-100 px-5 transition-transform duration-200"
                                     >
                                         View Details
                                     </button>
