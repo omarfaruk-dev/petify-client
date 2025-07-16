@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
+import Marquee from 'react-fast-marquee';
 import { FaCat, FaDog, FaFish } from 'react-icons/fa';
 import { LuBird } from "react-icons/lu";
 import { GiRabbit } from 'react-icons/gi';
@@ -13,10 +15,9 @@ const categories = [
 ];
 
 const PetsCategory = () => {
+  const navigate = useNavigate();
   return (
-    <section className="relative w-full max-w-6xl mx-auto py-14 px-4 rounded-2xl overflow-hidden mt-8 mb-12">
-      {/* Soft gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 blur-[2px] z-0" />
+    <section className="relative w-full max-w-7xl mx-auto px-4 rounded-2xl overflow-hidden mt-8 mb-12">
       {/* Decorative paw prints */}
       <svg className="absolute left-8 top-8 opacity-10 z-0" width="60" height="60" viewBox="0 0 60 60" fill="none">
         <ellipse cx="15" cy="15" rx="7" ry="10" fill="#fbbf24"/>
@@ -34,30 +35,33 @@ const PetsCategory = () => {
       </svg>
       {/* Section Heading */}
       <h2 className="relative z-10 text-3xl md:text-4xl font-extrabold text-center text-primary drop-shadow mb-3 tracking-tight">
-        <span className="inline-block bg-white/70 px-4 py-1 rounded-xl shadow-sm">🐾 Browse by Pet Category 🐾</span>
+        <span className="inline-block px-4 py-1 rounded-xl shadow-sm">🐾 Browse by Pet Category 🐾</span>
       </h2>
       <p className="relative z-10 text-center text-base md:text-lg text-base-content/70 mb-10 max-w-2xl mx-auto">
         Find your favorite type of pet! Click a category to explore adorable companions.
       </p>
-      {/* Category Cards */}
-      <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-7 justify-items-center">
-        {categories.map((cat, idx) => (
-          <button
-            key={cat.name}
-            className="group bg-white/60 backdrop-blur-md border border-base-content/10 rounded-2xl shadow-lg flex flex-col items-center justify-center p-7 w-32 h-36 transition-all duration-300 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary/40 card-fade-in"
-            style={{ animationDelay: `${idx * 80}ms` }}
-            type="button"
-          >
-            <span className="mb-4 group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">
-              {cat.icon}
-            </span>
-            <span className="text-lg font-bold text-base-content group-hover:text-primary tracking-wide">
-              {cat.name}
-            </span>
-          </button>
-        ))}
+      {/* Category Cards Marquee */}
+      <div className="relative z-10 w-full py-4">
+        <Marquee gradient={false} speed={40} direction="left" pauseOnHover={true} className="flex">
+          {Array(3).fill(categories).flat().map((cat, idx) => (
+            <button
+              key={cat.name + '-' + idx}
+              className="group cursor-pointer bg-base-200/60 backdrop-blur-md border border-base-content/10 rounded flex flex-col items-center justify-center p-7 w-32 h-36 min-w-[8rem] mx-8 transition-all duration-300 hover:-translate-y-3 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/40 card-fade-in"
+              style={{ animationDelay: `${(idx % categories.length) * 80}ms` }}
+              type="button"
+              onClick={() => navigate('/pet-listing')}
+            >
+              <span className="mb-4 group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">
+                {cat.icon}
+              </span>
+              <span className="text-lg font-bold text-base-content group-hover:text-primary tracking-wide">
+                {cat.name}
+              </span>
+            </button>
+          ))}
+        </Marquee>
       </div>
-      {/* Fade-in and glassmorphism styles */}
+      {/* Fade-in, glassmorphism, and hide scrollbar styles */}
       <style>{`
         .card-fade-in {
           opacity: 0;
@@ -69,6 +73,13 @@ const PetsCategory = () => {
             opacity: 1;
             transform: none;
           }
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </section>

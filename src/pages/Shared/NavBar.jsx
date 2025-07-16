@@ -87,7 +87,7 @@ const NavBar = () => {
       ref={navRef}
       className="fixed top-0 left-0 bg-base-100 border-b border-secondary/20 w-full z-50"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16 items-center w-full">
           {/* Logo */}
           <div className="flex items-center flex-shrink-0">

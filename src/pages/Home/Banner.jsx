@@ -2,6 +2,7 @@
 import { FaPaw } from 'react-icons/fa';
 import bannerImg from '../../assets/images/banner.png';
 import { Link } from 'react-router';
+import { Typewriter } from 'react-simple-typewriter';
 
 const Banner = () => {
     return (
@@ -46,8 +47,20 @@ const Banner = () => {
             </div>
             {/* Content */}
             <div className="relative z-30 max-w-2xl mx-auto px-4 py-12 text-center flex flex-col items-center justify-center">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-secondary mb-4">
-                    Find, Adopt, Donate & Care for Pets with Petify
+                <h1 className="text-3xl md:text-5xl font-extrabold text-secondary mb-4 min-h-[3.5rem] flex flex-wrap items-center justify-center gap-2">
+                    <span>Find,</span>
+                    <span className="inline-block min-w-[110px] md:min-w-[140px] text-primary">
+                        <Typewriter
+                            words={['Adopt', 'Donate', 'Rescue', 'Support']}
+                            loop={0}
+                            cursor
+                            cursorStyle='|'
+                            typeSpeed={100}
+                            deleteSpeed={100}
+                            delaySpeed={1600}
+                        />
+                    </span>
+                    <span>&amp; Care for your pets</span>
                 </h1>
                 <p className="text-base md:text-lg text-accent mb-6">
                     Discover loving pets, connect with caring owners, and make a difference—adopt, donate, or support animal welfare, all in one place.
