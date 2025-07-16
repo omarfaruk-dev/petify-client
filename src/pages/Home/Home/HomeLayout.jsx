@@ -3,6 +3,7 @@ import About from "../About";
 import Banner from "../Banner";
 import Faq from "../Faq";
 import PetsCategory from "../PetsCategory";
+import WhyChooseUs from "../WhyChooseUs";
 // import HeroSlider from "../HeroSlider";
 
 const HomeLayout = () => {
@@ -13,6 +14,7 @@ const HomeLayout = () => {
             <PetsCategory/>
             <CallToAction/>
             <About/>
+            <WhyChooseUs/>
             <Faq/>
         </div>
     );
