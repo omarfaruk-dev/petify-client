@@ -16,7 +16,7 @@ const DashBoardStats = () => {
   const axiosSecure = useAxiosSecure();
 
   // Fetch pets using React Query
-  const { data: pets = [], error, isLoading } = useQuery({
+  const { data = {}, error, isLoading } = useQuery({
     queryKey: ['my-pets', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -24,6 +24,7 @@ const DashBoardStats = () => {
       return res.data;
     }
   });
+  const { pets = [], totalPets = 0 } = data;
 
   // Fetch campaigns using React Query (reference: MyCampaign.jsx)
   const { data: campaignsData = { campaigns: [] }, isLoading: isCampaignsLoading, error: campaignsError } = useQuery({
@@ -145,7 +146,7 @@ const DashBoardStats = () => {
           <span className="text-5xl mb-3 text-primary group-hover:scale-110 transition-transform"><FaPaw /></span>
           <h2 className="text-lg font-bold text-primary mb-1 tracking-wide">My Added Pets</h2>
           <p className="text-3xl font-extrabold text-primary drop-shadow">
-            <CountUp end={pets.length} duration={3} separator="," />
+            <CountUp end={totalPets} duration={3} separator="," />
           </p>
         </div>
         {/* My Campaigns */}
