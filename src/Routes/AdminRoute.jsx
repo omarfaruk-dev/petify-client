@@ -15,6 +15,10 @@ const AdminRoute = ({children}) => {
         return <Navigate state={{ from: location.pathname }} to="/forbidden"></Navigate>
     }
 
+    //  if (user) {
+    //     return <Navigate state={{ from: location.pathname }} to="/dashboard"></Navigate>
+    // }
+
 
     return children;
 };

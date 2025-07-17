@@ -235,11 +235,24 @@ const MyCampaign = () => {
     }),
     columnHelper.accessor('status', {
       header: () => 'Status',
-      cell: info => (
-        <span className={`badge ${info.getValue() === 'active' ? 'badge-success' : 'badge-warning'}`}>
-          {info.getValue() === 'active' ? 'Active' : 'Paused'}
-        </span>
-      ),
+      cell: info => {
+        const campaign = info.row.original;
+        const lastDate = new Date(campaign.lastDate);
+        const now = new Date();
+        lastDate.setHours(0,0,0,0);
+        now.setHours(0,0,0,0);
+        const isClosed = lastDate < now;
+        let label = 'Active';
+        let badge = 'badge-success';
+        if (isClosed) {
+          label = 'Closed';
+          badge = 'badge-error';
+        } else if (campaign.status === 'paused') {
+          label = 'Paused';
+          badge = 'badge-warning';
+        }
+        return <span className={`badge ${badge}`}>{label}</span>;
+      },
       sortingFn: 'basic',
     }),
     columnHelper.display({
@@ -488,7 +501,7 @@ const MyCampaign = () => {
 
       {/* Donators Modal */}
       {showDonatorsModal && selectedCampaign && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-secondary/50 bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-base-100 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-secondary">
@@ -496,7 +509,7 @@ const MyCampaign = () => {
               </h3>
               <button
                 onClick={() => setShowDonatorsModal(false)}
-                className="btn btn-sm btn-circle btn-ghost"
+                className="btn btn-sm btn-circle btn-primary text-base-100"
               >
                 ✕
               </button>

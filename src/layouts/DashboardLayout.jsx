@@ -54,6 +54,16 @@ const DashboardLayout = () => {
     }
   }, [user?.email]);
 
+  // Redirect non-admin users from admin dashboard pages
+  useEffect(() => {
+    if (!roleLoading && role !== 'admin') {
+      const adminPaths = ['/dashboard/all-users', '/dashboard/all-pets', '/dashboard/all-donations'];
+      if (adminPaths.some(path => window.location.pathname.startsWith(path))) {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [role, roleLoading, navigate]);
+
   // Logout logic
   const handleLogout = () => {
     Swal.fire({
