@@ -7,7 +7,7 @@ import { Typewriter } from 'react-simple-typewriter';
 const Banner = () => {
     return (
         <section
-            className="mb-8 md:mb-16 lg:mb-20 py-50 relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden rounded-b-md  border border-base-content/10 my-6"
+            className=" mb-8 md:mb-16 lg:mb-20 py-50 relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden rounded-b-md  border border-base-content/10 my-6"
         >
             {/* Petify themed single banner image */}
             <img
@@ -17,7 +17,7 @@ const Banner = () => {
                 loading="lazy"
             />
             {/* Primary color overlay */}
-            <div className="absolute inset-0 z-20 bg-primary/30 opacity-40 pointer-events-none select-none mix-blend-multiply" />
+            <div className="absolute inset-0 z-20 bg-primary/30 opacity-40  pointer-events-none select-none mix-blend-multiply" />
             {/* Animated pet-themed background icons */}
             <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
                 {/* Animated Paw Icon */}
