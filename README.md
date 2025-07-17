@@ -1,24 +1,37 @@
 
-# Petify – Modern Pet Adoption & Donation Platform
 
-**Live Site:** [https://petify-us.web.app](https://petify-us.web.app)
+# PETIFY – Modern Pet Adoption & Donation Platform
 
-Client Repo: [https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-omarfaruk-dev](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-omarfaruk-dev)
+![Petify Responsive UI Screenshot](https://i.postimg.cc/Wp0mZQvF/petify-ui.png)
 
-Server Repo: [https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-omarfaruk-dev](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-omarfaruk-dev)
+**Live website:** [https://petify-us.web.app](https://petify-us.web.app)
 
-Petify is a modern, visually engaging web application for pet adoption, donation campaigns, and community-driven animal welfare. Built with React, Vite, and Tailwind CSS, it offers a seamless experience for discovering, adopting, and supporting pets in need.
+---
+
+# About Petify
+
+
+Petify is a full-stack web app built with the MERN stack (MongoDB, Express.js, React, Node.js), Vite, Tailwind CSS, and Firebase—enabling seamless pet adoption, donation campaigns, secure Stripe payments, and animal welfare with a modern UI, secure authentication, and real-time features for users and admins.
+
+Built with **React, Vite, Tailwind CSS, Firebase, Express,Node & MongoDB**
+
+## Related Repositories
+- **Client-side:** [Petify Client Side Repo](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-omarfaruk-dev)
+- **Server-side:** [Petify Server Side Repo](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-omarfaruk-dev)
+
 
 ## Key Features
 
 - **Home & Hero Section:**
-  - Eye-catching hero slider and call-to-action.
+  - Eye-catching hero banner with tagline and call-to-action.
 - **Pet Listing & Details:**
   - Browse, filter, and view detailed pet profiles with images, info, and adoption status.
 - **Adoption Requests:**
   - Secure, user-friendly adoption request flow with status tracking.
 - **Donation Campaigns:**
   - Create, manage, and donate to campaigns for animal welfare.
+- **Secure Payment with Stripe:**
+  - Make safe and reliable donations using integrated Stripe payment.
 - **User Dashboard:**
   - Personalized dashboard for managing pets, campaigns, donations, and profile.
 - **Admin Panel:**
@@ -35,17 +48,32 @@ Petify is a modern, visually engaging web application for pet adoption, donation
 - **Frontend:** React, Vite, Tailwind CSS, DaisyUI
 - **Routing:** React Router
 - **State & Context:** React Context API
-- **API & Data:** Axios, Firebase
-- **UI/UX:**
+- **API & Data:**
+  - Axios
+  - Firebase
+- **UI/UX & Animation:**
   - React Icons
   - Swiper (sliders)
   - SweetAlert2 (alerts)
   - React CountUp (animated numbers)
   - Recharts (charts/graphs)
+  - React Loading Skeleton
+  - React Select
+  - Framer Motion
 - **Utilities:**
   - React Hook Form
-  - React Query
+  - @tanstack/react-query
+  - React Intersection Observer
   - Infinite Scroll
+  - Slate
+- **Backend:**
+  - Express.js (REST API)
+  - MongoDB (Database)
+  - Stripe (Payment Integration)
+  - JSON Web Token (JWT) Authentication
+
+...existing code...
+
 
 ## Getting Started
 
@@ -63,6 +91,12 @@ Petify is a modern, visually engaging web application for pet adoption, donation
    npm run dev
    ```
 
+### Install Required Packages
+
+```bash
+npm install axios react-loading-skeleton @tanstack/react-query react-intersection-observer framer-motion react-hook-form react-icons react-select recharts slate sweetalert2
+```
+
 ## Folder Structure
 
 - `src/pages/` – Main pages (Home, PetListing, PetDetails, Dashboard, etc.)
@@ -77,11 +111,6 @@ Petify is a modern, visually engaging web application for pet adoption, donation
 - Update branding, images, and content in `src/assets/` and relevant components.
 - Configure Firebase in `src/firebase/firebase.init.js`.
 - Adjust theme and colors in `tailwind.config.js` and DaisyUI settings.
-
-## Credits
-- Pet images: Unsplash, Pexels, and custom assets
-- Icons: [React Icons](https://react-icons.github.io/react-icons/)
-- UI Libraries: Swiper, DaisyUI, SweetAlert2, Recharts
 
 ---
 
