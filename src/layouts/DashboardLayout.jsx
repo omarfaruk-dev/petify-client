@@ -85,7 +85,7 @@ const DashboardLayout = () => {
         ${sidebarOpen
             ? 'flex items-center gap-4 px-4 py-2 rounded mx-2 my-1'
             : 'flex flex-col items-center justify-center w-10 h-10 rounded my-1'}
-        ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+        ${isActive ? 'bg-primary text-base-100' : 'text-secondary hover:bg-primary/80 hover:text-base-100'}`
         }
         title={item.label}
       >
@@ -110,11 +110,11 @@ const DashboardLayout = () => {
                 <PetifyLogo />
               </Link>
               <button
-                className="ml-2 p-2 rounded focus:outline-none"
+                className="ml-2 p-2 focus:outline-none text-secondary hover:text-primary transition-all duration-300"
                 onClick={() => setSidebarOpen((prev) => !prev)}
                 aria-label="Toggle sidebar"
               >
-                <FaBars size={22} className='text-primary hover:text-secondary' />
+                <FaBars size={22} />
               </button>
             </div>
           ) : (
@@ -123,11 +123,11 @@ const DashboardLayout = () => {
                 <LogoSmall />
               </Link>
               <button
-                className="p-2 rounded focus:outline-none"
+                className="p-2 focus:outline-none text-secondary hover:text-primary transition-all duration-300"
                 onClick={() => setSidebarOpen(true)}
                 aria-label="Toggle sidebar"
               >
-                <FaBars size={22} className='text-primary hover:text-secondary' />
+                <FaBars size={22} />
               </button>
             </div>
           )}
@@ -183,11 +183,11 @@ const DashboardLayout = () => {
               {sidebarOpen ? <PetifyLogo /> : <LogoSmall />}
             </Link>
             <button
-              className="ml-2 p-2 rounded focus:outline-none hover:bg-primary"
+              className="ml-2 p-2 focus:outline-none text-secondary hover:text-primary transition-all duration-300"
               onClick={() => setMobileSidebar(false)}
               aria-label="Close sidebar"
             >
-              <FaBars size={22} className='text-primary' />
+              <FaBars size={22} />
             </button>
           </div>
           <nav className="flex-1 flex flex-col gap-2 mt-4">
@@ -197,8 +197,8 @@ const DashboardLayout = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 px-4 py-2 rounded mx-2 my-1 font-semibold transition-colors duration-200
-                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+                  `flex items-center gap-4 px-4 py-1 rounded mx-2 font-semibold transition-colors duration-200
+                ${isActive ? 'bg-primary text-base-100' : 'text-secondary hover:bg-primary/80 hover:text-base-100'}`
                 }
                 title={item.label}
                 onClick={() => setMobileSidebar(false)}
@@ -224,8 +224,8 @@ const DashboardLayout = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 px-4 py-2 rounded mx-2 my-1 font-semibold transition-colors duration-200
-                ${isActive ? 'bg-primary text-white' : 'text-secondary hover:bg-primary/80 hover:text-white'}`
+                  `flex items-center gap-4 px-4 py-1 rounded mx-2 font-semibold transition-colors duration-200
+                ${isActive ? 'bg-primary text-base-100' : 'text-secondary hover:bg-primary/80 hover:text-base-100'}`
                 }
                 title={item.label}
                 onClick={() => setMobileSidebar(false)}
@@ -235,26 +235,14 @@ const DashboardLayout = () => {
               </NavLink>
             ))}
           </nav>
-          {/* <div className="mt-auto mb-4 flex flex-col items-center gap-2">
-            {user && user.photoURL ? (
-              <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-secondary font-bold">
-                {user?.displayName?.[0] || 'U'}
-              </div>
-            )}
-            <span className="mt-2 text-xs text-secondary font-semibold text-center max-w-[120px] truncate">
-              {user?.displayName || 'User'}
-            </span>
-          </div> */}
           
-          <div className="mb-6 flex flex-col items-center">
+          <div className="mb-6 flex flex-col items-center px-2">
             <button
-              className="flex items-center gap-2 px-4 py-2 rounded text-white bg-error hover:bg-error/80 transition-colors duration-200 w-full justify-center"
+              className="flex items-center gap-2 py-2 my-2 rounded btn btn-outline btn-error w-full "
               onClick={handleLogout}
             >
               <FaSignOutAlt />
-              <span>Logout</span>
+              Logout
             </button>
           </div>
         </aside>
@@ -264,13 +252,15 @@ const DashboardLayout = () => {
           {/* Top Navbar - full width, fixed */}
           <header className="fixed left-0 right-0 top-0 h-16 bg-base-100 border-b border-primary/20 flex items-center px-4 md:px-8 z-30 shadow-sm w-full">
             {/* Hamburger for mobile */}
+           
             <button
-              className="md:hidden mr-2 p-2 rounded focus:outline-none hover:bg-base-200"
+              className="md:hidden mr-2 p-2 focus:outline-none hover:text-primary transition-all duration-300"
               onClick={() => setMobileSidebar(true)}
               aria-label="Open sidebar"
             >
               <FaBars size={22} />
             </button>
+            <h3 className='text-xl font-semibold text-secondary'>  Dashboard</h3>
             {/* Theme toggle */}
             <button className=" mr-4 ml-auto" title="Theme Toggle">
               <ThemeToggle />

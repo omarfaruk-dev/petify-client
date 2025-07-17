@@ -8,8 +8,6 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { FaPaw, FaRibbon, FaHeart, FaClipboardList, FaMoneyBillWave } from 'react-icons/fa';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-// import welcomeLottie from '../../assets/lotties/welcome-lottie.json'
-// import Lottie from 'lottie-react';
 
 const DashBoardStats = () => {
   const { user } = useAuth();
