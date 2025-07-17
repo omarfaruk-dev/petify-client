@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 
 const PetDetails = () => {
     const { id } = useParams();
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -97,7 +97,21 @@ const PetDetails = () => {
         }
     };
 
-    if (isLoading) {
+    console.log('User object:', user);
+
+    if (!user) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Authentication Error',
+          text: 'No user info found. Please log in again.',
+          showConfirmButton: true
+        });
+        // navigate('/login', { state: { from: location } });
+        // return null;
+    }
+
+
+    if (isLoading || loading) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <div className="bg-base-100 rounded shadow-md p-6">
@@ -150,6 +164,8 @@ const PetDetails = () => {
             </div>
         );
     }
+
+    console.log(user?.email, pet.userEmail);
 
     return (
         <div className="max-w-2xl mx-auto px-4 py-8 md:py-12 lg:py-16">

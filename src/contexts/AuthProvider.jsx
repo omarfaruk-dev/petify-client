@@ -3,6 +3,15 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndP
 import { auth } from '../firebase/firebase.init';
 import { AuthContext } from './AuthContext';
 
+function normalizeUser(user) {
+  if (!user) return null;
+  const providerData = user.providerData && user.providerData[0] ? user.providerData[0] : {};
+  user.email = user.email || providerData.email || null;
+  user.displayName = user.displayName || providerData.displayName || 'Unknown';
+  user.photoURL = user.photoURL || providerData.photoURL || null;
+  return user;
+}
+
 const AuthProvider = ({ children }) => {
 
     const googleProvider = new GoogleAuthProvider();
@@ -43,13 +52,23 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            setUser(normalizeUser(currentUser));
             setLoading(false)
         })
         return () => {
             unsubscribe();
         }
     }, [])
+
+    useEffect(() => {
+      console.log('AuthProvider user:', user);
+      if (user) {
+        console.log('AuthProvider user.email:', user.email);
+        if (user.providerData && user.providerData[0]) {
+          console.log('AuthProvider providerData[0].email:', user.providerData[0].email);
+        }
+      }
+    }, [user]);
 
     const authData = {
         user,

@@ -14,10 +14,13 @@ const useAxiosSecure = () => {
         if (user) {
             try {
                 const token = await user.getIdToken();
-                config.headers.Authorization = `Bearer ${token}`
+                config.headers.Authorization = `Bearer ${token}`;
+                console.log('[AxiosSecure] Sending request:', config.method, config.url, 'user.email:', user.email, 'token:', token.slice(0, 10) + '...');
             } catch (error) {
-                console.error('Error getting ID token:', error);
+                console.error('[AxiosSecure] Error getting ID token:', error);
             }
+        } else {
+            console.log('[AxiosSecure] No user found when making request:', config.method, config.url);
         }
         return config;
     }, error => {
@@ -27,6 +30,7 @@ const useAxiosSecure = () => {
     axiosSecure.interceptors.response.use(response => {
         return response;
     }, error => {
+        console.error('[AxiosSecure] Response error', error.response?.status, error.response?.data, 'for request:', error.config?.url);
         if (error.response?.status === 401 || error.response?.status === 403) {
             console.log('Logout the user');
         }
