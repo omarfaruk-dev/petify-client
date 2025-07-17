@@ -1,7 +1,7 @@
 import React from "react";
 import { FaPaw, FaFacebookF, FaTwitter, FaInstagram, FaEnvelope, FaPhoneAlt, FaHome, FaPlus } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
-
+import paymentIcon from '../../assets/images/Payment-Icons.png'
 const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10 text-secondary pt-14 pb-8 border-t border-primary/20 shadow-inner">
@@ -20,7 +20,7 @@ const Footer = () => {
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold mb-2 text-primary">Explore</h3>
           <NavLink to='/' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaHome /> Home</NavLink>
-          <NavLink to='/pets' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPaw /> Pet Listing</NavLink>
+          <NavLink to='/pet-listing' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPaw /> Pet Listing</NavLink>
           <NavLink to='/donation-campaigns' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPlus /> Donation Campaigns</NavLink>
           <NavLink to='/login' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaEnvelope /> Login</NavLink>
         </div>
@@ -40,7 +40,12 @@ const Footer = () => {
         <div className="flex flex-col gap-3 items-start">
           <h3 className="text-lg font-semibold mb-2 text-primary">Get Involved</h3>
           <p className="text-secondary text-sm">Become a foster, volunteer, or donor and help us create more happy tails!</p>
-          <Link to="/donation-campaigns" className="inline-block mt-2 px-4 py-2 bg-primary text-base-100 rounded-full font-semibold shadow hover:bg-secondary hover:text-primary transition-colors duration-300">Support a Campaign</Link>
+        <Link to="/donation-campaigns" className="inline-block mt-2 px-4 py-2 bg-primary text-base-100 rounded-full font-semibold shadow hover:bg-secondary hover:text-primary transition-colors duration-300">Support a Campaign</Link>
+        {/* Payment Methods */}
+        <div className="mt-4 flex flex-wrap gap-2 items-center">
+          <img src={paymentIcon} alt="Payment Methods" className="h-8" style={{maxWidth: '100%'}} />
+          {/* Alt: WorldPay, Mastercard, Apple Pay, Visa, Google Pay, Bank Transfer */}
+        </div>
         </div>
       </div>
       {/* Bottom: Terms/Privacy row, then copyright row */}

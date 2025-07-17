@@ -50,7 +50,14 @@ const LoginWithGoogle = () => {
             throw err;
           }
         }
-        // Now reload so AuthProvider picks up the correct user
+        // Show success message then redirect
+        await Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You have successfully signed in with Google!',
+          timer: 1500,
+          showConfirmButton: false
+        });
         window.location.href = '/';
       })
       .catch(error => {
