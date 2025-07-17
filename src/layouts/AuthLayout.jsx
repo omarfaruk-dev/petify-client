@@ -9,8 +9,7 @@ const AuthLayout = () => {
             {/* Petify Logo at the top, clickable to go home */}
             <div className="absolute top-10 left-1/2 -translate-x-1/2 z-20">
                 <a href="/">
-                    {/* Assume PetifyLogo.jsx exports a default component */}
-                    <PetifyLogo className=" cursor-pointer transition-transform hover:scale-105" />
+                    <PetifyLogo className=" cursor-pointer" />
                 </a>
             </div>
 
@@ -80,7 +79,7 @@ const AuthLayout = () => {
                 }
                 `}
             </style>
-            <div className="w-full flex items-center justify-center py-12 px-2">
+            <div className="w-full flex items-center justify-center py-12 px-2 mt-15 ">
                 <Outlet/>
             </div>
         </div>

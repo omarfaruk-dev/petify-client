@@ -97,20 +97,6 @@ const PetDetails = () => {
         }
     };
 
-    console.log('User object:', user);
-
-    if (!user) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Authentication Error',
-          text: 'No user info found. Please log in again.',
-          showConfirmButton: true
-        });
-        // navigate('/login', { state: { from: location } });
-        // return null;
-    }
-
-
     if (isLoading || loading) {
         return (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
