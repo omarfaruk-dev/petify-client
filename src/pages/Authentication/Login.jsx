@@ -96,7 +96,7 @@ const Login = () => {
                 </div>
                <div className='flex '>
                <Link to="/forgot-password" className="block text-sm text-primary mb-4 hover:underline">
-                    Forget Password?
+                    Forgot Password?
                 </Link>
                </div>
                 <button className="btn btn-primary w-full rounded-md text-base-100 font-semibold mb-4">

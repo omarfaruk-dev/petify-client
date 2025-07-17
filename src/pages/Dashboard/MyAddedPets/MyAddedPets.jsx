@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useNavigate } from 'react-router';
@@ -54,7 +54,7 @@ const MyAddedPets = () => {
     retryDelay: 1000
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (petsData) {
       setTotalPages(petsData.totalPages || 1);
       setTotalPets(petsData.totalPets || 0);

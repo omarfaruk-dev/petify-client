@@ -111,6 +111,7 @@ const CreateCampaign = () => {
             {imageUrl && (
               <img src={imageUrl} alt="Pet" className="mt-2 rounded w-24 h-24 object-cover border" />
             )}
+            {submitError && <p className="text-red-500 text-sm mt-1 text-left">{submitError}</p>}
           </div>
 
           {/* Maximum Donation Amount */}
@@ -181,7 +182,6 @@ const CreateCampaign = () => {
         >
           {imageUploading ? 'Uploading Image...' : 'Create Campaign'}
         </button>
-        {submitError && <p className="text-red-500 text-sm mt-1 text-center">{submitError}</p>}
       </form>
     </div>
   );
