@@ -187,7 +187,7 @@ const MyCampaign = () => {
   // Calculate progress percentage
   const calculateProgress = (currentAmount, maxAmount) => {
     if (!maxAmount || maxAmount <= 0) return 0;
-    return Math.min((currentAmount / maxAmount) * 100, 100);
+    return (currentAmount / maxAmount) * 100;
   };
 
   const [sorting, setSorting] = useState([]);
@@ -224,7 +224,7 @@ const MyCampaign = () => {
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
                 className="bg-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
+                style={{ width: `${Math.min(progress, 100)}%` }}
               ></div>
             </div>
             <span className="text-xs text-gray-600">{progress.toFixed(1)}%</span>
@@ -509,7 +509,7 @@ const MyCampaign = () => {
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div 
                   className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${calculateProgress(selectedCampaign.totalDonations || 0, selectedCampaign.maxAmount)}%` }}
+                  style={{ width: `${Math.min(calculateProgress(selectedCampaign.totalDonations || 0, selectedCampaign.maxAmount), 100)}%` }}
                 ></div>
               </div>
               <p className="text-xs text-secondary/60">

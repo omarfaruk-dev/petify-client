@@ -228,7 +228,7 @@ const AllDonations = () => {
 
   // Calculate progress percentage
   const calculateProgress = (current, max) => {
-    return Math.min((current / max) * 100, 100);
+    return (current / max) * 100;
   };
 
   return (

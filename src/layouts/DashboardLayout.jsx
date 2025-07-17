@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
 import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate, FaUsers, FaPaw, FaHandHoldingHeart } from 'react-icons/fa';
-import { GrPowerCycle } from "react-icons/gr";
+import { GrAnnounce, GrPowerCycle } from "react-icons/gr";
 
 import PetifyLogo from '../pages/Shared/PetifyLogo';
 import LogoSmall from '../pages/Shared/LogoSmall';
@@ -24,7 +24,7 @@ const menuLinks = [
 const adminLinks = [
   { to: '/dashboard/all-users', icon: <FaUsers />, label: 'All Users' },
   { to: '/dashboard/all-pets', icon: <FaPaw />, label: 'All Pets' },
-  { to: '/dashboard/all-donations', icon: <FaHandHoldingHeart />, label: 'All Donations' },
+  { to: '/dashboard/all-donations', icon: <GrAnnounce  />, label: 'All Campaigns' },
 ];
 
 const DashboardLayout = () => {
