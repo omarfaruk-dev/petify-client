@@ -335,15 +335,29 @@ const AllDonations = () => {
                     </div>
                   </td>
                   <td>
-                    <span className={`badge ${
-                      campaign.status === 'active' ? 'badge-success' : 
-                      campaign.status === 'paused' ? 'badge-warning' : 
-                      campaign.status === 'completed' ? 'badge-info' : 'badge-error'
-                    }`}>
-                      {campaign.status === 'active' ? 'Active' : 
-                       campaign.status === 'paused' ? 'Paused' : 
-                       campaign.status === 'completed' ? 'Completed' : 'Cancelled'}
-                    </span>
+                    {(() => {
+                      const lastDate = new Date(campaign.lastDate);
+                      const now = new Date();
+                      lastDate.setHours(0,0,0,0);
+                      now.setHours(0,0,0,0);
+                      const isClosed = lastDate < now;
+                      let label = 'Active';
+                      let badge = 'badge-success';
+                      if (isClosed) {
+                        label = 'Closed';
+                        badge = 'badge-error';
+                      } else if (campaign.status === 'paused') {
+                        label = 'Paused';
+                        badge = 'badge-warning';
+                      } else if (campaign.status === 'completed') {
+                        label = 'Completed';
+                        badge = 'badge-info';
+                      } else if (campaign.status === 'cancelled') {
+                        label = 'Cancelled';
+                        badge = 'badge-error';
+                      }
+                      return <span className={`badge ${badge}`}>{label}</span>;
+                    })()}
                   </td>
                   <td>
                     <div className="flex gap-2">

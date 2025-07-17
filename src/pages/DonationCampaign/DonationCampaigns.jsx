@@ -78,7 +78,21 @@ const DonationCampaigns = () => {
   // Campaign Card Component
   const CampaignCard = ({ campaign }) => {
     const progress = calculateProgress(campaign.totalDonations || 0, campaign.maxAmount);
-    
+    // Determine if campaign is closed
+    const lastDate = new Date(campaign.lastDate);
+    const now = new Date();
+    lastDate.setHours(0,0,0,0);
+    now.setHours(0,0,0,0);
+    const isClosed = lastDate < now;
+    let statusLabel = 'Active';
+    let badgeClass = 'badge-success';
+    if (isClosed) {
+      statusLabel = 'Closed';
+      badgeClass = 'badge-error';
+    } else if (campaign.status === 'paused') {
+      statusLabel = 'Paused';
+      badgeClass = 'badge-warning';
+    }
     return (
       <div className="bg-base-100 rounded shadow overflow-hidden hover:shadow-md hover:-translate-y-2 transition-all duration-300 h-[500px] flex flex-col border border-primary/20 hover:border-primary/30">
         {/* Pet Image */}
@@ -89,8 +103,8 @@ const DonationCampaigns = () => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 right-3">
-            <span className={`badge badge-sm ${campaign.status === 'active' ? 'badge-success' : 'badge-warning'} shadow-lg`}>
-              {campaign.status === 'active' ? 'Active' : 'Paused'}
+            <span className={`badge badge-sm ${badgeClass} shadow-lg`}>
+              {statusLabel}
             </span>
           </div>
         </div>

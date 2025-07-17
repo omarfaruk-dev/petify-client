@@ -160,6 +160,18 @@ const CampaignDetails = () => {
   // Progress calculation
   const getProgress = (total, max) => ((total / max) * 100);
 
+  // Compute campaign status (active, paused, closed) after campaign is loaded
+  let campaignStatus = campaign?.status;
+  let isDeadlineOver = false;
+  if (campaign) {
+    const deadline = new Date(campaign.lastDate);
+    const now = new Date();
+    if (deadline < now) {
+      campaignStatus = 'closed';
+      isDeadlineOver = true;
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       {/* Campaign Details */}
@@ -216,13 +228,13 @@ const CampaignDetails = () => {
                   <span className="text-secondary font-medium">{campaign.userName}</span>
                 </span>
                 <span className="flex items-center gap-2">
-                  <span className="font-semibold">Deadline:</span>
+                  <span className="font-semibold">Last date of donation:</span>
                   <span>{new Date(campaign.lastDate).toLocaleDateString()}</span>
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="font-semibold">Status:</span>
-                  <span className={`badge ${campaign.status === 'active' ? 'badge-success' : 'badge-warning'}`}>
-                    {campaign.status}
+                  <span className={`badge ${campaignStatus === 'active' ? 'badge-success' : campaignStatus === 'paused' ? 'badge-warning' : 'badge-error'}`}>
+                    {campaignStatus}
                   </span>
                 </span>
               </div>
@@ -241,7 +253,8 @@ const CampaignDetails = () => {
                       setSuccess(false);
                     }
                   }}
-                  disabled={campaign.status !== 'active'}
+                  disabled={campaignStatus !== 'active'}
+                  title={isDeadlineOver ? 'Donation deadline is over' : undefined}
                 >
                   Donate Now
                 </button>
