@@ -96,7 +96,7 @@ const AddAPet = () => {
           {/* Pet Image Upload */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Image</span>
+              <span className="label-text text-secondary font-medium">Pet Image</span>
             </label>
             <input
               type="file"
@@ -104,7 +104,7 @@ const AddAPet = () => {
               className="w-full border-b border-secondary/30 focus:border-primary outline-none py-2 pr-10 pl-3 bg-transparent text-secondary placeholder:text-secondary/60 rounded file:bg-secondary/10 file:border-none file:rounded file:px-3 file:py-1"
               onChange={handleImageUpload}
             />
-            {imageUploading && <p className="text-primary text-sm mt-1">Uploading image...</p>}
+            {imageUploading && <p className="text-secondary text-sm mt-1">Uploading image...</p>}
             {errors.petImage && <p className="text-red-500 text-sm mt-1">{errors.petImage.message}</p>}
             {imageUrl && (
               <img src={imageUrl} alt="Pet" className="mt-2 rounded w-24 h-24 object-cover border" />
@@ -113,7 +113,7 @@ const AddAPet = () => {
           {/* Pet Name */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Name</span>
+              <span className="label-text text-secondary font-medium">Pet Name</span>
             </label>
             <input
               type="text"
@@ -126,7 +126,7 @@ const AddAPet = () => {
           {/* Pet Age */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Age <small> (Months) </small></span>
+              <span className="label-text text-secondary font-medium">Pet Age <small> (Months) </small></span>
             </label>
             <input
               type="number"
@@ -140,7 +140,7 @@ const AddAPet = () => {
           {/* Pet Category */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Category</span>
+              <span className="label-text text-secondary font-medium">Pet Category</span>
             </label>
             <Controller
               name="petCategory"
@@ -172,7 +172,7 @@ const AddAPet = () => {
           {/* Pet Location */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Location</span>
+              <span className="label-text text-secondary font-medium">Pet Location</span>
             </label>
             <input
               type="text"
@@ -185,7 +185,7 @@ const AddAPet = () => {
           {/* Short Description */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Short Description</span>
+              <span className="label-text text-secondary font-medium">Short Description</span>
             </label>
             <input
               type="text"
@@ -198,7 +198,7 @@ const AddAPet = () => {
           {/* Long Description */}
           <div className="mb-1 md:col-span-2">
             <label className="label">
-              <span className="label-text text-primary font-medium">Long Description</span>
+              <span className="label-text text-secondary font-medium">Long Description</span>
             </label>
             <textarea
               {...register('longDescription', { required: 'Long description is required' })}

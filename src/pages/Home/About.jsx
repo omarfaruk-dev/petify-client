@@ -6,7 +6,7 @@ import Lottie from 'lottie-react';
 
 const About = () => {
     return (
-        <section className="w-full py-8 md:py-12 lg:py-16 px-4 max-w-7xl mx-auto my-16">
+        <section className="w-full py-8 px-4 max-w-7xl mx-auto mb-8 md:mb-12 lg:mb-16">
             <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
                 {/* Left: About Details */}
                 <div className="flex-1 flex flex-col justify-center items-start text-left">

@@ -11,6 +11,9 @@ const AdoptionRequest = () => {
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 
+    // Add state to track which request is being processed
+    const [processingId, setProcessingId] = React.useState(null);
+
     // Fetch all adoption requests
     const { data: adoptions = [], isLoading } = useQuery({
         queryKey: ['adoptions'],
@@ -35,6 +38,7 @@ const AdoptionRequest = () => {
     });
 
     const handleStatusChange = async (id, status) => {
+        setProcessingId(id); // Set processing state
         try {
             await mutation.mutateAsync({ id, status });
             Swal.fire({
@@ -50,6 +54,8 @@ const AdoptionRequest = () => {
                 text: 'Could not update request status',
                 showConfirmButton: true
             });
+        } finally {
+            setProcessingId(null); // Reset processing state
         }
     };
 
@@ -143,22 +149,22 @@ const AdoptionRequest = () => {
                                         </span>
                                     </td>
                                     <td>
-                                        {req.status === 'pending' && (
-                                            <div className="flex gap-2">
-                                                <button
-                                                    className="btn btn-xs btn-success"
-                                                    onClick={() => confirmStatusChange(req._id, 'approved')}
-                                                >
-                                                    Accept
-                                                </button>
-                                                <button
-                                                    className="btn btn-xs btn-error"
-                                                    onClick={() => confirmStatusChange(req._id, 'rejected')}
-                                                >
-                                                    Reject
-                                                </button>
-                                            </div>
-                                        )}
+                                        <div className="flex gap-2">
+                                            <button
+                                                className="btn btn-xs btn-success"
+                                                onClick={() => confirmStatusChange(req._id, 'approved')}
+                                                disabled={req.status !== 'pending' || processingId === req._id}
+                                            >
+                                                Accept
+                                            </button>
+                                            <button
+                                                className="btn btn-xs btn-error"
+                                                onClick={() => confirmStatusChange(req._id, 'rejected')}
+                                                disabled={req.status !== 'pending' || processingId === req._id}
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

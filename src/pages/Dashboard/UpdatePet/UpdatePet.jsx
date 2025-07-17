@@ -148,14 +148,14 @@ const UpdatePet = () => {
 
   return (
     <div className="w-full max-w-2xl bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10 mx-auto">
-      <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 inline-block border-primary mx-auto">Update Pet</h2>
+      <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 border-primary inline-block mr-auto">Update Pet</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         {/* Responsive grid for form fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Pet Image Upload */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Image</span>
+              <span className="label-text text-secondary font-medium">Pet Image</span>
             </label>
             <input
               type="file"
@@ -163,7 +163,7 @@ const UpdatePet = () => {
               className="w-full border-b border-secondary/30 focus:border-primary outline-none py-2 pr-10 pl-3 bg-transparent text-secondary placeholder:text-secondary/60 rounded file:bg-secondary/10 file:border-none file:rounded file:px-3 file:py-1"
               onChange={handleImageUpload}
             />
-            {imageUploading && <p className="text-primary text-sm mt-1">Uploading image...</p>}
+            {imageUploading && <p className="text-secondary text-sm mt-1">Uploading image...</p>}
             {errors.petImage && <p className="text-red-500 text-sm mt-1">{errors.petImage.message}</p>}
             {imageUrl && (
               <img src={imageUrl} alt="Pet" className="mt-2 rounded w-24 h-24 object-cover border" />
@@ -172,7 +172,7 @@ const UpdatePet = () => {
           {/* Pet Name */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Name</span>
+              <span className="label-text text-secondary font-medium">Pet Name</span>
             </label>
             <input
               type="text"
@@ -185,7 +185,7 @@ const UpdatePet = () => {
           {/* Pet Age */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Age</span>
+              <span className="label-text text-secondary font-medium">Pet Age</span>
             </label>
             <input
               type="number"
@@ -199,7 +199,7 @@ const UpdatePet = () => {
           {/* Pet Category */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Category</span>
+              <span className="label-text text-secondary font-medium">Pet Category</span>
             </label>
             <Controller
               name="petCategory"
@@ -231,7 +231,7 @@ const UpdatePet = () => {
           {/* Pet Location */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Location</span>
+              <span className="label-text text-secondary font-medium">Pet Location</span>
             </label>
             <input
               type="text"
@@ -244,7 +244,7 @@ const UpdatePet = () => {
           {/* Short Description */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Short Description</span>
+              <span className="label-text text-secondary font-medium">Short Description</span>
             </label>
             <input
               type="text"
@@ -257,7 +257,7 @@ const UpdatePet = () => {
           {/* Long Description */}
           <div className="mb-1 md:col-span-2">
             <label className="label">
-              <span className="label-text text-primary font-medium">Long Description</span>
+              <span className="label-text text-secondary font-medium">Long Description</span>
             </label>
             <textarea
               {...register('longDescription', { required: 'Long description is required' })}

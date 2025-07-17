@@ -254,13 +254,13 @@ const DashboardLayout = () => {
             {/* Hamburger for mobile */}
            
             <button
-              className="md:hidden mr-2 p-2 focus:outline-none hover:text-primary transition-all duration-300"
+              className="mr-2 p-2 focus:outline-none hover:text-primary transition-all duration-300"
               onClick={() => setMobileSidebar(true)}
               aria-label="Open sidebar"
             >
               <FaBars size={22} />
             </button>
-            <h3 className='text-xl font-semibold text-secondary'>  Dashboard</h3>
+            <h3 className='md:hidden text-xl font-semibold text-secondary flex justify-center items-center'>  Dashboard</h3>
             {/* Theme toggle */}
             <button className=" mr-4 ml-auto" title="Theme Toggle">
               <ThemeToggle />

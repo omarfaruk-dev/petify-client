@@ -98,7 +98,7 @@ const CreateCampaign = () => {
           {/* Pet Image Upload */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Pet Picture</span>
+              <span className="label-text text-secondary font-medium">Pet Picture</span>
             </label>
             <input
               type="file"
@@ -106,7 +106,7 @@ const CreateCampaign = () => {
               className="w-full border-b border-secondary/30 focus:border-primary outline-none py-2 pr-10 pl-3 bg-transparent text-secondary placeholder:text-secondary/60 rounded file:bg-secondary/10 file:border-none file:rounded file:px-3 file:py-1"
               onChange={handleImageUpload}
             />
-            {imageUploading && <p className="text-primary text-sm mt-1">Uploading image...</p>}
+            {imageUploading && <p className="text-secondary text-sm mt-1">Uploading image...</p>}
             {errors.petImage && <p className="text-red-500 text-sm mt-1">{errors.petImage.message}</p>}
             {imageUrl && (
               <img src={imageUrl} alt="Pet" className="mt-2 rounded w-24 h-24 object-cover border" />
@@ -116,7 +116,7 @@ const CreateCampaign = () => {
           {/* Maximum Donation Amount */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Maximum Donation Amount</span>
+              <span className="label-text text-secondary font-medium">Maximum Donation Amount</span>
             </label>
             <input
               type="number"
@@ -135,7 +135,7 @@ const CreateCampaign = () => {
           {/* Last Date of Donation */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Last Date of Donation</span>
+              <span className="label-text text-secondary font-medium">Last Date of Donation</span>
             </label>
             <input
               type="datetime-local"
@@ -148,7 +148,7 @@ const CreateCampaign = () => {
           {/* Short Description */}
           <div className="mb-1">
             <label className="label">
-              <span className="label-text text-primary font-medium">Short Description</span>
+              <span className="label-text text-secondary font-medium">Short Description</span>
             </label>
             <input
               type="text"
@@ -163,7 +163,7 @@ const CreateCampaign = () => {
         {/* Long Description - Full Width */}
         <div className="mb-1">
           <label className="label">
-            <span className="label-text text-primary font-medium">Long Description</span>
+            <span className="label-text text-secondary font-medium">Long Description</span>
           </label>
           <textarea
             {...register('longDescription', { required: 'Long description is required' })}

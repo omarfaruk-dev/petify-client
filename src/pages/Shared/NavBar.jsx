@@ -118,7 +118,7 @@ const NavBar = () => {
                       {user.photoURL ? (
                         <img
                           src={user.photoURL}
-                          className="w-9 h-9 rounded-full"
+                          className="w-9 h-9 rounded-full cursor-pointer"
                           alt="User"
                         />
                       ) : (
@@ -160,12 +160,13 @@ const NavBar = () => {
                       >
                         <FaUserAlt className="mr-2" /> My Profile
                       </NavLink>
+                      <div className="border-t border-dashed border-secondary/20 w-full my-2"></div>
                       <button
                         onClick={() => {
                           setUserMenuOpen(false);
                           handleLogout();
                         }}
-                        className="flex border-t border-dashed border-secondary/20 items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
+                        className="cursor-pointer flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                       >
                         <IoLogOutOutline size={20} className="mr-2" /> Log Out
                       </button>

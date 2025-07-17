@@ -34,7 +34,7 @@ const features = [
 
 const WhyChooseUs = () => {
   return (
-    <section className="bg-primary/20 py-12 lg:py-26 sm:py-20 px-4 mb-8 md:mb-12 lg:mb-16 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="bg-gradient-to-br from-primary/10 via-secondary/10 to-primary/30 py-12 lg:py-26 sm:py-20 px-4 mb-8 md:mb-12 lg:mb-16 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-8 flex flex-col lg:flex-row items-center lg:items-stretch gap-12 lg:gap-8">
         
         <div className="w-full lg:w-5/12 xl:w-/12 flex-shrink-0 flex justify-center lg:justify-end">
@@ -42,11 +42,11 @@ const WhyChooseUs = () => {
             <div className="absolute inset-0 bg-primary/10 rounded-full shadow-lg">
               <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 
                           w-[70%] sm:w-[60%] 
-                          translate-x-[-30%] sm:translate-x-[-25%] md:translate-x-[-20%] lg:translate-x-[-15%]
-                          text-secondary text-[12px] leading-snug 
+                          translate-x-[-25%] sm:translate-x-[-25%] md:translate-x-[-20%] lg:translate-x-[-15%]
+                          text-secondary text-[10px] leading 
                           sm:text-xs sm:leading-normal 
                           md:text-sm md:leading-relaxed">
-                <p>Petify is your trusted partner for pet adoption, rescue & donate. We make it easy to find, adopt, and support pets in need—safely and joyfully.</p>
+                <p className='px-3 md:px-0 lg:pr-4'>Petify is your trusted partner for pet adoption, rescue & donate. We make it easy to find, adopt, and support pets in need—safely and joyfully.</p>
               </div>
             </div>
             <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/3 w-36 h-36 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 bg-primary text-base-100 rounded-full flex items-center justify-center text-center shadow-xl z-10">
