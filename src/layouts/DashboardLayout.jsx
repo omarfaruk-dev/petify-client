@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
 import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate, FaUsers, FaPaw, FaHandHoldingHeart } from 'react-icons/fa';
 import { GrPowerCycle } from "react-icons/gr";
@@ -39,9 +39,9 @@ const DashboardLayout = () => {
   const sidebarWidth = sidebarOpen ? 'w-65' : 'w-20';
 
   // Fetch user role
-  React.useEffect(() => {
+  useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/users/${user.email}/role`)
+      fetch(`${import.meta.env.VITE_API_URL}/users/${user.email}/role`)
         .then(res => res.json())
         .then(data => {
           setRole(data.role);
@@ -149,25 +149,11 @@ const DashboardLayout = () => {
               </div>
             )}
             
+         
             {/* Admin Menu Links */}
             {!roleLoading && role === 'admin' && renderNavLinks(adminLinks)}
           </nav>
           
-          {/* User avatar and logout at the bottom */}
-          {/* <div className="mt-auto mb-4 flex flex-col items-center gap-2">
-            {user && user.photoURL ? (
-              <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full border-2 border-primary" />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center text-secondary font-bold">
-                {user?.displayName?.[0] || 'U'}
-              </div>
-            )}
-            {sidebarOpen && (
-              <span className="mt-2 text-xs text-secondary font-semibold text-center max-w-[120px] truncate">
-                {user?.displayName || 'User'}
-              </span>
-            )}
-          </div> */}
           <div className="mb-6 flex flex-col items-center mx-2 my-1">
             <button
               className={`flex items-center gap-2 rounded btn btn-error ${sidebarOpen ? 'w-full justify-center' : 'justify-center'}`}

@@ -21,7 +21,7 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-2 text-primary">Explore</h3>
           <NavLink to='/' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaHome /> Home</NavLink>
           <NavLink to='/pets' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPaw /> Pet Listing</NavLink>
-          <NavLink to='/campaigns' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPlus /> Donation Campaigns</NavLink>
+          <NavLink to='/donation-campaigns' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaPlus /> Donation Campaigns</NavLink>
           <NavLink to='/login' className="flex items-center gap-2 hover:translate-x-2 duration-500 hover:text-primary font-medium"><FaEnvelope /> Login</NavLink>
         </div>
         {/* Contact & Social */}
@@ -40,7 +40,7 @@ const Footer = () => {
         <div className="flex flex-col gap-3 items-start">
           <h3 className="text-lg font-semibold mb-2 text-primary">Get Involved</h3>
           <p className="text-secondary text-sm">Become a foster, volunteer, or donor and help us create more happy tails!</p>
-          <Link to="/campaigns" className="inline-block mt-2 px-4 py-2 bg-primary text-base-100 rounded-full font-semibold shadow hover:bg-secondary hover:text-primary transition-colors duration-300">Support a Campaign</Link>
+          <Link to="/donation-campaigns" className="inline-block mt-2 px-4 py-2 bg-primary text-base-100 rounded-full font-semibold shadow hover:bg-secondary hover:text-primary transition-colors duration-300">Support a Campaign</Link>
         </div>
       </div>
       {/* Bottom: Terms/Privacy row, then copyright row */}
