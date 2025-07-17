@@ -26,6 +26,7 @@ import AllDonations from "../pages/Dashboard/AllDonations/AllDonations";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import DashBoardStats from "../pages/Dashboard/DashBoardStats";
 import Error404 from "../pages/ErrorPage/Error404";
+import ForgetPassword from "../pages/Authentication/ForgotPassword";
 
 
 const router = createBrowserRouter([
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
                 path: '/register',
                 Component: Register,
             },
+            {
+                path: '/forgot-password',
+                Component: ForgetPassword,
+            }
         ]
     },
     {

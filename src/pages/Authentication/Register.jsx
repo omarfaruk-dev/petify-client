@@ -104,7 +104,7 @@ const Register = () => {
         {/* Name field */}
         <div className="mb-1">
           <label className="label">
-            <span className="label-text text-primary font-medium">Your Name</span>
+            <span className="label-text text-secondary font-medium">Your Name</span>
           </label>
           <div className="relative">
             <input
@@ -120,7 +120,7 @@ const Register = () => {
         {/* Image upload field */}
         <div className="mb-1">
           <label className="label">
-            <span className="label-text text-primary font-medium">Profile Picture</span>
+            <span className="label-text text-secondary font-medium">Profile Picture</span>
           </label>
           <div className="relative">
             <input
@@ -136,7 +136,7 @@ const Register = () => {
         {/* Email Input */}
         <div className="mb-1">
           <label className="label">
-            <span className="label-text text-primary font-medium">Email</span>
+            <span className="label-text text-secondary font-medium">Email</span>
           </label>
           <div className="relative">
             <input
@@ -153,7 +153,7 @@ const Register = () => {
         {/* Password Input */}
         <div className="mb-1">
           <label className="label">
-            <span className="label-text text-primary font-medium">Password</span>
+            <span className="label-text text-secondary font-medium">Password</span>
           </label>
           <div className="relative">
             <input

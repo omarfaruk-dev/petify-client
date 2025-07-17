@@ -57,7 +57,7 @@ const Login = () => {
                 {/* Email Input */}
                 <div className="mb-1">
                     <label className="label">
-                        <span className="label-text text-primary font-medium">Email</span>
+                        <span className="label-text text-secondary font-medium">Email</span>
                     </label>
                     <div className="relative">
                         <input
@@ -73,7 +73,7 @@ const Login = () => {
                 {/* Password Input */}
                 <div className="mb-1">
                     <label className="label">
-                        <span className="label-text text-primary font-medium">Password</span>
+                        <span className="label-text text-secondary font-medium">Password</span>
                     </label>
                     <div className="relative">
                         <input
@@ -94,9 +94,11 @@ const Login = () => {
                     {errors.password?.type === "required" && <p className="text-red-500 text-sm mt-1">Password is required</p>}
                     {errors.password?.type === "minLength" && <p className="text-red-500 text-sm mt-1">Password must be at least 6 characters or longer</p>}
                 </div>
-                <Link to="/forget-password" className="text-sm text-primary mb-4 cursor-pointer hover:underline">
+               <div className='flex '>
+               <Link to="/forgot-password" className="block text-sm text-primary mb-4 hover:underline">
                     Forget Password?
                 </Link>
+               </div>
                 <button className="btn btn-primary w-full rounded-md text-base-100 font-semibold mb-4">
                     Log In
                 </button>
