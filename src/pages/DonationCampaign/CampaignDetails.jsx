@@ -105,7 +105,7 @@ const DonationForm = ({ campaign, amount, setAmount, onSuccess, onClose }) => {
       />
       <label className="block mb-2 text-secondary font-semibold">Card Details</label>
       <div className="border border-primary/30 rounded p-3 mb-4 bg-base-200">
-        <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+        <CardElement options={{ style: { base: { fontSize: '16px', color: '#4B5566' } } }} />
       </div>
       {error && <div className="text-error mb-2">{error}</div>}
       <button type="submit" className="btn btn-primary text-base-100 w-full" disabled={processing}>
@@ -124,6 +124,9 @@ const CampaignDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [donationAmount, setDonationAmount] = useState('');
   const [success, setSuccess] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = window.location.pathname;
 
   // Fetch campaign details using TanStack Query
   const { data: campaign, isLoading: loading, error } = useQuery({
@@ -155,7 +158,7 @@ const CampaignDetails = () => {
   const recommended = recommendedData || [];
 
   // Progress calculation
-  const getProgress = (total, max) => Math.min((total / max) * 100, 100);
+  const getProgress = (total, max) => ((total / max) * 100);
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
@@ -187,9 +190,9 @@ const CampaignDetails = () => {
                   <span className="text-secondary">${campaign.maxAmount} goal</span>
                 </div>
                 <div className="w-full bg-gray-300 rounded-full h-4 mb-2">
-                  <div 
-                    className="bg-gradient-to-r from-primary to-primary/80 h-4 rounded-full transition-all duration-500" 
-                    style={{ width: `${getProgress(campaign.totalDonations || 0, campaign.maxAmount)}%` }}
+                  <div
+                    className="bg-gradient-to-r from-primary to-primary/80 h-4 rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min(getProgress(campaign.totalDonations || 0, campaign.maxAmount), 100)}%` }}
                   ></div>
                 </div>
                 <span className="text-sm text-secondary/60 font-medium">
@@ -228,9 +231,16 @@ const CampaignDetails = () => {
               
               {/* Donate Button */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  className="btn btn-primary text-base-100 text-lg px-8 py-3 mx-auto" 
-                  onClick={() => { setShowModal(true); setSuccess(false); }} 
+                <button
+                  className="btn btn-primary text-base-100 text-lg px-8 py-3 mx-auto"
+                  onClick={() => {
+                    if (!user) {
+                      navigate('/login', { state: { from: location } });
+                    } else {
+                      setShowModal(true);
+                      setSuccess(false);
+                    }
+                  }}
                   disabled={campaign.status !== 'active'}
                 >
                   Donate Now
@@ -304,7 +314,7 @@ const CampaignDetails = () => {
                   <span>${rec.maxAmount} goal</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                  <div className="bg-primary h-2 rounded-full" style={{ width: `${getProgress(rec.totalDonations || 0, rec.maxAmount)}%` }}></div>
+                  <div className="bg-primary h-2 rounded-full" style={{ width: `${Math.min(getProgress(rec.totalDonations || 0, rec.maxAmount), 100)}%` }}></div>
                 </div>
                 <button className="btn btn-sm btn-primary text-base-100 mt-auto" onClick={() => window.location.href = `/campaign-details/${rec._id}`}>View Details</button>
               </div>

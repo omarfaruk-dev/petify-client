@@ -35,7 +35,7 @@ const DonationCampaigns = () => {
 
   // Calculate progress percentage
   const calculateProgress = (totalDonations, maxAmount) => {
-    return Math.min((totalDonations / maxAmount) * 100, 100);
+    return (totalDonations / maxAmount) * 100;
   };
 
   // Pagination handlers
@@ -111,7 +111,7 @@ const DonationCampaigns = () => {
             <div className="w-full bg-gray-200 rounded-full h-3 shadow-inner">
               <div 
                 className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500 shadow-sm"
-                style={{ width: `${progress}%` }}
+                style={{ width: `${Math.min(progress, 100)}%` }}
               ></div>
             </div>
             <span className="text-xs text-secondary/60 font-medium">{progress.toFixed(1)}% complete</span>
