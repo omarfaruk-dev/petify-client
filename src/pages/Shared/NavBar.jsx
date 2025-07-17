@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaListUl, FaPlus, FaRegUserCircle, FaDashcube, FaUserAlt, FaDonate } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaPaw, FaHome, FaUserAlt, FaDonate } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import useAuth from "../../hooks/useAuth";
 import ThemeToggle from "../../components/ThemeToggle";
@@ -126,11 +126,10 @@ const NavBar = () => {
                       )}
                     </button>
                     <div
-                      className={`absolute -right-12 mt-2 w-56 bg-base-100 border border-secondary/20 rounded-lg shadow-lg z-50 transition-all duration-500 ease-in-out transform ${
-                        userMenuOpen
+                      className={`absolute -right-12 mt-2 w-56 bg-base-100 border border-secondary/20 rounded-lg shadow-lg z-50 transition-all duration-500 ease-in-out transform ${userMenuOpen
                           ? "opacity-100 scale-100 pointer-events-auto visible"
                           : "opacity-0 scale-95 pointer-events-none invisible"
-                      }`}
+                        }`}
                       style={{ minWidth: "12rem" }}
                       aria-hidden={!userMenuOpen}
                     >
@@ -152,7 +151,7 @@ const NavBar = () => {
                         className="flex items-center w-full px-4 py-2 text-secondary hover:text-primary hover:translate-x-2 duration-500"
                         onClick={() => setUserMenuOpen(false)}
                       >
-                        <MdOutlineDashboard  className="mr-2" /> Dashboard
+                        <MdOutlineDashboard className="mr-2" /> Dashboard
                       </NavLink>
                       <NavLink
                         to="/dashboard/my-profile"
@@ -172,12 +171,6 @@ const NavBar = () => {
                       </button>
                     </div>
                   </div>
-                  {/* <button
-                    onClick={handleLogout}
-                    className="hidden md:inline-flex items-center justify-center btn btn-secondary text-base-100 rounded-3xl transition h-10 px-6 ml-2"
-                  >
-                    Log Out
-                  </button> */}
                 </>
               )}
             </div>
@@ -194,31 +187,28 @@ const NavBar = () => {
                 <FaBars className="text-secondary" size={22} />
               </button>
             )}
-            
+
           </div>
         </div>
       </div>
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${
-          menuOpen
+        className={`fixed inset-0 z-50 md:hidden transition-all duration-300 ${menuOpen
             ? "translate-x-0 opacity-100 visible"
             : "-translate-x-full opacity-0 invisible"
-        }`}
+          }`}
         style={{ pointerEvents: menuOpen ? "auto" : "none" }}
       >
         {/* Overlay */}
         <div
-          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
-            menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
+          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${menuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
           onClick={() => setMenuOpen(false)}
         />
         {/* Sidebar */}
         <div
-          className={`fixed bg-base-100 border-r border-secondary/20 w-64 h-full px-4 pb-4 pt-6 shadow-lg transition-transform duration-300 ${
-            menuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`fixed bg-base-100 border-r border-secondary/20 w-64 h-full px-4 pb-4 pt-6 shadow-lg transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
           onClick={(e) => e.stopPropagation()}
           style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
         >
@@ -244,20 +234,25 @@ const NavBar = () => {
               </li>
             ))}
           </ul>
+          {user &&
+            <>
+              <NavLink  to="/dashboard" className="flex items-center gap-2 font-medium transition-all duration-500 text-secondary hover:text-primary hover:translate-x-2 my-4"><MdOutlineDashboard /> Dashboard</NavLink>
+            </>}
           <div className="flex flex-col flex-1 justify-end pb-6">
             {user ? (
               <>
                 <div className="flex flex-col items-center gap-3 mb-4 mt-6 px-2">
+
                   <img
                     src={user?.photoURL}
                     className="w-14 h-14 p-1 border-2 border-secondary/30 rounded-full object-cover"
                     alt="User"
                   />
                   <div className="font-semibold text-secondary text-center">{user.displayName}</div>
-                  <div className="w-full border-b border-dashed border-secondary/20 my-2"></div>
+                  <div className="w-full border-b border-dashed border-primary/20 my-2"></div>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center justify-center btn btn-secondary text-white px-4 py-1 rounded-full gap-x-1 transition h-10 w-full"
+                    className="flex items-center justify-center btn btn-primary text-base-100 px-4 py-1 transition h-10 w-full"
                   >
                     Log Out
                   </button>
@@ -266,7 +261,7 @@ const NavBar = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center justify-center btn btn-secondary rounded text-white px-4 py-1 font-medium transition h-10"
+                className="flex items-center justify-center btn btn-primary text-white px-4 py-1 font-medium transition h-10"
               >
                 Log In
               </Link>

@@ -61,11 +61,11 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-      console.log('AuthProvider user:', user);
+    //   console.log('AuthProvider user:', user);
       if (user) {
-        console.log('AuthProvider user.email:', user.email);
+        // console.log('AuthProvider user.email:', user.email);
         if (user.providerData && user.providerData[0]) {
-          console.log('AuthProvider providerData[0].email:', user.providerData[0].email);
+        //   console.log('AuthProvider providerData[0].email:', user.providerData[0].email);
         }
       }
     }, [user]);

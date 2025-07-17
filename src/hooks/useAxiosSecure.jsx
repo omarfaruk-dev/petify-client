@@ -15,12 +15,12 @@ const useAxiosSecure = () => {
             try {
                 const token = await user.getIdToken();
                 config.headers.Authorization = `Bearer ${token}`;
-                console.log('[AxiosSecure] Sending request:', config.method, config.url, 'user.email:', user.email, 'token:', token.slice(0, 10) + '...');
+                // console.log('[AxiosSecure] Sending request:', config.method, config.url, 'user.email:', user.email, 'token:', token.slice(0, 10) + '...');
             } catch (error) {
                 console.error('[AxiosSecure] Error getting ID token:', error);
             }
         } else {
-            console.log('[AxiosSecure] No user found when making request:', config.method, config.url);
+            // console.log('[AxiosSecure] No user found when making request:', config.method, config.url);
         }
         return config;
     }, error => {
