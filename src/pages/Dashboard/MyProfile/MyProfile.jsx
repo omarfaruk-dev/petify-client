@@ -82,6 +82,7 @@ const MyProfile = () => {
 
   return (
     <div className="flex justify-center items-center min-h-[70vh] bg-base-100 py-8">
+      <title>My Profile - Petify</title>
       <div className="relative bg-white dark:bg-base-200 shadow rounded p-8 max-w-md w-full flex flex-col items-center border border-primary/10 transition-all duration-300">
         {/* Paw icon accent */}
         <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary rounded-full p-3 shadow border-4 border-white dark:border-base-200">

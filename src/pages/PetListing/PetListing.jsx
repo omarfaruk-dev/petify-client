@@ -68,6 +68,7 @@ const PetListing = () => {
 
     return (
         <div className="py-8 md:py-12 lg:py-16 max-w-7xl mx-auto px-4">
+            <title>Pet Listing - Available pets - Petify</title>
             <SectionTitle
                 label="Browse Pets"
                 title="Available Pets"

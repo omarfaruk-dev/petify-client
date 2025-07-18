@@ -107,6 +107,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-base-100">
+      <title>Dashboard - Petify</title>
       <div className='max-w-[1540px] mx-auto w-full'>
         {/* Sidebar */}
         {/* Desktop Sidebar */}
@@ -143,7 +144,7 @@ const DashboardLayout = () => {
           )}
           
           {/* Menu */}
-          <nav className={`overflow-y-scroll flex-1 flex flex-col gap-2 ${!sidebarOpen ? 'items-center' : ''}`}>
+          <nav className={`overflow-y-auto flex-1 flex flex-col gap-2 ${!sidebarOpen ? 'items-center' : ''}`}>
             {/* Regular Menu Links */}
             {renderNavLinks(menuLinks)}
             

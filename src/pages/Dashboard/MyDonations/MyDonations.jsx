@@ -57,6 +57,7 @@ const MyDonations = () => {
 
   return (
     <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
+      <title>My Donations for life - Petify</title>
       <h2 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary mb-6">
         My Donations
       </h2>

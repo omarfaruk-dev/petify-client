@@ -114,6 +114,7 @@ const AdoptionRequest = () => {
 
     return (
         <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
+            <title>Adoption Requests - Petify</title>
             <div className="mb-6">
                 <h1 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">
                     Adoption Requests for Your Pets

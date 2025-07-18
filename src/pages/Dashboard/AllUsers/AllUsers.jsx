@@ -166,6 +166,7 @@ const AllUsers = () => {
   return (
 
     <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
+      <title>All Users - Petify</title>
       <div className="flex flex-col gap-2 mb-6">
         <div className="flex justify-between flex-wrap items-center gap-4">
           <h2 className="md:text-3xl font-extrabold text-secondary border-b-2 pb-2 inline-block border-primary">

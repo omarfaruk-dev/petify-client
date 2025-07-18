@@ -95,6 +95,7 @@ const DonationCampaigns = () => {
     }
     return (
       <div className="bg-base-100 rounded shadow overflow-hidden hover:shadow-md hover:-translate-y-2 transition-all duration-300 h-[500px] flex flex-col border border-primary/20 hover:border-primary/30">
+        <title>Donation Campaigns - Petify</title>
         {/* Pet Image */}
         <div className="relative h-48 overflow-hidden group">
           <img

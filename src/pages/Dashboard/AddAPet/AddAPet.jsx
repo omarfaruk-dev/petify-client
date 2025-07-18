@@ -89,6 +89,7 @@ const AddAPet = () => {
 
   return (
     <div className="w-full max-w-2xl bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10 mx-auto">
+      <title>Add a Pet for adopt - Petify</title>
       <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 border-primary inline-block mr-auto">Add a Pet</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         {/* Responsive grid for form fields */}
