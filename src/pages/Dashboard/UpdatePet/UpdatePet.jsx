@@ -7,6 +7,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useParams, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import Spinner from '../../Shared/Spinner';
+import Skeleton from 'react-loading-skeleton';
 
 const petCategories = [
   { value: 'Cat', label: 'Cat' },
@@ -120,8 +121,29 @@ const UpdatePet = () => {
     }
   };
 
+
   if (loading) {
-    return <Spinner />;
+    // Skeleton loader for UpdatePet form
+    return (
+      <div className="w-full max-w-2xl bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10 mx-auto">
+        <div className="mb-4">
+          <Skeleton height={36} width={180} className="mb-2" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+          {[...Array(6)].map((_, i) => (
+            <div className="mb-1" key={i}>
+              <Skeleton height={20} width={120} className="mb-2" />
+              <Skeleton height={40} />
+            </div>
+          ))}
+          <div className="mb-1 md:col-span-2">
+            <Skeleton height={20} width={120} className="mb-2" />
+            <Skeleton height={80} />
+          </div>
+        </div>
+        <Skeleton height={44} width={180} className="mt-4" />
+      </div>
+    );
   }
 
   if (!petData) {
