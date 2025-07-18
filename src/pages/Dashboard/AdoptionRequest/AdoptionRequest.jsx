@@ -120,7 +120,11 @@ const AdoptionRequest = () => {
                 </h1>
             </div>
             {myAdoptions.length === 0 ? (
-                <div className="text-center text-secondary/70 py-12">No adoption requests for your pets yet.</div>
+                <div className="text-center text-secondary py-12 flex flex-col items-center gap-2">
+                  <span className="text-5xl mb-2">🐾</span>
+                  <span className="font-semibold text-lg">No adoption requests yet</span>
+                  <span className="text-sm text-secondary/60 max-w-md">Once someone falls in love with your pet, their adoption request will appear here. Share your pet's profile to reach more loving families!</span>
+                </div>
             ) : (
                 <div className="overflow-x-auto">
                     <table className="table table-zebra min-w-max w-full">

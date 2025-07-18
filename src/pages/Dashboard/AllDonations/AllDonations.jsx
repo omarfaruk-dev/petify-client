@@ -404,7 +404,7 @@ const AllDonations = () => {
       )}
 
       {/* Pagination Component */}
-      {campaigns.length > 0 && (
+      {totalCampaigns > limit && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-t border-gray-200 mt-6">
           {/* Page Info */}
           <div className="text-sm text-secondary/60">

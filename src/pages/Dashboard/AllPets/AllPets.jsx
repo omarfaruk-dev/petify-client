@@ -320,7 +320,7 @@ const AllPets = () => {
             </table>
           </div>
           {/* Pagination Controls */}
-          {pets.length > 0 && (
+          {totalPets > limit && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-t border-gray-200 mt-6">
               {/* Page Info */}
               <div className="text-sm text-secondary/60">

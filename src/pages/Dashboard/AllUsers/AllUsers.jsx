@@ -306,12 +306,12 @@ const AllUsers = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={`badge ${user.role === 'admin' ? 'badge-primary text-base-100' : 'badge-warning'}`}>
+                      <span className={`badge badge-sm ${user.role === 'admin' ? 'badge-primary text-base-100' : 'badge-warning'}`}>
                         {user.role || 'user'}
                       </span>
                     </td>
                     <td>
-                      <span className={`badge ${user.isBanned ? 'badge-error' : 'badge-success'}`}>
+                      <span className={`badge badge-sm ${user.isBanned ? 'badge-error' : 'badge-success'}`}>
                         {user.isBanned ? 'Banned' : 'Active'}
                       </span>
                     </td>
@@ -343,7 +343,7 @@ const AllUsers = () => {
             </table>
           </div>
           {/* Pagination Controls */}
-          {users.length > 0 && (
+          {totalUsers > limit && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-6 border-t border-gray-200 mt-6">
               {/* Page Info */}
               <div className="text-sm text-secondary/60">
