@@ -191,7 +191,7 @@ const PetListing = () => {
 
             {isLoading && (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-                    {[...Array(6)].map((_, idx) => (
+                    {[...Array(8)].map((_, idx) => (
                         <div key={idx} className="rounded bg-base-200 shadow hover:shadow-md transition-shadow duration-300 p-4">
                             <div className="mb-4">
                                 <Skeleton height={192} className="w-full rounded-xl" />

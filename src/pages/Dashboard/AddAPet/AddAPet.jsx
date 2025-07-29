@@ -151,6 +151,7 @@ const AddAPet = () => {
                 <Select
                   {...field}
                   options={petCategories}
+                  className='text-black'
                   classNamePrefix="react-select"
                   placeholder="Select category"
                   isClearable

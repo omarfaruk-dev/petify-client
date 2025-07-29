@@ -27,6 +27,7 @@ import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import DashBoardStats from "../pages/Dashboard/DashBoardStats";
 import Error404 from "../pages/ErrorPage/Error404";
 import ForgetPassword from "../pages/Authentication/ForgotPassword";
+import TermsAndConditions from "../pages/TermsAndConditions";
 
 
 const router = createBrowserRouter([
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
             {
                 path: '/forbidden',
                 Component: Forbidden,
+            },
+            {
+             path: '/terms-and-conditions',
+             Component: TermsAndConditions,
+            
             },
         ]
     },

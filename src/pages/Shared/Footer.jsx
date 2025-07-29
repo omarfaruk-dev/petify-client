@@ -40,7 +40,7 @@ const Footer = () => {
         <div className="flex flex-col gap-3 items-start">
           <h3 className="text-lg font-semibold mb-2 text-primary">Get Involved</h3>
           <p className="text-secondary text-sm">Become a foster, volunteer, or donor and help us create more happy tails!</p>
-        <Link to="/donation-campaigns" className="inline-block mt-2 px-4 py-2 bg-primary text-base-100 rounded-full font-semibold shadow hover:bg-secondary hover:text-primary transition-colors duration-300">Support a Campaign</Link>
+        <Link to="/donation-campaigns" className="inline-block mt-2 btn btn-primary text-base-100 rounded-full font-semibold transition-colors duration-300">Support a Campaign</Link>
         {/* Payment Methods */}
         <div className="mt-4 flex flex-wrap gap-2 items-center">
           <img src={paymentIcon} alt="Payment Methods" className="h-8" style={{maxWidth: '100%'}} />

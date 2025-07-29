@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router';
 import { FaHome, FaUserEdit, FaBars, FaSignOutAlt, FaPlus, FaDonate, FaUsers, FaPaw, FaHandHoldingHeart } from 'react-icons/fa';
 import { GrAnnounce, GrPowerCycle } from "react-icons/gr";
@@ -18,7 +18,7 @@ const menuLinks = [
   { to: '/dashboard/create-campaign', icon: <FaDonate />, label: 'Create Campaign' },
   { to: '/dashboard/my-campaigns', icon: <MdCampaign />, label: 'My Campaigns' },
   { to: '/dashboard/my-donations', icon: <FaHandHoldingHeart />, label: 'My Donations' },
-  { to: '/dashboard/my-profile', icon: <FaUserEdit color='black' />, label: 'My Profile' },
+  { to: '/dashboard/my-profile', icon: <FaUserEdit />, label: 'My Profile' },
 ];
 
 const adminLinks = [
@@ -185,7 +185,7 @@ const DashboardLayout = () => {
         />
         {/* Mobile Sidebar */}
         <aside
-          className={`overflow-y-scroll fixed top-0 left-0 h-full bg-white border-r border-base-300 z-50 shadow-lg transition-transform duration-300 w-64 flex flex-col md:hidden ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'
+          className={`overflow-y-scroll fixed top-0 left-0 h-full bg-base-100 border-r border-base-300 z-50 shadow-lg transition-transform duration-300 w-64 flex flex-col md:hidden ${mobileSidebar ? 'translate-x-0' : '-translate-x-full'
             }`}
           style={{ height: '100vh' }}
         >

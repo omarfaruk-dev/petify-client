@@ -10,17 +10,28 @@ const useAxiosSecure = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
 
-    axiosSecure.interceptors.request.use(async config => {
-        if (user) {
-            try {
-                const token = await user.getIdToken();
-                config.headers.Authorization = `Bearer ${token}`;
-                // console.log('[AxiosSecure] Sending request:', config.method, config.url, 'user.email:', user.email, 'token:', token.slice(0, 10) + '...');
-            } catch (error) {
-                console.error('[AxiosSecure] Error getting ID token:', error);
-            }
-        } else {
-            // console.log('[AxiosSecure] No user found when making request:', config.method, config.url);
+    // axiosSecure.interceptors.request.use(async config => {
+    //     if (user) {
+    //         try {
+    //             // const token = await user.getIdToken();
+    //             const token = await user.accessToken;
+    //             config.headers.Authorization = `Bearer ${token}`;
+    //             // console.log('[AxiosSecure] Sending request:', config.method, config.url, 'user.email:', user.email, 'token:', token.slice(0, 10) + '...');
+    //         } catch (error) {
+    //             console.error('[AxiosSecure] Error getting ID token:', error);
+    //         }
+    //     } 
+    //     // else {
+    //     //     // console.log('[AxiosSecure] No user found when making request:', config.method, config.url);
+    //     // }
+    //     return config;
+    // }, error => {
+    //     return Promise.reject(error);
+    // })
+
+    axiosSecure.interceptors.request.use(config => {
+        if (user?.accessToken) {
+            config.headers.Authorization = `Bearer ${user.accessToken}`
         }
         return config;
     }, error => {

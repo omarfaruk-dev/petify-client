@@ -1,23 +1,20 @@
-import React from 'react';
+
 import useAuth from '../hooks/useAuth';
 import useUserRole from '../hooks/useUserRole';
 import { Navigate } from 'react-router';
+import Spinner from '../pages/Shared/Spinner';
 
 const AdminRoute = ({children}) => {
     const { user, loading } = useAuth();
     const { role, roleLoading } = useUserRole();
 
     if (loading || roleLoading) {
-        return <span className=""></span>
+        return <Spinner/>
     }
 
     if (!user || role !== 'admin') {
         return <Navigate state={{ from: location.pathname }} to="/forbidden"></Navigate>
     }
-
-    //  if (user) {
-    //     return <Navigate state={{ from: location.pathname }} to="/dashboard"></Navigate>
-    // }
 
 
     return children;
