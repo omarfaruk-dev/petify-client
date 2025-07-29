@@ -247,7 +247,7 @@ const TermsAndConditions = () => {
                         {/* Last Updated */}
                         <section className="border-t border-primary/20 pt-8">
                             <p className="text-sm text-secondary/60 text-center">
-                                <strong>Last Updated:</strong> December 2024
+                                <strong>Last Updated:</strong> June 2025
                             </p>
                             <p className="text-sm text-secondary/60 text-center mt-2">
                                 These terms and conditions are effective as of the date listed above and will remain in effect 

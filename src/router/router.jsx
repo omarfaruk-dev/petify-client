@@ -28,6 +28,7 @@ import DashBoardStats from "../pages/Dashboard/DashBoardStats";
 import Error404 from "../pages/ErrorPage/Error404";
 import ForgetPassword from "../pages/Authentication/ForgotPassword";
 import TermsAndConditions from "../pages/TermsAndConditions";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 
 const router = createBrowserRouter([
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
             {
              path: '/terms-and-conditions',
              Component: TermsAndConditions,
+            
+            },
+            {
+             path: '/privacy-policy',
+             Component: PrivacyPolicy,
             
             },
         ]
