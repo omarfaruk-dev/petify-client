@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="flex flex-col gap-2 items-start">
           <h3 className="text-lg font-semibold mb-2 text-primary">Contact</h3>
           <div className="flex items-center gap-2 mb-1"><FaEnvelope className="text-primary" /> support@petify.com</div>
-          <div className="flex items-center gap-2 mb-1"><FaPhoneAlt className="text-primary" /> +1 (800) 555-PAWS</div>
+          <div className="flex items-center gap-2 mb-1"><FaPhoneAlt className="text-primary" /> +1 (800) 555-1254</div>
           <div className="flex items-center gap-2 mb-1"><FaHome className="text-primary" /> 101 Pet Lane, NY, USA</div>
           <div className="flex gap-4 text-lg mt-3">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary/80"><FaFacebookF /></a>
@@ -40,12 +40,14 @@ const Footer = () => {
         <div className="flex flex-col gap-3 items-start">
           <h3 className="text-lg font-semibold mb-2 text-primary">Get Involved</h3>
           <p className="text-secondary text-sm">Become a foster, volunteer, or donor and help us create more happy tails!</p>
-        <Link to="/donation-campaigns" className="inline-block mt-2 btn btn-primary text-base-100 rounded-full font-semibold transition-colors duration-300">Support a Campaign</Link>
-        {/* Payment Methods */}
-        <div className="mt-4 flex flex-wrap gap-2 items-center">
-          <img src={paymentIcon} alt="Payment Methods" className="h-8" style={{maxWidth: '100%'}} />
-          {/* Alt: WorldPay, Mastercard, Apple Pay, Visa, Google Pay, Bank Transfer */}
-        </div>
+          <div>
+            <Link to="/donation-campaigns" className=" mt-2 btn btn-primary text-base-100 rounded-full font-semibold transition-colors duration-300">Support a Campaign</Link>
+          </div>
+          {/* Payment Methods */}
+          <div className="mt-4 flex flex-wrap gap-2 items-center">
+            <img src={paymentIcon} alt="Payment Methods" className="h-8" style={{ maxWidth: '100%' }} />
+            {/* Alt: WorldPay, Mastercard, Apple Pay, Visa, Google Pay, Bank Transfer */}
+          </div>
         </div>
       </div>
       {/* Bottom: Terms/Privacy row, then copyright row */}
