@@ -6,8 +6,8 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 import { useParams, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
-import Spinner from '../../Shared/Spinner';
 import Skeleton from 'react-loading-skeleton';
+import { IoArrowBack } from 'react-icons/io5';
 
 const petCategories = [
   { value: 'Cat', label: 'Cat' },
@@ -113,7 +113,7 @@ const UpdatePet = () => {
           timer: 1500
         });
         
-        navigate('/dashboard/my-added-pets');
+        // navigate('/dashboard/my-added-pets');
       }
     } catch (error) {
       console.error('Error updating pet:', error);
@@ -148,6 +148,7 @@ const UpdatePet = () => {
 
   if (!petData) {
     return (
+      //add a go back button here
       <div className="w-full bg-base-100 rounded-lg shadow-lg p-6">
         <div className="text-center py-12">
           <div className="text-6xl mb-4">⚠️</div>
@@ -170,7 +171,17 @@ const UpdatePet = () => {
 
   return (
     <div className="w-full max-w-2xl bg-base-100 rounded shadow-lg p-8 flex flex-col gap-4 z-10 mx-auto">
-      <h2 className="text-3xl font-extrabold text-secondary mb-2 border-b-2 pb-2 border-primary inline-block mr-auto">Update Pet</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-3xl font-extrabold text-secondary border-b-2 pb-2 border-primary inline-block">Update Pet</h2>
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="btn btn-outline btn-primary btn-sm md:btn-md"
+        >
+          <IoArrowBack className="mr-1" />
+          Go Back
+        </button>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         {/* Responsive grid for form fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
