@@ -16,8 +16,9 @@ Petify is a full-stack web app built with the MERN stack (MongoDB, Express.js, R
 Built with **React, Vite, Tailwind CSS, Firebase, Express,Node & MongoDB**
 
 ## Related Repositories
-- **Client-side:** [Petify Client Side Repo](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-omarfaruk-dev)
-- **Server-side:** [Petify Server Side Repo](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-omarfaruk-dev)
+
+- **Client-side:** [Petify Client Side Repo](https://github.com/omarfaruk-dev/petify-client)
+- **Server-side:** [Petify Server Side Repo](https://github.com/omarfaruk-dev/petify-server)
 
 
 ## Key Features
