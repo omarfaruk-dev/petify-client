@@ -34,19 +34,35 @@ const Faq = () => {
   return (
     <section className="py-5 mb-8 md:mb-16 lg:mb-20 w-full max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-10 md:gap-16 bg-base-100 rounded-2xl">
       {/* Left: Lottie Animation */}
-      <div className="flex-1 flex justify-center items-center">
+      <div 
+        className="flex-1 flex justify-center items-center"
+        data-aos="fade-right"
+        data-aos-delay="200"
+        data-aos-duration="800"
+      >
         <div className="w-[360px] md:w-[420px] px-4 h-[360px] flex items-center justify-center">
           <Lottie animationData={faqLottie} loop autoplay style={{ width: 400, height: 400 }} />
         </div>
       </div>
       {/* Right: FAQ Content */}
-      <div className="flex-1 flex flex-col items-start justify-center max-w-xl w-full">
-      <SectionTitle
-          label="FAQ"
-          labelPosition="left"
-          title={<>Have any question?</>}
-          titlePosition="left"
-        />
+      <div 
+        className="flex-1 flex flex-col items-start justify-center max-w-xl w-full"
+        data-aos="fade-left"
+        data-aos-delay="400"
+        data-aos-duration="800"
+      >
+        <div
+          data-aos="fade-up"
+          data-aos-delay="500"
+          data-aos-duration="800"
+        >
+          <SectionTitle
+            label="FAQ"
+            labelPosition="left"
+            title={<>Have any question?</>}
+            titlePosition="left"
+          />
+        </div>
         <div className="flex flex-col gap-3 w-full"> 
           {faqData.map((item, idx) => {
             const isOpen = openIndex === idx;
@@ -60,7 +76,13 @@ const Faq = () => {
               maxHeight = panelRef.current.scrollHeight;
             }
             return (
-              <div key={item.question} className="w-full">
+              <div 
+                key={item.question} 
+                className="w-full"
+                data-aos="fade-up"
+                data-aos-delay={600 + (idx * 100)}
+                data-aos-duration="800"
+              >
                 <button
                   className={`flex items-center justify-between w-full px-6 py-4 rounded text-left font-semibold text-base md:text-lg transition-all duration-200 focus:outline-none shadow-sm group border border-base-200 ${isOpen ? 'bg-primary/10 text-secondary border-primary/30' : 'bg-base-100 text-base-content hover:bg-base-200/60'}`}
                   onClick={() => setOpenIndex(isOpen ? -1 : idx)}

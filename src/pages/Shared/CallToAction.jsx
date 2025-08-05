@@ -25,7 +25,12 @@ const CallToAction = () => {
                     <ellipse cx="35" cy="55" rx="13" ry="8" fill="#34d399"/>
                 </svg>
                 {/* Inspirational Image */}
-                <div className="flex-1 flex justify-center items-center relative z-10">
+                <div 
+                    className="flex-1 flex justify-center items-center relative z-10"
+                    data-aos="fade-right"
+                    data-aos-delay="200"
+                    data-aos-duration="800"
+                >
                 <div className="relative rounded p-0 shadow border border-primary/20 overflow-hidden md:w-[480px] md:h-[320px] flex items-center justify-center">
                     {/* Help Me Badge */}
                     <span className="absolute top-4 left-4 z-20 bg-error text-white text-xs md:text-sm font-bold px-4 py-1 rounded-full shadow-lg tracking-wide animate-pulse select-none">
@@ -40,14 +45,35 @@ const CallToAction = () => {
                 </div>
                 </div>
                 {/* Motivational Text & CTA */}
-                <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left relative z-10">
-                    <h2 className="text-3xl md:text-5xl font-extrabold text-secondary mb-5 drop-shadow-lg">
+                <div 
+                    className="flex-1 flex flex-col items-center md:items-start text-center md:text-left relative z-10"
+                    data-aos="fade-left"
+                    data-aos-delay="400"
+                    data-aos-duration="800"
+                >
+                    <h2 
+                        className="text-3xl md:text-5xl font-extrabold text-secondary mb-5 drop-shadow-lg"
+                        data-aos="fade-up"
+                        data-aos-delay="600"
+                        data-aos-duration="800"
+                    >
                         Give a Pet a <span className="text-primary">Second Chance</span>
                     </h2>
-                    <p className="text-base md:text-lg text-base-content/80 mb-8 max-w-lg">
+                    <p 
+                        className="text-base md:text-lg text-base-content/80 mb-8 max-w-lg"
+                        data-aos="fade-up"
+                        data-aos-delay="800"
+                        data-aos-duration="800"
+                    >
                         Every adoption is a new beginning. <span className="text-primary font-semibold">Open your heart</span> and home to a loving companion—adopt a pet and change two lives: theirs and yours. <span className="text-accent font-semibold">Together, we can give every animal the life they deserve.</span>
                     </p>
-                    <Link to="/pet-listing" className="btn btn-primary btn-lg text-base-100 shadow px-10 py-3 rounded-full text-lg font-bold tracking-wide flex items-center gap-2 transition-transform duration-200">
+                    <Link 
+                        to="/pet-listing" 
+                        className="btn btn-primary btn-lg text-base-100 shadow px-10 py-3 rounded-full text-lg font-bold tracking-wide flex items-center gap-2 transition-transform duration-200"
+                        data-aos="zoom-in"
+                        data-aos-delay="1000"
+                        data-aos-duration="800"
+                    >
                         <FaPaw className="text-xl mb-0.5" />
                         Adopt & Change a Life
                     </Link>

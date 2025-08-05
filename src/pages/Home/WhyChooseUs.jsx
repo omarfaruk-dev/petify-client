@@ -37,7 +37,12 @@ const WhyChooseUs = () => {
     <section className="bg-gradient-to-br from-primary/10 via-secondary/10 to-primary/30 py-12 lg:py-26 sm:py-20 px-4 mb-8 md:mb-12 lg:mb-16 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-8 flex flex-col lg:flex-row items-center lg:items-stretch gap-12 lg:gap-8">
         
-        <div className="w-full lg:w-5/12 xl:w-/12 flex-shrink-0 flex justify-center lg:justify-end">
+        <div 
+          className="w-full lg:w-5/12 xl:w-/12 flex-shrink-0 flex justify-center lg:justify-end"
+          data-aos="fade-right"
+          data-aos-delay="200"
+          data-aos-duration="800"
+        >
           <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-[360px] md:h-[360px] lg:w-[380px] lg:h-[380px]">
             <div className="absolute inset-0 bg-primary/10 rounded-full shadow-lg">
               <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 
@@ -57,7 +62,12 @@ const WhyChooseUs = () => {
           </div>
         </div>
 
-        <div className="w-full lg:w-7/12 xl:w-8/12 lg:pl-10 xl:pl-16 flex flex-col justify-center">
+        <div 
+          className="w-full lg:w-7/12 xl:w-8/12 lg:pl-10 xl:pl-16 flex flex-col justify-center"
+          data-aos="fade-left"
+          data-aos-delay="400"
+          data-aos-duration="800"
+        >
             {features.map((feature, index) => {
                 let itemSpecificClasses = "";
                 let marginTopClass = "";
@@ -88,7 +98,13 @@ const WhyChooseUs = () => {
                 }
 
                 return (
-                    <div key={feature.id} className={`flex items-start gap-3 sm:gap-4 relative ${itemSpecificClasses} ${marginTopClass}`}>
+                    <div 
+                        key={feature.id} 
+                        className={`flex items-start gap-3 sm:gap-4 relative ${itemSpecificClasses} ${marginTopClass}`}
+                        data-aos="fade-up"
+                        data-aos-delay={600 + (index * 100)}
+                        data-aos-duration="800"
+                    >
                         
                         <div className={`hidden lg:block absolute top-[18px] sm:top-[22px] 
                                          left-[-2rem] xl:left-[-3.5rem]
