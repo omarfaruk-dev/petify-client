@@ -47,7 +47,12 @@ const Banner = () => {
             </div>
             {/* Content */}
             <div className="relative z-30 max-w-2xl mx-auto px-4 py-12 text-center flex flex-col items-center justify-center">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-secondary mb-4 min-h-[3.5rem] flex flex-wrap items-center justify-center gap-2">
+                <h1 
+                    className="text-3xl md:text-5xl font-extrabold text-secondary mb-4 min-h-[3.5rem] flex flex-wrap items-center justify-center gap-2"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                    data-aos-duration="800"
+                >
                     <span>Find,</span>
                     <span className="inline-block min-w-[110px] md:min-w-[140px] text-primary">
                         <Typewriter
@@ -62,10 +67,21 @@ const Banner = () => {
                     </span>
                     <span>&amp; Care for your pets</span>
                 </h1>
-                <p className="text-base md:text-lg text-accent mb-6">
+                <p 
+                    className="text-base md:text-lg text-accent mb-6"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                    data-aos-duration="800"
+                >
                     Discover loving pets, connect with caring owners, and make a difference—adopt, donate, or support animal welfare, all in one place.
                 </p>
-                <Link to='/pet-listing' className='btn btn-primary text-base-100 btn-lg shadow'>
+                <Link 
+                    to='/pet-listing' 
+                    className='btn btn-primary text-base-100 btn-lg shadow'
+                    data-aos="fade-up"
+                    data-aos-delay="600"
+                    data-aos-duration="800"
+                >
                     Explore Pets Now
                 </Link>
             </div>

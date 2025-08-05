@@ -34,9 +34,20 @@ const PetsCategory = () => {
         <ellipse cx="30" cy="48" rx="10" ry="6" fill="#34d399"/>
       </svg>
       {/* Section Heading */}
-      <SectionTitle title='Browse by Pet Category' labelPosition='center' label='Pets Category' titlePosition='center'/>
+      <div
+        data-aos="fade-up"
+        data-aos-delay="100"
+        data-aos-duration="800"
+      >
+        <SectionTitle title='Browse by Pet Category' labelPosition='center' label='Pets Category' titlePosition='center'/>
+      </div>
       {/* Category Cards Marquee */}
-      <div className="relative z-10 w-full py-4">
+      <div 
+        className="relative z-10 w-full py-4"
+        data-aos="fade-up"
+        data-aos-delay="300"
+        data-aos-duration="800"
+      >
         <Marquee gradient={false} speed={40} direction="left" pauseOnHover={true} className="flex">
           {Array(3).fill(categories).flat().map((cat, idx) => (
             <button
