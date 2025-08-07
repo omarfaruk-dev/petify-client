@@ -219,9 +219,6 @@ const ClientReview = () => {
                                             : 'bg-base-100/50 hover:bg-base-100/80 border-2 border-transparent hover:border-primary/20'
                                     }`}
                                     onClick={() => setActiveReview(index)}
-                                    data-aos="fade-up"
-                                    data-aos-delay={800 + (index * 100)}
-                                    data-aos-duration="800"
                                 >
                                     <div className="flex items-center gap-3">
                                         <img
