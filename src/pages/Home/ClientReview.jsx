@@ -85,7 +85,12 @@ const ClientReview = () => {
         <section className="bg-gradient-to-br from-base-100 via-primary/5 to-secondary/5 py-16 lg:py-24">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Section Header */}
-                <div className="text-center mb-16">
+                <div 
+                    className="text-center mb-16"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                    data-aos-duration="800"
+                >
                     <SectionTitle
                         title="What Our Community Says"
                         label="Testimonials"
@@ -98,9 +103,20 @@ const ClientReview = () => {
                 </div>
 
                 {/* Stats Section */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div 
+                    className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                    data-aos-duration="800"
+                >
                     {stats.map((stat, index) => (
-                        <div key={index} className="text-center">
+                        <div 
+                            key={index} 
+                            className="text-center"
+                            data-aos="zoom-in"
+                            data-aos-delay={300 + (index * 100)}
+                            data-aos-duration="800"
+                        >
                             <div className="flex justify-center mb-3">
                                 <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-base-100 shadow-lg">
                                     <stat.icon className="text-2xl" />
@@ -117,9 +133,19 @@ const ClientReview = () => {
                 </div>
 
                 {/* Reviews Section */}
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div 
+                    className="grid lg:grid-cols-2 gap-12 items-center"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                    data-aos-duration="800"
+                >
                     {/* Featured Review */}
-                    <div className="order-2 lg:order-1">
+                    <div 
+                        className="order-2 lg:order-1"
+                        data-aos="fade-right"
+                        data-aos-delay="500"
+                        data-aos-duration="800"
+                    >
                         <div className="bg-base-100 rounded shadow p-8 relative">
                             <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-base-100 shadow-lg">
                                 <FaQuoteLeft className="text-xl" />
@@ -168,8 +194,18 @@ const ClientReview = () => {
                     </div>
 
                     {/* Review Navigation */}
-                    <div className="order-1 lg:order-2">
-                        <h3 className="text-2xl font-bold text-secondary mb-8">
+                    <div 
+                        className="order-1 lg:order-2"
+                        data-aos="fade-left"
+                        data-aos-delay="600"
+                        data-aos-duration="800"
+                    >
+                        <h3 
+                            className="text-2xl font-bold text-secondary mb-8"
+                            data-aos="fade-up"
+                            data-aos-delay="700"
+                            data-aos-duration="800"
+                        >
                             Real Stories from Real People
                         </h3>
                         
@@ -183,6 +219,9 @@ const ClientReview = () => {
                                             : 'bg-base-100/50 hover:bg-base-100/80 border-2 border-transparent hover:border-primary/20'
                                     }`}
                                     onClick={() => setActiveReview(index)}
+                                    data-aos="fade-up"
+                                    data-aos-delay={800 + (index * 100)}
+                                    data-aos-duration="800"
                                 >
                                     <div className="flex items-center gap-3">
                                         <img
@@ -210,31 +249,59 @@ const ClientReview = () => {
                                 </div>
                             ))}
                         </div>
-
-
                     </div>
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="mt-16 text-center">
+                <div 
+                    className="mt-16 text-center"
+                    data-aos="fade-up"
+                    data-aos-delay="900"
+                    data-aos-duration="800"
+                >
                     <div className="bg-base-100/50 rounded-2xl p-8 border border-primary/10">
-                        <h3 className="text-xl font-bold text-secondary mb-6">
+                        <h3 
+                            className="text-xl font-bold text-secondary mb-6"
+                            data-aos="fade-up"
+                            data-aos-delay="1000"
+                            data-aos-duration="800"
+                        >
                             Trusted by Pet Lovers Everywhere
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                            <div className="text-center">
+                            <div 
+                                className="text-center"
+                                data-aos="zoom-in"
+                                data-aos-delay="1100"
+                                data-aos-duration="800"
+                            >
                                 <div className="text-3xl font-bold text-primary mb-2">50+</div>
                                 <div className="text-secondary/70 text-sm">Partner Shelters</div>
                             </div>
-                            <div className="text-center">
+                            <div 
+                                className="text-center"
+                                data-aos="zoom-in"
+                                data-aos-delay="1200"
+                                data-aos-duration="800"
+                            >
                                 <div className="text-3xl font-bold text-primary mb-2">$500K+</div>
                                 <div className="text-secondary/70 text-sm">Raised for Pets</div>
                             </div>
-                            <div className="text-center">
+                            <div 
+                                className="text-center"
+                                data-aos="zoom-in"
+                                data-aos-delay="1300"
+                                data-aos-duration="800"
+                            >
                                 <div className="text-3xl font-bold text-primary mb-2">24/7</div>
                                 <div className="text-secondary/70 text-sm">Support Available</div>
                             </div>
-                            <div className="text-center">
+                            <div 
+                                className="text-center"
+                                data-aos="zoom-in"
+                                data-aos-delay="1400"
+                                data-aos-duration="800"
+                            >
                                 <div className="text-3xl font-bold text-primary mb-2">100%</div>
                                 <div className="text-secondary/70 text-sm">Secure & Safe</div>
                             </div>
