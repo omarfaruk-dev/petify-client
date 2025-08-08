@@ -80,8 +80,8 @@ Built with **React, Vite, Tailwind CSS, Firebase, Express,Node & MongoDB**
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-omarfaruk-dev
-   cd b11a12-client-side-omarfaruk-dev
+   git clone https://github.com/omarfaruk-dev/petify-client.git
+   cd petify-client
    ```
 2. **Install dependencies:**
    ```bash
