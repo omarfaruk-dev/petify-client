@@ -68,7 +68,6 @@ const router = createBrowserRouter([
             {
              path: '/privacy-policy',
              Component: PrivacyPolicy,
-            
             },
         ]
     },

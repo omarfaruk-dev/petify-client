@@ -4,6 +4,7 @@ import Banner from "../Banner";
 import ClientReview from "../ClientReview";
 import Faq from "../Faq";
 import PetsCategory from "../PetsCategory";
+import RecentPets from "../RecentPets";
 import WhyChooseUs from "../WhyChooseUs";
 // import HeroSlider from "../HeroSlider";
 
@@ -13,6 +14,7 @@ const HomeLayout = () => {
             {/* <HeroSlider/> */}
             <Banner/>
             <PetsCategory/>
+            <RecentPets/>
             <CallToAction/>
             <About/>
             <WhyChooseUs/>
